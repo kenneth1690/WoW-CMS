@@ -8,8 +8,6 @@ $conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_p
 $qr1 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'sitename'");
 $qr2 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'siteonline'");
 $qr3 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'offlinemessage'");
-$qr4 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'realmname'");
-$qr5 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'realmip'");
 
 while($row = mysqli_fetch_array($qr1)){
     $sitename = $row['conf_value'];
@@ -20,12 +18,7 @@ while($row = mysqli_fetch_array($qr2)){
 while($row = mysqli_fetch_array($qr3)){
     $offlinemessage = $row['conf_value'];
 }
-while($row = mysqli_fetch_array($qr4)){
-    $realmname = $row['conf_value'];
-}
-while($row = mysqli_fetch_array($qr5)){
-    $realmip = $row['conf_value'];
-}
+
 ?>
 <html lang="en" class="active"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">

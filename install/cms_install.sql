@@ -170,9 +170,10 @@ CREATE TABLE `settings` (
 INSERT INTO `settings` (`conf_key`, `conf_value`) VALUES
 ('sitename', 'WoW-CMS'),
 ('siteonline', 'yes'),
-('offlinemessage', 'We\'re working hard to make everything usable.'),
+('offlinemessage', 'We are working hard to make everything usable.'),
 ('realmname', 'Realm Name'),
-('realmip', '127.0.0.1');
+('realmip', '127.0.0.1'),
+('realmport', '8085');
 
 -- --------------------------------------------------------
 
