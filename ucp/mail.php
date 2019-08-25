@@ -2,7 +2,7 @@
 session_start();
 
 include("check.php");
-include('config/config.php');
+include('../config/config.php');
 
 $conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 $qr1 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'sitename'");
@@ -18,7 +18,6 @@ while($row = mysqli_fetch_array($qr2)){
 while($row = mysqli_fetch_array($qr3)){
     $offlinemessage = $row['conf_value'];
 }
-
 ?>
 <html lang="en" class="active"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -28,7 +27,7 @@ while($row = mysqli_fetch_array($qr3)){
 <meta name="Description" content="Private Server Community.">
 <meta name="Keywords" content="<?php echo $sitename; ?>, WoW, World of Warcraft, Warcraft, Private Server, Private WoW Server, WoW Server, Private WoW Server, wow private server, wow server, wotlk server, cataclysm private server, wow cata server, best free private server, largest private server, wotlk private server, blizzlike server, mists of pandaria, mop, cataclysm, cata, anti-cheat, sentinel anti-cheat, warden">
 <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
-<title><?php echo $sitename; ?> | Not Found</title>
+<title><?php echo $sitename; ?> | Email</title>
 <link rel="stylesheet" href="/css/global.css">
 <link rel="stylesheet" href="/css/ui.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
@@ -65,7 +64,7 @@ while($row = mysqli_fetch_array($qr3)){
 						}else{
 							?><li><a href="/login.php" title="Login">LOG IN</a></li><?php
 						}?>
-                    </ul>        
+                    </ul>       
     </div>
 </div>
 <div id="page-frame">
@@ -93,9 +92,9 @@ while($row = mysqli_fetch_array($qr3)){
             
 
 <div id="page-navigation" class="wm-ui-generic-frame wm-ui-bottom-border">
-<ul>
-	<li><a href="#" class="active">NOT FOUND</a></li>
-</ul>
+	<ul>
+    	    		<li><a href="#" class="active">MAIL</a></li>
+            </ul>
     <ul>
         <li><?php
 		$dt = new DateTime("now", new DateTimeZone('Europe/Warsaw'));
@@ -104,18 +103,145 @@ while($row = mysqli_fetch_array($qr3)){
     </ul>
 </div>
 
+
 <div class="content-wrapper">
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
-			<center>
-			<p><font size="6">Page not found</font></p>
-			<p>
-				<font size="5">The page you were looking for could not be found.</font>
-			</p> 
-			</center>
+            <?php
+            $authconn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port); 
+						
+            $sql= "SELECT * FROM account WHERE username = '" . $_SESSION["loggedin"] . "'";
+            $result = mysqli_query($authconn,$sql);
+            $user = mysqli_fetch_array($result);
+
+            if(!isset($_SESSION["loggedin"]) && empty($_SESSION["loggedin"])){
+                header( "refresh:5;url=index.php" );
+                ?>
+                <center>
+                    <p>
+                        <font size="6">Not logged in</font>
+                    </p>
+                    <p>
+                        <font size="5">You must be logged in to activate mail.</font>
+                    </p> 
+				</center>
+                <?php
+                die();
+            }
+
+            if(isset($_GET['action'])){
+                $action = htmlspecialchars($_GET['action']);
+            }else{
+                ?>
+                <center>
+                    <p>
+                        <font size="6">Invalid action</font>
+                    </p>
+                    <p>
+                        <font size="5">You have not selected any actions.</font>
+                    </p> 
+				</center>
+                <?php
+            }
+                    
+            if($action == "activate"){
+                if(isset($_GET['token'])){
+                    $token = htmlspecialchars($_GET['token']);
+                    $convmail = md5($user['email']);
+                    if($_GET['token']==$convmail){
+                        if($user['mailactivated']==1){
+                            ?>
+                            <center>
+                                <p>
+                                    <font size="6">Invalid activation</font>
+                                </p>
+                                <p>
+                                    <font size="5">Your address email is already activated.</font>
+                                </p> 
+                            </center>
+                            <?php
+                        }else{
+                            $mail = $user['email'];
+                            mysqli_query($authconn, "UPDATE account SET mailactivated='1' WHERE email='".$mail."'");
+                            ?>
+                            <center>
+                                <p>
+                                    <font size="6">Successfully activated</font>
+                                </p>
+                                <p>
+                                    <font size="5">Your email has been successfully activated.</font>
+                                </p> 
+                            </center>
+                            <?php
+                        }
+                    }else{
+                        ?>
+                        <center>
+                            <p>
+                                <font size="6">Invalid token</font>
+                            </p>
+                            <p>
+                                <font size="5">The token you provided is not valid.</font>
+                            </p> 
+                        </center>
+                        <?php
+                    }
+                }else{
+                    ?>
+                    <center>
+                        <p>
+                            <font size="6">Invalid token</font>
+                        </p>
+                        <p>
+                            <font size="5">The token you provided is not valid.</font>
+                        </p> 
+					</center>
+                    <?php
+                }
+            }elseif($action == "generate"){
+                if($user['mailactivated']==1){
+                    ?>
+                    <center>
+                        <p>
+                            <font size="6">Invalid activation</font>
+                        </p>
+                        <p>
+                            <font size="5">Your address email is already activated.</font>
+                        </p> 
+					</center>
+                    <?php
+                }else{
+                    $newtoken = md5($user['email']);
+
+                    mail("markiewicz7721@gmail.com","Temat","Test");
+                    ?>
+                    <center>
+                        <p>
+                            <font size="6">Successfully generated</font>
+                        </p>
+                        <p>
+                            <font size="5">An activation link was sent to the email.</font><br><?php echo $newtoken; ?>
+                        </p> 
+					</center>
+                    <?php
+                }
+            }else{
+                ?>
+                <center>
+                    <p>
+                        <font size="6">No action choosed</font>
+                    </p>
+                    <p>
+                        <font size="5">You have not selected an action.</font>
+                    </p> 
+				</center>
+                <?php
+            }
+            ?>
 		</div>
 	</div>
 </div>
+
 
             <div class="clear"></div>
         </div>
@@ -143,7 +269,7 @@ while($row = mysqli_fetch_array($qr3)){
 $(function() {
     $.warmane({
         currentBackground: -1,
-        alertTime: 1441896645
+        alertTime: 1441896182
     });
     
     });
