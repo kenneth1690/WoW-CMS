@@ -2,6 +2,10 @@
 
 Advanced World of Warcraft CMS with features like: Forums, Account &amp; Admin Systems, News &amp; Changelogs, Account Settings, Server Status.
 
+# Important Note
+
+The code is a bit shitty, because my skills in php were quite low six months ago .. But everything works fine and I encourage you to use this CMS :D
+
 # Features
 - Installation setup
 - News & Changelogs
