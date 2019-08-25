@@ -1,6 +1,6 @@
 # WoW-CMS
 
-Advanced World of Warcraft CMS with features like: Forums, Account &amp; Admin Systems, News &amp; Changelogs, Account Settings, Server Status.
+Advanced World of Warcraft: Wrath of the Lich King (Trinity Core 3.3.5a) CMS with features like: Forums, Account &amp; Admin Systems, News &amp; Changelogs &amp; Bugtracker, Account Settings, Server Status.
 
 # Important Note
 
