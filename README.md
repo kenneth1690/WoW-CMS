@@ -8,7 +8,7 @@ The code is a bit shitty, because my skills in php were quite low six months ago
 
 # Features
 - Installation setup
-- News & Changelogs
+- News & Changelogs & Bugtracker
 - Account Panel & Admin Panel
 - Custom Forum
 - Server Status
