@@ -30,8 +30,8 @@ The code is a bit shitty, because my skills in php were quite low six months ago
 
 
 # Useful Links
-[Demo Website (Soon)]
-[Suggestions & Issues](https://github.com/Markuu/WoW-CMS/issues)
-[Installation Wiki (Soon)]
+- [Demo Website (Soon)]
+- [Suggestions & Issues](https://github.com/Markuu/WoW-CMS/issues)
+- [Installation Wiki (Soon)]
 
 # Nevermind
