@@ -172,25 +172,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 	<a href="/policies/terms">Terms of Service</a> &nbsp; <a href="/policies/privacy">Privacy Policy</a> &nbsp; <a href="/policies/refund"> Refund Policy </a> &nbsp; <a href="#">Contact Us</a><br>
 	Copyright ][ <?php echo $sitename; ?> ][ 2019. All Rights Reserved.
 </div>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-59798617-1', 'auto');
-  ga('send', 'pageview');
-</script>
-
-<script>
-$(function() {
-    $.warmane({
-        currentBackground: -1,
-        alertTime: 1441896645
-    });
-    
-    });
-</script>
 
 
 </body></html>

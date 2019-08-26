@@ -193,25 +193,6 @@ $(function() {
 	<a href="/policies/terms">Terms of Service</a> &nbsp; <a href="/policies/privacy">Privacy Policy</a> &nbsp; <a href="/policies/refund"> Refund Policy </a> &nbsp; <a href="#">Contact Us</a><br>
 	Copyright ][ <?php echo $sitename; ?> ][ 2019. All Rights Reserved.
 </div>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-59798617-1', 'auto');
-  ga('send', 'pageview');
-</script>
-
-<script>
-$(function() {
-    $.warmane({
-        currentBackground: -1,
-        alertTime: 1441896028
-    });
-    
-    });
-</script>
 
 
 <div class="openwow-tt" style="position: absolute; top: 810px; left: 496px; width: 136px; visibility: visible; display: none;"><p style="visibility: hidden; background-image: none;"><div></div></p><table class=""><tbody><tr><td><table style="white-space: nowrap; width: 100%;"><tbody><tr><td><b class="q1">Corpse Dust</b><br>Item Level 55<br></td></tr></tbody></table><table style="width: 100%;"><tbody><tr><td>Sell Price: <span class="moneysilver">1</span> <span class="moneycopper">25</span></td></tr></tbody></table></td><th style="background-position: 100% 0%;"></th></tr><tr><th style="background-position: 0% 100%;"></th><th style="background-position: 100% 100%;"></th></tr></tbody></table><div class="tooltip-powered"></div></div><div class="openwow-tt" style="position: absolute; top: -2323px; left: -2323px; width: 0px; display: none;"><table class=""><tbody><tr><td></td><th style="background-position: 100% 0%;"></th></tr><tr><th style="background-position: 0% 100%;"></th><th style="background-position: 100% 100%;"></th></tr></tbody></table></div></body></html>
