@@ -22,8 +22,9 @@ The code is a bit shitty, because my skills in php were quite low six months ago
 - MySQL 5.6.0+
 - Fsockopen
 
-# PHP Modules:
+# PHP:
 - Rewrite
+- Mail
 
 # ScreenShots
 
