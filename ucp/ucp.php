@@ -239,7 +239,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php
 					}else{
 						?>
-						<font color="red">*Not activated*</font>
+						<a href="mail.php?action=generate"><font color="red">*Not activated*</font></a>
 						<?php
 					}
 					?>

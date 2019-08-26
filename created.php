@@ -148,15 +148,23 @@ while($row = mysqli_fetch_array($qr3)){
 								   $passfinal = sha1(strtoupper($username).':'.strtoupper($pass2));
 								   $query = "INSERT INTO account (username, sha_pass_hash, email, expansion) VALUES ('$username', '$passfinal', '$email', '2')";
 								   $results = mysqli_query($regconn, $query);
-								   
+
 								   $conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 								   $sql3= "SELECT * FROM account WHERE username = '" . $username . "'";
 									$result3= mysqli_query($regconn,$sql3);
 									$user3 = mysqli_fetch_array($result3);
+
+								   $newtoken = md5($user3['email']);
+								   $yourmail = $user3['email'];
+								   $to = $yourmail;
+								   $subject = $sitename." | Email Activation";
+								   $message = "Hello, \nthank you ".$_SESSION['loggedin']." registering, now we invite you to email activation..\n\nIn order to do this, click link right there:\n".htmlentities("http://".$_SERVER['SERVER_NAME']."/ucp/mail.php?action=activate")."&".htmlentities("token=".$newtoken);
+								   $headers = "From: ".$sitename;
+
 								   $insertlog = mysqli_query($conn, "INSERT INTO logs_acc (`logger`, `logger_id`, `logdetails`, `logdate`) 
 								   VALUES ('".$username."', '".$user3['id']."', 'ACCOUNT: Created Account: `".$username."`', NOW());");
 								   mysqli_close($regconn);
-									?><span class="wm-ui-form-identifier">Account '<?php echo $username ?>' has been successfully created.<br><br>Now you can join to the WoW server.</span><?php
+									?><span class="wm-ui-form-identifier">Account '<?php echo $username ?>' has been successfully created.<br><br>Now you can join to the WoW server.<br><br>A link activating your email address has also been sent.</span><?php
 									header( "refresh:5;url=index.php" );
 								} 
 							}

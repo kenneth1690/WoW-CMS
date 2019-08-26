@@ -212,15 +212,20 @@ while($row = mysqli_fetch_array($qr3)){
                     <?php
                 }else{
                     $newtoken = md5($user['email']);
+                    $yourmail = $user['email'];
+                    $to = $yourmail;
+                    $subject = $sitename." | Email Activation";
+                    $message = "Hello, \nthank you ".$_SESSION['loggedin']." for deciding to activate your email.\n\nIn order to do this, click link right there:\n".htmlentities("http://".$_SERVER['SERVER_NAME']."/ucp/mail.php?action=activate")."&".htmlentities("token=".$newtoken);
+                    $headers = "From: ".$sitename;
 
-                    mail("markiewicz7721@gmail.com","Temat","Test");
+                    mail($to, $subject, $message, $headers);
                     ?>
                     <center>
                         <p>
                             <font size="6">Successfully generated</font>
                         </p>
                         <p>
-                            <font size="5">An activation link was sent to the email.</font><br><?php echo $newtoken; ?>
+                            <font size="5">An activation link was sent to the email.</font>
                         </p> 
 					</center>
                     <?php
