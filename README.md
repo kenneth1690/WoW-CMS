@@ -33,4 +33,4 @@ The code is a bit shitty, because my skills in php were quite low six months ago
 
 # ScreenShots
 ![SS1](https://i.imgur.com/RoxJE24.png)
-![SS2](https://i.imgur.com/xtMF1w6.png)
+![SS2](https://i.imgur.com/jGcFdbj.png)
