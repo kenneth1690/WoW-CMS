@@ -32,5 +32,5 @@ The code is a bit shitty, because my skills in php were quite low six months ago
 - [Installation Wiki (Soon)]
 
 # ScreenShots
-[SS1](https://i.imgur.com/RoxJE24.png)
-[SS2](https://i.imgur.com/xtMF1w6.png)
+![SS1](https://i.imgur.com/RoxJE24.png)
+![SS2](https://i.imgur.com/xtMF1w6.png)
