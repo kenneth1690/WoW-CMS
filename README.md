@@ -28,7 +28,7 @@ The code is a bit shitty, because my skills in php were quite low six months ago
 # Useful Links
 - [Demo Website (New!)](http://185.239.238.237/)
 - [Suggestions & Issues](https://github.com/Markuu/WoW-CMS/issues)
-- [Installation Wiki (Soon)]
+- [Installation Wiki](https://github.com/Markuu/WoW-CMS/wiki/Installation)
 
 # ScreenShots
 ![SS1](https://i.imgur.com/RoxJE24.png)
