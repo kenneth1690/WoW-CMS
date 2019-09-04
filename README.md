@@ -27,7 +27,7 @@ The code is a bit shitty, because my skills in php were quite low six months ago
 - Mail
 
 # Useful Links
-- [Demo Website (Soon)]
+- [Demo Website (New!)](http://185.239.238.237/)
 - [Suggestions & Issues](https://github.com/Markuu/WoW-CMS/issues)
 - [Installation Wiki (Soon)]
 
