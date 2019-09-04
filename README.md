@@ -21,8 +21,7 @@ The code is a bit shitty, because my skills in php were quite low six months ago
 - PHP 7.0+
 - MySQL 5.6.0+
 - Fsockopen
-
-# PHP:
+#### PHP:
 - Rewrite
 - Mail
 
