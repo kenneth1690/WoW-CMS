@@ -103,7 +103,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
 			<?php
-				$country = $_POST['country'];
+				$country = $_POST['location'];
 
 				$lgconn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
 				$conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
@@ -126,7 +126,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										<?php
 										header( "refresh:5;url=ucp.php" );
 									}else{
-										$sql2 = "UPDATE account SET country='$country' WHERE username='$nick'";
+										$sql2 = "UPDATE account SET location='$country' WHERE username='$nick'";
 										$insertdetails = mysqli_query($lgconn,$sql2);
 										if($insertdetails){
 											?>
