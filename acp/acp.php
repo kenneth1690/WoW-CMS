@@ -155,35 +155,61 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 </ul>
 </div>
 
-<div id="content-wrapper">
-    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 200px;">
-        <span>WELCOME</span>
-		<table>
-            <tbody>
-			<tr>
-                <td>&nbsp;</td>
-            </tr>
-			<tr>
-                <td>Welcome to the ACP</td>
-            </tr>
-			</tbody>
-		</table>
-    </div>
-    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 200px;">
-        <span>MISC</span>
-		<table>
-            <tbody>
-			<tr>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td>(<?php echo $num = mysqli_num_rows($resultcms); ?>) <font color="ffffff">News</font> [<a href="listnews.php">List</a>]</td>
-            </tr>
-			<tr>
-                <td>(<?php echo $num2 = mysqli_num_rows($resultcms2); ?>) <font color="ffffff">Changelogs</font> [<a href="listchangelogs.php">List</a>]</td>
-            </tr>
-			</tbody>
-		</table>
+<div class="content-wrapper">
+	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+		<div id="wm-error-page">
+            <center>
+                <font size='5'><b>Welcome to the ACP</b></font><br><br>
+                Logged in as 
+                <?php
+				if($rows['posts']>=0 && $rows['posts']<50){
+					?>
+					<font color="ffffff"><?php echo $rows['username']; ?></font>
+					<?php
+				}elseif($rows['posts']>=50 && $rows['posts']<100){
+					?>
+					<font color="#1df701"><?php echo $rows['username']; ?></font>
+					<?php
+				}elseif($rows['posts']>=100 && $rows['posts']<250){
+					?>
+					<font color="006dd7"><?php echo $rows['username']; ?></font>
+					<?php
+				}elseif($rows['posts']>=250 && $rows['posts']<500){
+					?>
+					<font color="9e34e7"><?php echo $rows['username']; ?></font>
+					<?php
+				}elseif($rows['posts']>=500){
+					?>
+					<font color="f57b01"><?php echo $rows['username']; ?></font>
+					<?php
+				}?><br>
+                GM Level: <?php echo $rowsgm['gmlevel']; ?><br>
+                Meaning: 
+                <?php 
+                if($rowsgm['gmlevel']==1){
+					?>
+					<font color="00ba0d">Moderator</font>
+					<?php
+				}elseif($rowsgm['gmlevel']==2){
+					?>
+					<font color="cf7c00">Administrator</font>
+					<?php
+				}elseif($rowsgm['gmlevel']==3){
+					?>
+					<font color="c70000">Head Admin</font>
+					<?php
+				}elseif($rowsgm['gmlevel']==4){
+					?>
+					<font color="9000b8">Owner</font>
+					<?php
+				}else{
+					?>
+					<font color="ffffff">Player (You shouldn't be here)</font>
+					<?php
+				}
+				?>
+            </center>
+        </div>
     </div>
 </div>
 
