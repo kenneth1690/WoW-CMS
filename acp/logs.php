@@ -158,7 +158,56 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 </div>
 
 <div id="content-wrapper">
-    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 300px;">
+    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 250px;">
+        <span>INTRODUCTION</span>
+		<table>
+            <tbody>
+			<tr>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>Hello <?php
+				if($rows['posts']>=0 && $rows['posts']<50){
+					?>
+					<font color="ffffff"><?php echo $rows['username']; ?></font>
+					<?php
+				}elseif($rows['posts']>=50 && $rows['posts']<100){
+					?>
+					<font color="#1df701"><?php echo $rows['username']; ?></font>
+					<?php
+				}elseif($rows['posts']>=100 && $rows['posts']<250){
+					?>
+					<font color="006dd7"><?php echo $rows['username']; ?></font>
+					<?php
+				}elseif($rows['posts']>=250 && $rows['posts']<500){
+					?>
+					<font color="9e34e7"><?php echo $rows['username']; ?></font>
+					<?php
+				}elseif($rows['posts']>=500){
+					?>
+					<font color="f57b01"><?php echo $rows['username']; ?></font>
+					<?php
+				}?>,</td>
+            </tr>
+            <tr>
+                <td>for now, your GM Level is <?php echo $rowsgm['gmlevel']; ?> what means that you can 
+                <?php 
+                if($rowsgm['gmlevel']>2){
+                    ?>
+                    view all Head Admin & Administrator logs like Donations, Bugtracker, Administrative, Forum and Accounts.
+                    <?php
+                }elseif($rowsgm['gmlevel']>1){
+                    ?>
+                    view only Administrator logs like Forum and Accounts.
+                    <?php
+                }
+                ?>
+                </td>
+            </tr>
+			</tbody>
+		</table>
+    </div>
+    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 250px;">
         <?php
         if($rowsgm && $rowsgm['gmlevel']>2){ 
         ?>
@@ -215,19 +264,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
         <?php
         }
         ?>
-    </div>
-    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 300px;">
-        <span>SECOND PANEL</span>
-		<table>
-            <tbody>
-			<tr>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td>TODO</td>
-            </tr>
-			</tbody>
-		</table>
     </div>
 </div>
 
