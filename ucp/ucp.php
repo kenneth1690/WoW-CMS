@@ -492,6 +492,12 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				</div>
 				</td>
 			</tr>
+			<tr>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>Location:</td>
+            </tr>
         </tbody></table>
     </div>
 </div>
