@@ -114,7 +114,6 @@
 		if(isset($_SESSION["loggedin"])) {
 			$nick = $_SESSION["loggedin"];
 			$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
-			$cmsconn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 		}
 		$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
 		$result = mysqli_query($checkacp,$sql);
@@ -126,28 +125,29 @@
 		$resultgm = mysqli_query($checkacp,$gm);
 		$rowsgm = mysqli_fetch_array($resultgm);
 		
-		$cmssql= "SELECT * FROM news";
-		$resultcms = mysqli_query($cmsconn,$cmssql);
-		$rowscms = mysqli_fetch_array($resultcms);
-		
 		?><li><a href="/ucp/ucp.php">ACCOUNT PANEL</a></li>
-		</ul>
+        </ul>
         <ul>
-		<?php
-		if($rowsgm && $rowsgm['gmlevel']>0){ 
-			?>
-			<li><a href="/acp/acp.php" class="active">ADMIN PANEL</a></li>
-			<?php
-		}
+            <?php
+		    if($rowsgm && $rowsgm['gmlevel']>0){ 
+                if($rowsgm && $rowsgm['gmlevel']>1){ 
+                ?>
+                <li><a href="#" class="active">NEWS</a></li>  
+                <li><a href="/acp/listchangelogs.php">CHANGELOGS</a></li>
+                <li><a href="/acp/logs.php">LOGS</a></li>
+                <?php
+                }
+			    ?>
+			    <li><a href="/acp/acp.php">ADMIN PANEL</a></li>
+			    <?php
+		    }
 		mysqli_close($checkacp);
 		?>
-</ul>
-    <ul>
         <li><?php
 		$dt = new DateTime("now", new DateTimeZone('Europe/Warsaw'));
 		echo $dt->format('H:i');
 		?></li>
-    </ul>
+</ul>
 </div>
 
 

@@ -176,11 +176,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		if($rowsgm && $rowsgm['gmlevel']>0){ 
             if($rowsgm && $rowsgm['gmlevel']>1){ 
                 ?>
-                <li><a href="/acp/logs.php" class="active">LOGS</a></li>
-                <?php
+                <li><a href="/acp/listnews.php">NEWS</a></li>  
+            <li><a href="/acp/listchangelogs.php">CHANGELOGS</a></li>
+            <li><a href="#" class="active">LOGS</a></li>
+            <?php
             }
-			?>
-			<li><a href="/acp/acp.php">ADMIN PANEL</a></li>
+            ?>
+            <li><a href="/acp/acp.php">ADMIN PANEL</a></li>
 			<?php
 		}
 		mysqli_close($checkacp);
