@@ -174,7 +174,7 @@ INSERT INTO `settings` (`conf_key`, `conf_value`) VALUES
 ('realmname', 'Realm Name'),
 ('realmip', '127.0.0.1'),
 ('realmport', '8085'),
-('reamlist', '127.0.0.1');
+('realmlist', '127.0.0.1');
 
 -- --------------------------------------------------------
 

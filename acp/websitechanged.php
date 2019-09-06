@@ -174,80 +174,15 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 </ul>
 </div>
 
-<div id="content-wrapper">
-    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 700px;">
-         <?php
-			if (isset($_SESSION['loggedin'])) {
-                ?>
-				<form action='/acp/websitechanged.php?change=sitename' method='POST'>
-					<p>Site name: </p>
-					<input type='text' id='sitename' name='sitename' value='<?php echo $sitename; ?>' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/><br /><br>
-                    <input type='submit' value='CHANGE SITE NAME' class='wm-ui-btn'/>
-                </form>
-                <br>
-                <form action='/acp/websitechanged.php?change=siteonline' method='POST'>
-					<p>Site status: 
-                    <?php
-                    if($siteonline=='yes'){
-                        ?>
-                        <font color="1df701">Online</font>
-                        <?php
-                    }else{
-                        ?>
-                        <font color="red">Offline</font>
-                        <?php
-                    }
-                    ?>
-                    </p>
-                    <input type='submit' value='CHANGE SITE STATUS' class='wm-ui-btn'/>
-                </form>
-                <br>
-                <form action='/acp/websitechanged.php?change=offlinemessage' method='POST'>
-					<p>Offline message: </p>
-					<input type='text' id='offlinemessage' name='offlinemessage' value='<?php echo $offlinemessage; ?>' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/><br /><br>
-                    <input type='submit' value='CHANGE OFFLINE MESSAGE' class='wm-ui-btn'/>
-                </form>
-                <?php
-			}else{
-				header("location: ../login.php");
-			}
-		?>   
-    </div>
-    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 700px;">
-	    <?php
-			if (isset($_SESSION['loggedin'])) {
-                ?>
-				<form action='/acp/websitechanged.php?change=realmname' method='POST'>
-					<p>Realm Name: </p>
-					<input type='text' id='realmname' name='realmname' value='<?php echo $realmname; ?>' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/><br /><br>
-                    <input type='submit' value='CHANGE REALM NAME' class='wm-ui-btn'/>
-                </form>
-                <br>
-                <form action='/acp/websitechanged.php?change=realmip' method='POST'>
-					<p>Realm IP: </p>
-					<input type='text' id='realmip' name='realmip' value='<?php echo $realmip; ?>' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/><br /><br>
-                    <input type='submit' value='CHANGE REALM IP' class='wm-ui-btn'/>
-                </form>
-                <br>
-                <form action='/acp/websitechanged.php?change=realmport' method='POST'>
-					<p>Realm Port: </p>
-					<input type='text' id='realmport' name='realmport' value='<?php echo $realmport; ?>' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/><br /><br>
-                    <input type='submit' value='CHANGE REALM PORT' class='wm-ui-btn'/>
-                </form>
-                <br>
-                <form action='/acp/websitechanged.php?change=realmlist' method='POST'>
-					<p>Realm List: </p>
-					<input type='text' id='realmlist' name='realmlist' value='<?php echo $realmlist; ?>' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/><br /><br>
-                    <input type='submit' value='CHANGE REALM LIST' class='wm-ui-btn'/>
-                </form>
-                <?php
-			}else{
-				header("location: ../login.php");
-			}
-		?>   
-    </div>
-</div>
+<div class="content-wrapper">
+	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+		<div id="wm-error-page">
+			<?php
 
+			?>     
+		</div>
+	</div>
+</div>
 
             <div class="clear"></div>
         </div>
@@ -261,25 +196,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 	<a href="/policies/terms">Terms of Service</a> &nbsp; <a href="/policies/privacy">Privacy Policy</a> &nbsp; <a href="/policies/refund"> Refund Policy </a> &nbsp; <a href="#">Contact Us</a><br>
 	Copyright ][ <?php echo $sitename; ?> ][ 2019. All Rights Reserved.
 </div>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-59798617-1', 'auto');
-  ga('send', 'pageview');
-</script>
-
-<script>
-$(function() {
-    $.warmane({
-        currentBackground: -1,
-        alertTime: 1441896645
-    });
-    
-    });
-</script>
 
 
 </body></html>
