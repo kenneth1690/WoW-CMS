@@ -8,6 +8,7 @@ $conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_p
 $qr1 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'sitename'");
 $qr2 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'siteonline'");
 $qr3 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'offlinemessage'");
+$qr4 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'reamlist'");
 
 while($row = mysqli_fetch_array($qr1)){
     $sitename = $row['conf_value'];
@@ -17,6 +18,9 @@ while($row = mysqli_fetch_array($qr2)){
 }
 while($row = mysqli_fetch_array($qr3)){
     $offlinemessage = $row['conf_value'];
+}
+while($row = mysqli_fetch_array($qr4)){
+    $realmlist = $row['conf_value'];
 }
 
 ?>
@@ -132,7 +136,7 @@ while($row = mysqli_fetch_array($qr3)){
                 <td>- Download the game client</td>
             </tr>
 			<tr>
-                <td>- Change the realmlist to: set realmlist 185.239.238.237</td>
+                <td>- Change the realmlist to: set realmlist <?php echo $realmlist; ?></td>
             </tr>
             <tr>
                 <td>- Start the game client using WoW.exe, not Launcher.exe</td>

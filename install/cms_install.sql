@@ -173,7 +173,8 @@ INSERT INTO `settings` (`conf_key`, `conf_value`) VALUES
 ('offlinemessage', 'We are working hard to make everything usable.'),
 ('realmname', 'Realm Name'),
 ('realmip', '127.0.0.1'),
-('realmport', '8085');
+('realmport', '8085'),
+('reamlist', '127.0.0.1');
 
 -- --------------------------------------------------------
 
