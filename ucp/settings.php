@@ -165,8 +165,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
     <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 400px;">
 			<?php
 				if (isset($_SESSION['loggedin'])) {
-								echo "<form action='/ucp/passchanged.php'
-								  method='POST'>
+								echo "<form action='/ucp/passchanged.php' method='POST'>
 								  <p>Current Password: </p>
 								  <input type='password' id='curpass' name='curpass' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
 								  <p>New Password: </p>
@@ -183,8 +182,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
     <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 400px;">
 			<?php
 				if (isset($_SESSION['loggedin'])) {
-								echo "<form action='#'
-								  method='POST'>
+								echo "<form action='/ucp/mailchanged.php' method='POST'>
 								  <p>New Email: </p>
 								  <input type='text' id='mail' name='mail' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
 								  <p>Repeat new Email: </p>
