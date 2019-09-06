@@ -169,8 +169,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 								  method='POST'>
 								  <p>Problem: </p>
 								  <input type='text' id='problem' name='problem' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
-								  <p>Description: </p>
-								  <textarea id='description' name='description' rows='14' cols='80' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
+								  <p>Description (HTML supported): </p>
+								  <textarea id='description' name='description' rows='14' cols='80' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
 								  <input type='submit' value='REPORT BUG' class='wm-ui-btn'/></form>";
 
 			?>

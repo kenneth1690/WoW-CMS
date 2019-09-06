@@ -186,8 +186,8 @@
 						?>
 							<form action='editchangelogconf.php' 'method='POST'>
 								<input type="hidden" name="chgsid" id="chgsid" value="<?php echo $chgsid;?>" />
-								<p>Edit content (leave blank if you do not want to): </p>
-								<textarea id='editcontent' name='editcontent' rows='14' cols='80' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
+								<p>Edit content (leave blank if you do not want to, HTML supported): </p>
+								<textarea id='editcontent' name='editcontent' rows='14' cols='80' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
 								<input type='submit' value='EDIT CHANGELOG' class='wm-ui-btn'/>
 							</form>
 						<?php

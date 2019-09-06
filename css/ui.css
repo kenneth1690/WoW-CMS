@@ -143,6 +143,11 @@ label {
     width:550px;
 }
 
+.wm-ui-input-generic.input-lg2 {
+    width:550px;
+	height:250px;
+}
+
 .wm-ui-input-generic.input-medsmall {
     width:192px;
 }

@@ -183,8 +183,8 @@
 						method='POST'>
 						<p>Title: </p>
 						<input type='text' id='title' name='title' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
-						<p>Content: </p>
-						<textarea id='content' name='content' rows='14' cols='80' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
+						<p>Content (HTML supported): </p>
+						<textarea id='content' name='content' rows='14' cols='80' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
 						<input type='submit' value='ADD NEWS' class='wm-ui-btn'/></form>";
 					
 					mysqli_close($checkacp);
