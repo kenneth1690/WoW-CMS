@@ -209,7 +209,7 @@
 								$sqldate3 = "UPDATE `news` SET `title`='$edittitlecheck',`content`='$editcontentcheck',`edited_by`='$nick',`edited_date`=NOW() WHERE `id`=".$_GET['newsid'];
 								mysqli_query($cmsconn, $sqldate3);
 							}
-							$insertlog = mysqli_query($con, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+							$insertlog = mysqli_query($cmsconn, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
 									  VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'NEWS: Edited News ID #".$_GET['newsid']."', NOW());");
 							header("refresh:5;url=index.php");
 							?>

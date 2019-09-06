@@ -199,7 +199,7 @@ while($row = mysqli_fetch_array($qr3)){
 					}else{
 						$cmssql= "INSERT INTO news (`title`, `content`, `author`, `date`) VALUES ('$title', '$content', '$nick', NOW())";
 						$resultcms = mysqli_query($cmsconn,$cmssql);
-						$insertlog = mysqli_query($con, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+						$insertlog = mysqli_query($cmsconn, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
 									  VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'NEWS: Added News', NOW());");
 						header("refresh:5;url=index.php");
 						?>

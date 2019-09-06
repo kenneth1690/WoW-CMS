@@ -193,7 +193,7 @@
 					if($rowscms['id']==$chgsidcheck){
 							$sqldate3 = "DELETE FROM `changelogs` WHERE `id`=".$_GET['chgsid'];
 							mysqli_query($cmsconn, $sqldate3);
-							$insertlog = mysqli_query($con, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+							$insertlog = mysqli_query($cmsconn, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
 									  VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'CHANGELOGS: Deleted Changelogs ID #".$_GET['chgsid']."', NOW());");
 							header("refresh:5;url=index.php");
 							?>
