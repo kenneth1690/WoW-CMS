@@ -53,7 +53,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$resultgm = mysqli_query($checkacp,$gm);
 		$rowsgm = mysqli_fetch_array($resultgm);
 		
-		if(!$rowsgm || $rowsgm['gmlevel']==0 || $rowsgm['gmlevel']==1){
+		if(!$rowsgm || $rowsgm['gmlevel']==0 || $rowsgm['gmlevel']==1 || $rowsgm['gmlevel']==2){
 			header("location: ../index.php");
 			exit;
 		}
@@ -158,10 +158,14 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
             <li><a href="/acp/listnews.php">NEWS</a></li>  
             <li><a href="/acp/listchangelogs.php">CHANGELOGS</a></li>
             <li><a href="/acp/logs.php">LOGS</a></li>
-            <li><a href="#" class="active">WEBSITE</a></li>
             <?php
-            }
-            ?>
+				}
+				if($rowsgm && $rowsgm['gmlevel']>2){ 
+					?>
+					<li><a href="/acp/website.php" class="active">WEBSITE</a></li>
+					<?php
+				}
+			    ?>
             <li><a href="/acp/acp.php">ADMIN PANEL</a></li>
             <?php
         }

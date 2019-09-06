@@ -37,7 +37,7 @@
 		$resultgm = mysqli_query($checkacp,$gm);
 		$rowsgm = mysqli_fetch_array($resultgm);
 		
-		if(!$rowsgm || $rowsgm['gmlevel']==0){
+		if(!$rowsgm || $rowsgm['gmlevel']==0 || $rowsgm['gmlevel']==1){
 			header("location: ../index.php");
 			exit;
 		}
@@ -140,9 +140,13 @@
                 <li><a href="/acp/listnews.php">NEWS</a></li>  
                 <li><a href="#" class="active">CHANGELOGS</a></li>
                 <li><a href="/acp/logs.php">LOGS</a></li>
-				<li><a href="/acp/website.php">WEBSITE</a></li>
-                <?php
-                }
+				<?php
+				}
+				if($rowsgm && $rowsgm['gmlevel']>2){ 
+					?>
+					<li><a href="/acp/website.php">WEBSITE</a></li>
+					<?php
+				}
 			    ?>
 			    <li><a href="/acp/acp.php" class="active">ADMIN PANEL</a></li>
 			    <?php

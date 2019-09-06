@@ -148,9 +148,13 @@ session_start();
                 <li><a href="/acp/listnews.php">NEWS</a></li>  
                 <li><a href="/acp/listchangelogs.php">CHANGELOGS</a></li>
                 <li><a href="/acp/logs.php">LOGS</a></li>
-				<li><a href="/acp/website.php">WEBSITE</a></li>
-                <?php
-                }
+				<?php
+				}
+				if($rowsgm && $rowsgm['gmlevel']>2){ 
+					?>
+					<li><a href="/acp/website.php">WEBSITE</a></li>
+					<?php
+				}
 			    ?>
 			    <li><a href="#" class="active">ADMIN PANEL</a></li>
 			    <?php
