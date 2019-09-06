@@ -163,7 +163,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 </div>
 
 <div id="content-wrapper">
-    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 250px;">
+    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 250px;">
         <span>INTRODUCTION</span>
 		<table>
             <tbody>
@@ -212,7 +212,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			</tbody>
 		</table>
     </div>
-    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 250px;">
+    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 250px;">
         <?php
         if($rowsgm && $rowsgm['gmlevel']>2){ 
         ?>
