@@ -107,11 +107,12 @@ while($row = mysqli_fetch_array($qr3)){
     </ul>
 </div>
 
-
-<div id="content-wrapper" class="wm-ui-top-border">
-    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-genericform wm-ui-content-fontstyle page-articles-changelog">
-        
-		<?php
+<div id="content-wrapper">
+    <div class="page-articles-left">
+        <div id="content-inner" class="wm-ui-generic-frame page-articles wm-ui-top-border wm-ui-right-border">
+			
+			
+			<?php
 			$newscon=mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 			// Check connection
 			if (mysqli_connect_errno())
@@ -119,47 +120,65 @@ while($row = mysqli_fetch_array($qr3)){
 			  echo "Failed to connect to MySQL: " . mysqli_connect_error();
 			  }
 
-			$sql="SELECT id, content, date FROM changelogs ORDER BY id DESC";
-			$result=mysqli_query($newscon,$sql);
+			  $sql="SELECT id, content, date FROM changelogs ORDER BY id DESC";
+			  $result=mysqli_query($newscon,$sql);
+  
+			  if(mysqli_num_rows($result)==0){
+				  ?>
+				  <div class="wm-ui-article-title">
+					  <p>No changelogs</p>
+				  </div><br>
+				  <div class="wm-ui-article-content">
+				  <p>There's no changelogs actually!</p>
+				  <p><i>
+				  Stay tuned!
+				  </i></p>
+				  <p>&nbsp;</p>
+				  </div>
+				  <?php
+			  }
+  
+			  while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+			  {
+				  $newdate = date("F j, Y", strtotime($row['date']));
+				  $convdate = gmdate("F n, Y", $phpdate);
+				  ?>
+					  <div class="wm-ui-article-title">
+						  <p>Changelog #<?php echo $row['id']; ?></p>
+						  <p><?php echo $newdate; ?></p>
+					  </div>
+					  <div class="wm-ui-article-content">
+					  <p><?php echo $row['content']; ?></p>
+					  </div>
+					  <?php
+					  if($row['id']>1){
+						  ?>
+					  <p>&nbsp;</p>
+					  <?php
+					  }
+			  }
+			  
+			  mysqli_close($newscon);
+			  ?>
 
-			if(mysqli_num_rows($result)==0){
-				?>
-				<div class="wm-ui-article-title">
-					<p>No changelogs</p>
-				</div><br>
-				<div class="wm-ui-article-content">
-				<p>There's no changelogs actually!</p>
-				<p><i>
-				Stay tuned!
-				</i></p>
-				<p>&nbsp;</p>
-				</div>
-				<?php
-			}
-
-			while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-			{
-				$newdate = date("F j, Y", strtotime($row['date']));
-				$convdate = gmdate("F n, Y", $phpdate);
-				?>
-					<div class="wm-ui-article-title">
-						<p>Changelog #<?php echo $row['id']; ?></p>
-						<p><?php echo $newdate; ?></p>
-					</div>
-					<div class="wm-ui-article-content">
-					<p><?php echo $row['content']; ?></p>
-					</div>
-					<?php
-					if($row['id']>1){
-						?>
-					<p>&nbsp;</p>
-					<?php
-					}
-			}
-			
-			mysqli_close($newscon);
-			?>
-
+            
+          </div>
+    </div>
+    <div id="content-inner" class="wm-ui-generic-frame page-articles page-articles-right wm-ui-statisticbox wm-ui-left-border wm-ui-top-border">
+        <table id="wm-ui-plugin-statistics">
+			<tbody>
+				<tr>
+					<td>
+						All Changelogs: <br>
+						<span>
+							<?php
+							echo mysqli_num_rows($result);
+							?>
+						</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
     </div>
 </div>
 <div class="clear"></div>
