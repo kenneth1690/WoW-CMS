@@ -179,6 +179,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                 <li><a href="/acp/listnews.php">NEWS</a></li>  
             <li><a href="/acp/listchangelogs.php">CHANGELOGS</a></li>
             <li><a href="#" class="active">LOGS</a></li>
+			<li><a href="/acp/website.php">WEBSITE</a></li>
             <?php
             }
             ?>

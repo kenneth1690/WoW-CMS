@@ -135,6 +135,7 @@
                 <li><a href="/acp/listnews.php">NEWS</a></li>  
                 <li><a href="#" class="active">CHANGELOGS</a></li>
                 <li><a href="/acp/logs.php">LOGS</a></li>
+				<li><a href="/acp/website.php">WEBSITE</a></li>
                 <?php
                 }
 			    ?>

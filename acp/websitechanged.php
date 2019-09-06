@@ -178,7 +178,172 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
 			<?php
-
+				if(isset($_GET['change'])){
+					$change = htmlspecialchars($_GET['change']);
+				}else{
+					header("location: ../index.php");
+				}
+					
+				if($change == 'sitename'){
+					if(empty($_POST['sitename'])){
+						?>		
+							<center>
+							<p><font size="6">Empty field</font></p>
+							<p>
+								<font size="5">Complete field and try again.</font>
+							</p> 
+							</center>
+						<?php
+					}else{
+						mysqli_query($conn, 'UPDATE settings SET conf_value="'.$_POST['sitename'].'" WHERE conf_key="sitename"');
+						?>		
+							<center>
+							<p><font size="6">Site name changed</font></p>
+							<p>
+								<font size="5">Site name has been changed successfully.</font>
+							</p> 
+							</center>
+						<?php
+					}
+					header("refresh:5;url=website.php");
+				}elseif($change == 'siteonline'){
+					if($siteonline=='yes'){
+						mysqli_query($conn, 'UPDATE settings SET conf_value="no" WHERE conf_key="siteonline"');
+					}else{
+						mysqli_query($conn, 'UPDATE settings SET conf_value="yes" WHERE conf_key="siteonline"');
+					}
+					?>		
+						<center>
+						<p><font size="6">Site status changed</font></p>
+						<p>
+							<font size="5">Site status has been changed successfully.</font>
+						</p> 
+						</center>
+					<?php
+					header("refresh:5;url=website.php");
+				}elseif($change == 'offlinemessage'){
+					if(empty($_POST['offlinemessage'])){
+						?>		
+							<center>
+							<p><font size="6">Empty field</font></p>
+							<p>
+								<font size="5">Complete field and try again.</font>
+							</p> 
+							</center>
+						<?php
+					}else{
+						mysqli_query($conn, 'UPDATE settings SET conf_value="'.$_POST['offlinemessage'].'" WHERE conf_key="offlinemessage"');
+						?>		
+							<center>
+							<p><font size="6">Offline message changed</font></p>
+							<p>
+								<font size="5">Offline message has been changed successfully.</font>
+							</p> 
+							</center>
+						<?php
+					}
+					header("refresh:5;url=website.php");
+				}elseif($change == 'realmname'){
+					if(empty($_POST['realmname'])){
+						?>		
+							<center>
+							<p><font size="6">Empty field</font></p>
+							<p>
+								<font size="5">Complete field and try again.</font>
+							</p> 
+							</center>
+						<?php
+					}else{
+						mysqli_query($conn, 'UPDATE settings SET conf_value="'.$_POST['realmname'].'" WHERE conf_key="realmname"');
+						?>		
+							<center>
+							<p><font size="6">Realm name changed</font></p>
+							<p>
+								<font size="5">Realm name has been changed successfully.</font>
+							</p> 
+							</center>
+						<?php
+					}
+					header("refresh:5;url=website.php");
+				}elseif($change == 'realmip'){
+					if(empty($_POST['realmip'])){
+						?>		
+							<center>
+							<p><font size="6">Empty field</font></p>
+							<p>
+								<font size="5">Complete field and try again.</font>
+							</p> 
+							</center>
+						<?php
+					}else{
+						mysqli_query($conn, 'UPDATE settings SET conf_value="'.$_POST['realmip'].'" WHERE conf_key="realmip"');
+						?>		
+							<center>
+							<p><font size="6">Realm IP changed</font></p>
+							<p>
+								<font size="5">Realm IP has been changed successfully.</font>
+							</p> 
+							</center>
+						<?php
+					}
+					header("refresh:5;url=website.php");
+				}elseif($change == 'realmport'){
+					if(empty($_POST['realmport'])){
+						?>		
+							<center>
+							<p><font size="6">Empty field</font></p>
+							<p>
+								<font size="5">Complete field and try again.</font>
+							</p> 
+							</center>
+						<?php
+					}else{
+						mysqli_query($conn, 'UPDATE settings SET conf_value="'.$_POST['realmport'].'" WHERE conf_key="realmport"');
+						?>		
+							<center>
+							<p><font size="6">Realm port changed</font></p>
+							<p>
+								<font size="5">Realm port has been changed successfully.</font>
+							</p> 
+							</center>
+						<?php
+					}
+					header("refresh:5;url=website.php");
+				}elseif($change == 'realmlist'){
+					if(empty($_POST['realmlist'])){
+						?>		
+							<center>
+							<p><font size="6">Empty field</font></p>
+							<p>
+								<font size="5">Complete field and try again.</font>
+							</p> 
+							</center>
+						<?php
+					}else{
+						mysqli_query($conn, 'UPDATE settings SET conf_value="'.$_POST['realmlist'].'" WHERE conf_key="realmlist"');
+						?>		
+							<center>
+							<p><font size="6">Realmlist changed</font></p>
+							<p>
+								<font size="5">Realmlist has been changed successfully.</font>
+							</p> 
+							</center>
+						<?php
+					}
+					header("refresh:5;url=website.php");
+				}else{
+					?>
+					<center>
+						<p>
+							<font size="6">No action choosed</font>
+						</p>
+						<p>
+							<font size="5">You have not selected an action.</font>
+						</p> 
+					</center>
+					<?php
+					header("refresh:5;url=website.php");
+				}
 			?>     
 		</div>
 	</div>

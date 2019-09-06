@@ -140,6 +140,7 @@
                 <li><a href="#" class="active">NEWS</a></li>  
                 <li><a href="/acp/listchangelogs.php">CHANGELOGS</a></li>
                 <li><a href="/acp/logs.php">LOGS</a></li>
+				<li><a href="/acp/website.php">WEBSITE</a></li>
                 <?php
                 }
 			    ?>
