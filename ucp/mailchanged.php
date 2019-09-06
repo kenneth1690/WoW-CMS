@@ -89,111 +89,124 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 
 <div id="page-navigation" class="wm-ui-generic-frame wm-ui-bottom-border">
 <ul>
-	<?php
-		if(isset($_SESSION["loggedin"])) {
-			$nick = $_SESSION["loggedin"];
-			$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
-		}
-		$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
-		$result = mysqli_query($checkacp,$sql);
-		$rows = mysqli_fetch_array($result);
-		
-		$idcheck = $rows['id'];
-		$ipcheck = $rows['last_ip'];
-		
-		$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
-		$resultgm = mysqli_query($checkacp,$gm);
-		$rowsgm = mysqli_fetch_array($resultgm);
-		
-		$ban= "SELECT * FROM account_banned WHERE id = '" . $idcheck . "' ORDER BY bandate DESC";
-		$resultban = mysqli_query($checkacp,$ban);
-		$rowsban = mysqli_fetch_array($resultban);
-		
-		$banip= "SELECT * FROM ip_banned WHERE ip = '" . $ipcheck . "' ORDER BY bandate DESC";
-		$resultbanip = mysqli_query($checkacp,$banip);
-		$rowsbanip = mysqli_fetch_array($resultbanip);
-		
-		$mute= "SELECT * FROM account_muted WHERE guid = '" . $idcheck . "'";
-		$resultmute = mysqli_query($checkacp,$mute);
-		$rowsmute = mysqli_fetch_array($resultmute);
-		
-		$bandate = date("F j, Y / H:i:s", $rowsban['bandate']);
-		$unbandate = date("F j, Y / H:i:s", $rowsban['unbandate']);
-		
-		$getbantime = new DateTime("now", new DateTimeZone('Europe/Warsaw'));
-		$banipdate = date("F j, Y / H:i:s", $rowsbanip['bandate']);
-		$unbanipdate = date("F j, Y / H:i:s", $rowsbanip['unbandate']);
-		
-		$mutedate = date("F j, Y / H:i:s", $rowsmute['mutedate']);
-		
-		$unixjoin = strtotime($rows['joindate']);
-		$joindate = date("F j, Y", $unixjoin);
-		
-		$now = time();
-		$your_date = strtotime($rows['last_login']);
-		$datediff = $now - $your_date;
-		$esttime = round($datediff / (60 * 60 * 24));
-		
-		
-		?><li><a href="/ucp/ucp.php">ACCOUNT PANEL</a></li>
-		<li><a href="/ucp/characters/characters.php">CHARACTERS</a></li>
-		<li><a href="/ucp/donate/donate.php">DONATE</a></li>
-		<li><a href="/ucp/store/store.php">STORE</a></li>
-		<li><a href="/ucp/trade/trade.php">TRADE</a></li>
-		<li><a href="/ucp/services/services.php">SERVICES</a></li>
-		<li><a href="/ucp/support/support.php">SUPPORT</a></li>
-		<li><a href="/ucp/lottery.php">LOTTERY</a></li>
-		<li><a href="#" class="active">SETTINGS</a></li>
+	<li><a href="#" class="active">ACCOUNT PANEL</a></li>
 </ul>
-<ul>
-		<?php
-		if($rowsgm && $rowsgm['gmlevel']>0){ 
-			?>
-			<li><a href="/acp/acp.php">ADMIN PANEL</a></li>
-			<?php
-		}
-		mysqli_close($checkacp);
-		?>
+    <ul>
         <li><?php
 		$dt = new DateTime("now", new DateTimeZone('Europe/Warsaw'));
 		echo $dt->format('H:i');
 		?></li>
-</ul>
+    </ul>
 </div>
 
-<div id="content-wrapper">
-    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 400px;">
+<div class="content-wrapper">
+	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+		<div id="wm-error-page">
 			<?php
-				if (isset($_SESSION['loggedin'])) {
-								echo "<form action='/ucp/passchanged.php' method='POST'>
-								  <p>Current Password: </p>
-								  <input type='password' id='curpass' name='curpass' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
-								  <p>New Password: </p>
-								  <input type='password' id='pass' name='pass' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
-								  <p>Repeat New password: </p>
-								  <input type='password' id='repass' name='repass' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/><br /><br>
-								  <input type='submit' value='CHANGE PASSWORD' class='wm-ui-btn'/></form>";
+				$remail = $_POST['remail'];
+				$mail = $_POST['mail'];
 
-				}else{
-					header("location: ../login.php");
-				}
-			?>   
-    </div>
-    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 400px;">
-			<?php
-				if (isset($_SESSION['loggedin'])) {
-								echo "<form action='/ucp/mailchanged.php' method='POST'>
-								  <p>New Email: </p>
-								  <input type='text' id='mail' name='mail' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
-								  <p>Repeat new Email: </p>
-								  <input type='text' id='remail' name='remail' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/><br /><br>
-								  <input type='submit' value='CHANGE EMAIL' class='wm-ui-btn'/></form>";
+				$lgconn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+				$conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 
+				$nick = $_SESSION["loggedin"];
+				
+				$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+				$result = mysqli_query($lgconn,$sql);
+				$user = mysqli_fetch_array($result);
+
+				$sql2= "SELECT * FROM account WHERE email = '" . $remail . "";
+				$result2 = mysqli_query($lgconn,$sql2);
+				$user2 = mysqli_fetch_array($result2);
+				
+				$sql3= "SELECT * FROM account WHERE username = '" . $nick . "'";
+				$result3= mysqli_query($lgconn,$sql3);
+				$user3 = mysqli_fetch_array($result3);
+				
+				if($nick){
+					if (empty($mail) || empty($remail)){
+						?>
+							<center>
+							<p><font size="6">Empty fields</font></p>
+							<p>
+								<font size="5">Complete all fields and try again.</font>
+							</p> 
+							</center>
+							<?php
+							header( "refresh:5;url=ucp.php" );
+					}else{
+							if($mail == $remail){
+								if($remail == $user['email']){
+									?>
+										<center>
+										<p><font size="6">Same emails</font></p>
+										<p>
+											<font size="5">You currently have the same emails address.</font>
+										</p> 
+										</center>
+										<?php
+										header( "refresh:5;url=ucp.php" );
+								}else{
+									if($user['mailactivated']==1){
+										$sql2 = "UPDATE account SET email='".$remail."' WHERE username='$nick'";
+										$insertmail = mysqli_query($lgconn,$sql2);
+										$sql4 = "UPDATE account SET mailactivated='0' WHERE username='$nick'";
+										$insertactivated = mysqli_query($lgconn,$sql4);
+										$insertlog = mysqli_query($conn, "INSERT INTO logs_acc (`logger`, `logger_id`, `logdetails`, `logdate`) 
+										VALUES ('".$_SESSION['loggedin']."', '".$user3['id']."', 'ACCOUNT: Changed Email for: `".$_SESSION['loggedin']."`', NOW());");
+										if($insertmail){
+											?>
+											<center>
+											<p><font size="6">Email changed</font></p>
+											<p>
+												<font size="5">Your email address has been changed successfully.</font>
+											</p> 
+											</center>
+											<?php
+											header( "refresh:5;url=ucp.php" );
+										}else{
+											?>
+											<center>
+											<p><font size="6">Error when updating</font></p>
+											<p>
+												<font size="5">An error occurred while updating the email.</font>
+											</p> 
+											</center>
+											<?php
+											header( "refresh:5;url=ucp.php" );
+										}
+									}else{
+										?>
+											<center>
+											<p><font size="6">Error when updating</font></p>
+											<p>
+												<font size="5">In order to change your mail you must have already activated mail.</font>
+											</p> 
+											</center>
+											<?php
+											header( "refresh:5;url=ucp.php" );
+									}
+								}
+							}else{
+								?>
+										<center>
+										<p><font size="6">Emails mismatch</font></p>
+										<p>
+											<font size="5">The entered addresses are not the same.</font>
+										</p> 
+										</center>
+										<?php
+										header( "refresh:5;url=ucp.php" );
+							}
+					}
 				}else{
-					header("location: ../login.php");
+					header( "Location: index.php" );
 				}
-			?>   
-    </div>
+				mysqli_close($lgconn);
+				mysqli_close($conn);
+				?>     
+		</div>
+	</div>
 </div>
 
             <div class="clear"></div>
