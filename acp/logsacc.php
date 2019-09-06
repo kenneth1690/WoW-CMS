@@ -216,13 +216,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			$next_page = $page_no + 1;
 			$adjacents = "2"; 
 
-			$result_count = mysqli_query($con,"SELECT COUNT(*) As total_records FROM `logs_acc`");
+			$result_count = mysqli_query($cmsconn,"SELECT COUNT(*) As total_records FROM `logs_acc`");
 			$total_records = mysqli_fetch_array($result_count);
 			$total_records = $total_records['total_records'];
 			$total_no_of_pages = ceil($total_records / $total_records_per_page);
 			$second_last = $total_no_of_pages - 1; // total page minus 1
 
-			$result = mysqli_query($con,"SELECT * FROM `logs_acc` ORDER BY logdate DESC LIMIT $offset, $total_records_per_page");
+			$result = mysqli_query($cmsconn,"SELECT * FROM `logs_acc` ORDER BY logdate DESC LIMIT $offset, $total_records_per_page");
 			if($result->num_rows>0){
 				while($row = mysqli_fetch_array($result)){
 					echo "<tr>
@@ -238,7 +238,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				</tr>
 				<?php
 			}
-			mysqli_close($con);
+			mysqli_close($cmsconn);
 			?>
 		</table>
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
