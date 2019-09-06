@@ -2,22 +2,22 @@
 session_start();
 
 include("check.php");
-include('../config/config.php');
-
-$conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
-$qr1 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'sitename'");
-$qr2 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'siteonline'");
-$qr3 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'offlinemessage'");
-
-while($row = mysqli_fetch_array($qr1)){
-    $sitename = $row['conf_value'];
-}
-while($row = mysqli_fetch_array($qr2)){
-    $siteonline = $row['conf_value'];
-}
-while($row = mysqli_fetch_array($qr3)){
-    $offlinemessage = $row['conf_value'];
-}
+		include('../config/config.php');
+		
+		$conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+		$qr1 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'sitename'");
+		$qr2 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'siteonline'");
+		$qr3 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'offlinemessage'");
+		
+		while($row = mysqli_fetch_array($qr1)){
+			$sitename = $row['conf_value'];
+		}
+		while($row = mysqli_fetch_array($qr2)){
+			$siteonline = $row['conf_value'];
+		}
+		while($row = mysqli_fetch_array($qr3)){
+			$offlinemessage = $row['conf_value'];
+		}
 
 $id = $_SESSION['UID'];
 if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
@@ -37,7 +37,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$resultgm = mysqli_query($checkacp,$gm);
 		$rowsgm = mysqli_fetch_array($resultgm);
 		
-		if(!$rowsgm || $rowsgm['gmlevel']==0){
+		if(!$rowsgm || $rowsgm['gmlevel']==0 || $rowsgm['gmlevel']==1){
 			header("location: ../index.php");
 			exit;
 		}
@@ -133,22 +133,22 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$rowscms2 = mysqli_fetch_array($resultcms2);
 		
 		?><li><a href="/ucp/ucp.php">ACCOUNT PANEL</a></li>
-        </ul>
-        <ul>
+</ul>
+<ul>
+        <?php
+		if($rowsgm && $rowsgm['gmlevel']>0){ 
+            if($rowsgm && $rowsgm['gmlevel']>1){ 
+            ?>
+            <li><a href="/acp/listnews.php">NEWS</a></li>  
+            <li><a href="/acp/listchangelogs.php">CHANGELOGS</a></li>
+            <li><a href="/acp/logs.php">LOGS</a></li>
+            <li><a href="#" class="active">WEBSITE</a></li>
             <?php
-		    if($rowsgm && $rowsgm['gmlevel']>0){ 
-                if($rowsgm && $rowsgm['gmlevel']>1){ 
-                ?>
-                <li><a href="/acp/listnews.php">NEWS</a></li>  
-                <li><a href="/acp/listchangelogs.php">CHANGELOGS</a></li>
-                <li><a href="/acp/logs.php">LOGS</a></li>
-				<li><a href="/acp/website.php">WEBSITE</a></li>
-                <?php
-                }
-			    ?>
-			    <li><a href="#" class="active">ADMIN PANEL</a></li>
-			    <?php
-		    }
+            }
+            ?>
+            <li><a href="/acp/acp.php">ADMIN PANEL</a></li>
+            <?php
+        }
 		mysqli_close($checkacp);
 		?>
         <li><?php
@@ -158,63 +158,68 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 </ul>
 </div>
 
-<div class="content-wrapper">
-	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-		<div id="wm-error-page">
-            <center>
-                <font size='5'><b>Welcome to the ACP</b></font><br><br>
-                Logged in as 
+<div id="content-wrapper">
+    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 700px;">
+         <?php
+			if (isset($_SESSION['loggedin'])) {
+                ?>
+				<form action='/acp/websitechanged.php?change=sitename' method='POST'>
+					<p>Site name: </p>
+					<input type='text' id='sitename' name='sitename' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/><br /><br>
+                    <input type='submit' value='CHANGE SITE NAME' class='wm-ui-btn'/>
+                </form>
+                <br>
+                <form action='/acp/websitechanged.php?change=siteonline' method='POST'>
+					<p>Is site online? </p>
+                    <input type='submit' value='TURN SITE AVAILABILITY' class='wm-ui-btn'/>
+                </form>
+                <br>
+                <form action='/acp/websitechanged.php?change=offlinemessage' method='POST'>
+					<p>Offline message: </p>
+					<input type='text' id='offlinemessage' name='offlinemessage' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/><br /><br>
+                    <input type='submit' value='CHANGE SITE MESSAGE' class='wm-ui-btn'/>
+                </form>
                 <?php
-				if($rows['posts']>=0 && $rows['posts']<50){
-					?>
-					<font color="ffffff"><?php echo $rows['username']; ?></font>
-					<?php
-				}elseif($rows['posts']>=50 && $rows['posts']<100){
-					?>
-					<font color="#1df701"><?php echo $rows['username']; ?></font>
-					<?php
-				}elseif($rows['posts']>=100 && $rows['posts']<250){
-					?>
-					<font color="006dd7"><?php echo $rows['username']; ?></font>
-					<?php
-				}elseif($rows['posts']>=250 && $rows['posts']<500){
-					?>
-					<font color="9e34e7"><?php echo $rows['username']; ?></font>
-					<?php
-				}elseif($rows['posts']>=500){
-					?>
-					<font color="f57b01"><?php echo $rows['username']; ?></font>
-					<?php
-				}?><br>
-                GM Level: <?php echo $rowsgm['gmlevel']; ?><br>
-                Meaning: 
-                <?php 
-                if($rowsgm['gmlevel']==1){
-					?>
-					<font color="00ba0d">Moderator</font>
-					<?php
-				}elseif($rowsgm['gmlevel']==2){
-					?>
-					<font color="cf7c00">Administrator</font>
-					<?php
-				}elseif($rowsgm['gmlevel']==3){
-					?>
-					<font color="c70000">Head Admin</font>
-					<?php
-				}elseif($rowsgm['gmlevel']==4){
-					?>
-					<font color="9000b8">Owner</font>
-					<?php
-				}else{
-					?>
-					<font color="ffffff">Player (You shouldn't be here)</font>
-					<?php
-				}
-				?>
-            </center>
-        </div>
+			}else{
+				header("location: ../login.php");
+			}
+		?>   
+    </div>
+    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 700px;">
+	    <?php
+			if (isset($_SESSION['loggedin'])) {
+                ?>
+				<form action='/acp/websitechanged.php?change=realmname' method='POST'>
+					<p>Realm Name: </p>
+					<input type='text' id='realmname' name='realmname' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/><br /><br>
+                    <input type='submit' value='CHANGE REALM NAME' class='wm-ui-btn'/>
+                </form>
+                <br>
+                <form action='/acp/websitechanged.php?change=realmip' method='POST'>
+					<p>Realm IP: </p>
+					<input type='text' id='realmip' name='realmip' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/><br /><br>
+                    <input type='submit' value='CHANGE REALM IP' class='wm-ui-btn'/>
+                </form>
+                <br>
+                <form action='/acp/websitechanged.php?change=realmport' method='POST'>
+					<p>Realm Port: </p>
+					<input type='text' id='realmport' name='realmport' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/><br /><br>
+                    <input type='submit' value='CHANGE REALM PORT' class='wm-ui-btn'/>
+                </form>
+                <br>
+                <form action='/acp/websitechanged.php?change=realmlist' method='POST'>
+					<p>Realm List: </p>
+					<input type='text' id='realmlist' name='realmlist' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/><br /><br>
+                    <input type='submit' value='CHANGE REALM LIST' class='wm-ui-btn'/>
+                </form>
+                <?php
+			}else{
+				header("location: ../login.php");
+			}
+		?>   
     </div>
 </div>
+
 
             <div class="clear"></div>
         </div>
