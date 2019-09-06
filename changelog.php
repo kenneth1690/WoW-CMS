@@ -164,7 +164,7 @@ while($row = mysqli_fetch_array($qr3)){
             
           </div>
     </div>
-    <div id="content-inner" class="wm-ui-generic-frame page-articles page-articles-right wm-ui-statisticbox wm-ui-left-border wm-ui-top-border">
+    <div id="content-inner" class="wm-ui-generic-frame page-articles page-articles-right wm-ui-statisticbox wm-ui-left-border wm-ui-top-border" style="height: auto">
         <table id="wm-ui-plugin-statistics">
 			<tbody>
 				<tr>
