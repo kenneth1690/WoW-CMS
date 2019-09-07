@@ -142,13 +142,18 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 
 
 <div class="content-wrapper">
-	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-		<div id="wm-error-page">
-		<form action="addbug.php">
-			<input type='submit' value='REPORT BUG' class='wm-ui-btn'/>
-		</form>
-		</div>
-	</div>
+		<?php
+		if(isset($_GET['action'])){
+            $action = htmlspecialchars($_GET['action']);
+        }else{
+            ?>
+            <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+				<div id="wm-error-page">
+					<form action="bugtracker.php?action=newbug" method="POST">
+						<input type='submit' value='REPORT BUG' class='wm-ui-btn'/>
+					</form>
+				</div>
+			</div>
 		<table id="customers">
 			<tr>
 				<th width="40%">Problem</th>
@@ -277,6 +282,120 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			?>
 		</div>
 	</div>
+            <?php
+        }
+                    
+        if($action == "newbug"){
+			?>
+			<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+				<div id="wm-error-page">
+					<?php 
+						session_start();
+							$getscid = $_GET['scid'];
+							$select = mysqli_query($con, "SELECT * FROM `subcategories` WHERE `subcat_id`='$getscid'");
+							$row = mysqli_fetch_assoc($select);
+							
+							if(isset($_SESSION["loggedin"])) {
+								$nick = $_SESSION["loggedin"];
+								$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+							}
+							
+							$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+							$result = mysqli_query($checkacp,$sql);
+							$rows = mysqli_fetch_array($result);
+							
+							$idcheck = $rows['id'];
+							
+							$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+							$resultgm = mysqli_query($checkacp,$gm);
+							$rowsgm = mysqli_fetch_array($resultgm);
+							
+							?>
+							<form action="bugtracker.php?action=confirmbug" method='POST'>
+								<p>Problem: </p>
+								<input type='text' id='problem' name='problem' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
+								<p>Description (HTML supported): </p>
+								<textarea id='description' name='description' rows='14' cols='80' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
+								<input type='submit' value='REPORT BUG' class='wm-ui-btn'/>
+							</form>
+				</div>
+			</div>
+			<?php
+		}elseif($action == "confirmbug"){
+			session_start();
+					
+					if(isset($_SESSION["loggedin"])) {
+						$nick = $_SESSION["loggedin"];
+						$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+						$cmsconn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+					}
+					
+					$problem = $_POST['problem'];
+					$description = $_POST['description'];
+					
+					$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+					$result = mysqli_query($checkacp,$sql);
+					$rows = mysqli_fetch_array($result);
+					
+					$idcheck = $rows['id'];
+					
+					$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+					$resultgm = mysqli_query($checkacp,$gm);
+					$rowsgm = mysqli_fetch_array($resultgm);
+					
+					if(empty($problem) || empty($description)){
+						header("refresh:5;url=index.php");
+						?>
+						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+						<div id="wm-error-page">
+						<center>
+						<p><font size="6">Error when adding</font></p>
+						<p>
+							<font size="5">The 'problem' and 'description' fields can not be empty.</font>
+						</p> 
+						</center>
+						</div>
+						</div>
+						<?php
+					}else{
+						$cmssql= "INSERT INTO bugtracker (`title`, `content`, `author`, `date`) VALUES ('$problem', '$description', '$nick', NOW())";
+						$resultcms = mysqli_query($cmsconn,$cmssql);
+						$insertlog = mysqli_query($cmsconn, "INSERT INTO logs_bugs (`logger`, `logger_id`, `logdetails`, `logdate`) 
+									  VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', 'BUGTRACKER: Added Bug', NOW());");
+						header("refresh:5;url=index.php");
+						?>
+						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+						<div id="wm-error-page">
+						<center>
+						<p><font size="6">Bug reported</font></p>
+						<p>
+							<font size="5">New bug report has been added to the database.</font>
+						</p> 
+						</center>
+						</div>
+						</div>
+						<?php
+					}
+					
+					mysqli_close($checkacp);
+					mysqli_close($cmsconnn);
+		}elseif(isset($_GET['action'])){
+			?>
+			<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+			<div id="wm-error-page">
+			<center>
+				<p>
+					<font size="6">No action choosed</font>
+				</p>
+				<p>
+					<font size="5">You have not selected an action.</font>
+				</p> 
+			</center>
+			</div>
+			</div>
+			<?php
+		}
+		?>
 </div>
 
 <div class="clear"></div>
