@@ -9,6 +9,7 @@ $qr1 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key`
 $qr2 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'siteonline'");
 $qr3 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'offlinemessage'");
 $qr4 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'realmlist'");
+$qr5 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'realmname'");
 
 while($row = mysqli_fetch_array($qr1)){
     $sitename = $row['conf_value'];
@@ -21,6 +22,9 @@ while($row = mysqli_fetch_array($qr3)){
 }
 while($row = mysqli_fetch_array($qr4)){
     $realmlist = $row['conf_value'];
+}
+while($row = mysqli_fetch_array($qr5)){
+    $realmname = $row['conf_value'];
 }
 
 ?>
@@ -142,7 +146,7 @@ while($row = mysqli_fetch_array($qr4)){
                 <td>- Start the game client using WoW.exe, not Launcher.exe</td>
             </tr>
             <tr>
-                <td>- Log in using your Ice Kingdom account name, not email address</td>
+                <td>- Log in using your <?php echo $realmname; ?> account name, not email address</td>
             </tr>
             <tr>
                 <td>&nbsp;</td>
