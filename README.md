@@ -4,7 +4,7 @@ Advanced World of Warcraft: Wrath of the Lich King (Trinity Core 3.3.5a) CMS wit
 
 # Important Note
 
-The code is a bit shitty, because my skills in php were quite low six months ago .. But everything works fine and I encourage you to use this CMS :D
+The code is a bit shitty, because my skills in php were quite low six months ago .. But everything works fine and I encourage you to use this CMS because I'm still improving code!
 
 # Features
 - Installation setup
@@ -24,6 +24,7 @@ The code is a bit shitty, because my skills in php were quite low six months ago
 #### PHP:
 - Rewrite
 - Mail
+- Headers
 
 # Useful Links
 - [Demo Website (New!)](http://185.239.238.237/)
