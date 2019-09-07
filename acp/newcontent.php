@@ -131,9 +131,24 @@
             <?php
 		    if($rowsgm && $rowsgm['gmlevel']>0){ 
                 if($rowsgm && $rowsgm['gmlevel']>1){ 
+					$action = htmlspecialchars($_GET['action']);
+					if($action == "newnews"){
+					?>
+					<li><a href="#" class="active">NEWS</a></li>  
+					<li><a href="/acp/listcontent.php?action=changelogs">CHANGELOGS</a></li>
+					<?php
+					}elseif($action == "newchangelog"){
+					?>
+					<li><a href="/acp/listcontent.php?action=news">NEWS</a></li>  
+					<li><a href="#" class="active">CHANGELOGS</a></li>
+					<?php
+					}else{
+					?>
+					<li><a href="/acp/listcontent.php?action=news">NEWS</a></li>  
+					<li><a href="/acp/listcontent.php?action=changelogs">CHANGELOGS</a></li>
+					<?php
+					}
                 ?>
-                <li><a href="#" class="active">NEWS</a></li>  
-                <li><a href="/acp/listchangelogs.php">CHANGELOGS</a></li>
                 <li><a href="/acp/logs.php">LOGS</a></li>
 				<?php
 				}

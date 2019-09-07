@@ -197,7 +197,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			
 			if($action == "news"){
 				echo "
-									<form action='/acp/newnews.php'>
+									<form action='/acp/newcontent.php?action=newnews' method='post'>
 											<input type='submit' value='ADD NEW NEWS' class='wm-ui-btn'/>
 									</form>";
 									
@@ -236,7 +236,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				mysqli_close($newscon);
 			}elseif($action == "changelogs"){
 				echo "
-									<form action='/acp/newchangelog.php'>
+									<form action='/acp/newcontent.php?action=newchangelog' method='post'>
 											<input type='submit' value='ADD NEW CHANGELOG' class='wm-ui-btn'/>
 									</form>";
 									
