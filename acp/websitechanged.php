@@ -155,8 +155,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		if($rowsgm && $rowsgm['gmlevel']>0){ 
             if($rowsgm && $rowsgm['gmlevel']>1){ 
             ?>
-            <li><a href="/acp/listnews.php">NEWS</a></li>  
-            <li><a href="/acp/listchangelogs.php">CHANGELOGS</a></li>
+            <li><a href="/acp/listcontent.php?action=news">NEWS</a></li>  
+                <li><a href="/acp/listcontent.php?action=changelogs">CHANGELOGS</a></li>
             <li><a href="/acp/logs.php">LOGS</a></li>
             <?php
 				}

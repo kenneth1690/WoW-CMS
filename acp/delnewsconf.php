@@ -138,7 +138,7 @@
                 if($rowsgm && $rowsgm['gmlevel']>1){ 
                 ?>
                 <li><a href="#" class="active">NEWS</a></li>  
-                <li><a href="/acp/listchangelogs.php">CHANGELOGS</a></li>
+                <li><a href="/acp/listcontent.php?action=changelogs">CHANGELOGS</a></li>
                 <li><a href="/acp/logs.php">LOGS</a></li>
 				<?php
 				}
@@ -166,7 +166,6 @@
 		<div id="wm-error-page">
 			<?php 
 				session_start();
-				include ('dbconn.php');
 					
 					if(isset($_SESSION["loggedin"])) {
 						$nick = $_SESSION["loggedin"];

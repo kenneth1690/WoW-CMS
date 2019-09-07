@@ -132,7 +132,7 @@
 		    if($rowsgm && $rowsgm['gmlevel']>0){ 
                 if($rowsgm && $rowsgm['gmlevel']>1){ 
                 ?>
-                <li><a href="/acp/listnews.php">NEWS</a></li>  
+                <li><a href="/acp/listcontent.php?action=news">NEWS</a></li>  
                 <li><a href="#" class="active">CHANGELOGS</a></li>
                 <li><a href="/acp/logs.php">LOGS</a></li>
 				<?php
@@ -157,7 +157,6 @@
 
 <?php 
 				session_start();
-				include ('dbconn.php');
 					
 					if(isset($_SESSION["loggedin"])) {
 						$nick = $_SESSION["loggedin"];
