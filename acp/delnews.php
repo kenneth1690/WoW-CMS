@@ -129,7 +129,10 @@
         </ul>
         <ul>
             <?php
-		    if($rowsgm && $rowsgm['gmlevel']>0){ 
+		    if($rowsgm && $rowsgm['gmlevel']>0){
+				?>
+				<li><a href="/acp/manageaccs.php">ACCOUNTS</a></li>
+				<?php
                 if($rowsgm && $rowsgm['gmlevel']>1){ 
                 ?>
                 <li><a href="#" class="active">NEWS</a></li>  
