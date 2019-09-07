@@ -102,8 +102,13 @@ if(isset($_SESSION["loggedin"]) && !empty($_SESSION["loggedin"])){
 	
 	
 <div id="content-wrapper">
+    <?php
+    if(isset($_GET['action'])){
+        $action = htmlspecialchars($_GET['action']);
+    }else{
+    ?>
 	<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border">
-        <form action="logging.php" method="post">
+        <form action="login.php?action=confirm" method="post">
         <input type="hidden" name="return" value="">
         <table>
             <tbody><tr>
@@ -134,13 +139,68 @@ if(isset($_SESSION["loggedin"]) && !empty($_SESSION["loggedin"])){
     </div>
     <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-two-side-page-ulist wm-ui-left-border wm-ui-top-border">
         <ul>
-			<li>TODO list:</li>
+			<li>List of things to add in stable 0.5:</li>
             <li><a href="#" class="wm-ui-hyper-custom-b">Forgot your account password?</a></li>
             <li><a href="#" class="wm-ui-hyper-custom-b">Forgot your account username?</a></li>
             <li><a href="#" class="wm-ui-hyper-custom-b">Forgot your email address?</a></li>
-            <li><a href="#" class="wm-ui-hyper-custom-b">Did not receive account activation email?</a></li>
         </ul>
     </div>
+    <?php
+    }
+    if($action == "confirm"){
+        ?>
+        <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border">
+    	<?php 
+		  $lgconn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+		  $conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+		  
+		  if (isset($_POST['loginbtn'])) {
+			$username = $_POST['userID'];
+			$pass = $_POST['userPW'];
+
+			$sql= "SELECT * FROM account WHERE username = '" . $username . "' AND sha_pass_hash = '" . sha1(strtoupper($username).':'.strtoupper($pass)) . "'";
+			$result = mysqli_query($lgconn,$sql);
+			$user = mysqli_fetch_array($result);
+			if($user) {
+				$_SESSION["UID"] = $user["id"];
+				$_SESSION["USERNAME"] = $user["username"];
+				$_SESSION["loggedin"] = $user["username"];
+				?><span class="wm-ui-form-identifier">You have successfully logged into account '<?php echo $username ?>'.<br><br>Now you can browse the rest of the page.</span><?php
+				$insertlog = mysqli_query($conn, "INSERT INTO logs_acc (`logger`, `logger_id`, `logdetails`, `logdate`) 
+								  VALUES ('".$_SESSION['loggedin']."', '".$user['id']."', 'ACCOUNT: Logged in to Account: `".$_SESSION['loggedin']."`', NOW());");
+				if ($insertlog) {
+					header( "refresh:5;url=index.php" );
+				}
+			}else{
+				?><span class="wm-ui-form-identifier">Invalid Account name or Password.<br><br>In a moment you will be taken back to the login page.</span><?php
+				header( "refresh:5;url=login.php" );
+			}
+			mysqli_close($conn);
+			mysqli_close($lgconn);
+		  }
+		?>
+	</div>
+	<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border">
+    	
+	</div>
+    <?php
+    }elseif(isset($_GET['action'])){
+        ?>
+        <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+        <div id="wm-error-page">
+        <center>
+            <p>
+                <font size="6">No action choosed</font>
+            </p>
+            <p>
+                <font size="5">You have not selected an action.</font>
+            </p> 
+        </center>
+        </div>
+        </div>
+        <?php
+    }
+    ?>
 </div>
 <script type="text/javascript">
 $(function() {
