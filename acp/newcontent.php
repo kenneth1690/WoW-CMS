@@ -132,8 +132,8 @@
 		    if($rowsgm && $rowsgm['gmlevel']>0){ 
                 if($rowsgm && $rowsgm['gmlevel']>1){ 
                 ?>
-                <li><a href="/acp/listnews.php">NEWS</a></li>  
-                <li><a href="#" class="active">CHANGELOGS</a></li>
+                <li><a href="#" class="active">NEWS</a></li>  
+                <li><a href="/acp/listchangelogs.php">CHANGELOGS</a></li>
                 <li><a href="/acp/logs.php">LOGS</a></li>
 				<?php
 				}
@@ -143,7 +143,7 @@
 					<?php
 				}
 			    ?>
-			    <li><a href="/acp/acp.php" class="active">ADMIN PANEL</a></li>
+			    <li><a href="/acp/acp.php">ADMIN PANEL</a></li>
 			    <?php
 		    }
 		mysqli_close($checkacp);
@@ -160,8 +160,57 @@
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
 			<?php 
+			if(isset($_GET['action'])){
+				$action = htmlspecialchars($_GET['action']);
+			}else{
+				?>
+				<center>
+				<p>
+					<font size="6">No action choosed</font>
+				</p>
+				<p>
+					<font size="5">You have not selected an action.</font>
+				</p> 
+				</center>
+				<?php
+			}
+
+			if($action == "newnews"){
 				session_start();
-				include ('dbconn.php');
+					
+					if(isset($_SESSION["loggedin"])) {
+						$nick = $_SESSION["loggedin"];
+						$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+						$cmsconn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+					}
+					
+					
+					$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+					$result = mysqli_query($checkacp,$sql);
+					$rows = mysqli_fetch_array($result);
+					
+					$idcheck = $rows['id'];
+					
+					$cmssql= "SELECT * FROM news";
+					$resultcms = mysqli_query($cmsconn,$cmssql);
+					$rowscms = mysqli_fetch_array($resultcms);
+					
+					$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+					$resultgm = mysqli_query($checkacp,$gm);
+					$rowsgm = mysqli_fetch_array($resultgm);
+					
+					echo "<form action='addnews.php'
+						method='POST'>
+						<p>Title: </p>
+						<input type='text' id='title' name='title' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
+						<p>Content (HTML supported): </p>
+						<textarea id='content' name='content' rows='14' cols='80' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
+						<input type='submit' value='ADD NEWS' class='wm-ui-btn'/></form>";
+					
+					mysqli_close($checkacp);
+					mysqli_close($cmsconn);
+			}elseif($action == "newchangelog"){
+				session_start();
 					
 					if(isset($_SESSION["loggedin"])) {
 						$nick = $_SESSION["loggedin"];
@@ -192,6 +241,18 @@
 					
 					mysqli_close($checkacp);
 					mysqli_close($cmsconn);
+			}else{
+					?>
+					<center>
+					<p>
+						<font size="6">No action choosed</font>
+					</p>
+					<p>
+						<font size="5">You have not selected an action.</font>
+					</p> 
+					</center>
+					<?php
+			}
 			?>
 		</div>
 	</div>

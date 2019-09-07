@@ -124,9 +124,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$resultgm = mysqli_query($checkacp,$gm);
 		$rowsgm = mysqli_fetch_array($resultgm);
 		
-		$cmssql= "SELECT * FROM changelogs";
+		$cmssql= "SELECT * FROM news";
 		$resultcms = mysqli_query($cmsconn,$cmssql);
 		$rowscms = mysqli_fetch_array($resultcms);
+		
+		$cmssql2= "SELECT * FROM changelogs";
+		$resultcms2 = mysqli_query($cmsconn,$cmssql2);
+		$rowscms2 = mysqli_fetch_array($resultcms2);
 		
 		?><li><a href="/ucp/ucp.php">ACCOUNT PANEL</a></li>
         </ul>
@@ -134,9 +138,24 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
             <?php
 		    if($rowsgm && $rowsgm['gmlevel']>0){ 
                 if($rowsgm && $rowsgm['gmlevel']>1){ 
+                $action = htmlspecialchars($_GET['action']);
+                if($action == "news"){
                 ?>
-                <li><a href="/acp/listnews.php">NEWS</a></li>  
+                <li><a href="#" class="active">NEWS</a></li>  
+                <li><a href="/acp/listcontent.php?action=changelogs">CHANGELOGS</a></li>
+                <?php
+                }elseif($action == "changelogs"){
+                ?>
+                <li><a href="/acp/listcontent.php?action=news">NEWS</a></li>  
                 <li><a href="#" class="active">CHANGELOGS</a></li>
+                <?php
+                }else{
+                ?>
+                <li><a href="/acp/listcontent.php?action=news">NEWS</a></li>  
+                <li><a href="/acp/listcontent.php?action=changelogs">CHANGELOGS</a></li>
+                <?php
+                }
+                ?>
                 <li><a href="/acp/logs.php">LOGS</a></li>
 				<?php
 				}
@@ -161,44 +180,111 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 <div class="content-wrapper">
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<?php
-			echo "
-								<form action='/acp/newchangelog.php'>
-										<input type='submit' value='ADD NEW CHANGELOG' class='wm-ui-btn'/>
-								</form>";
-								
-			$newscon=mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
-			if (mysqli_connect_errno())
-			  {
-			  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-			  }
-
-			$sql="SELECT id, content, author, date, edited_by, edited_date FROM changelogs ORDER BY id DESC";
-			$result=mysqli_query($newscon,$sql);
-
-			?>
-			<span>CHANGELOGS IN DATABASE</span>
-			<table>
-            <tbody>
-			<tr>
-                <td>&nbsp;</td>
-            </tr>
-			<?php
-			while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-			{
-				$newdate = date("F j, Y", strtotime($row['date']));
-				$convdate = gmdate("F n, Y", $phpdate);
+			if(isset($_GET['action'])){
+				$action = htmlspecialchars($_GET['action']);
+			}else{
 				?>
-					<tr>
-						<td><font color="white">Changelog #<?php echo $row['id']; ?></font> [<a href="changelogdetails.php?chgsid=<?php echo $row['id']; ?>">Details</a> / <a href="editchangelog.php?chgsid=<?php echo $row['id']; ?>">Edit</a> / <a href="delchangelog.php?chgsid=<?php echo $row['id']; ?>">Delete</a>]</td>
-					</tr>
+				<center>
+				<p>
+					<font size="6">No action choosed</font>
+				</p>
+				<p>
+					<font size="5">You have not selected an action.</font>
+				</p> 
+				</center>
 				<?php
 			}
-			?>
-			</tbody>
-			</table>
-			<?php
 			
-			mysqli_close($newscon);
+			if($action == "news"){
+				echo "
+									<form action='/acp/newnews.php'>
+											<input type='submit' value='ADD NEW NEWS' class='wm-ui-btn'/>
+									</form>";
+									
+				$newscon=mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+				if (mysqli_connect_errno())
+				{
+				echo "Failed to connect to MySQL: " . mysqli_connect_error();
+				}
+
+				$sql="SELECT id, title, content, author, date FROM news ORDER BY id DESC";
+				$result=mysqli_query($newscon,$sql);
+
+				?>
+				<span>NEWS IN DATABASE</span>
+				<table>
+				<tbody>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<?php
+				while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+				{
+					$newdate = date("F j, Y", strtotime($row['date']));
+					$convdate = gmdate("F n, Y", $phpdate);
+					?>
+						<tr>
+							<td><font color="white">News #<?php echo $row['id']; ?></font> [<a href="newsdetails.php?newsid=<?php echo $row['id']; ?>">Details</a> / <a href="editnews.php?newsid=<?php echo $row['id']; ?>">Edit</a> / <a href="delnews.php?newsid=<?php echo $row['id']; ?>">Delete</a>]</td>
+						</tr>
+					<?php
+				}
+				?>
+				</tbody>
+				</table>
+				<?php
+				
+				mysqli_close($newscon);
+			}elseif($action == "changelogs"){
+				echo "
+									<form action='/acp/newchangelog.php'>
+											<input type='submit' value='ADD NEW CHANGELOG' class='wm-ui-btn'/>
+									</form>";
+									
+				$newscon=mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+				if (mysqli_connect_errno())
+				{
+				echo "Failed to connect to MySQL: " . mysqli_connect_error();
+				}
+
+				$sql="SELECT id, content, author, date, edited_by, edited_date FROM changelogs ORDER BY id DESC";
+				$result=mysqli_query($newscon,$sql);
+
+				?>
+				<span>CHANGELOGS IN DATABASE</span>
+				<table>
+				<tbody>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<?php
+				while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+				{
+					$newdate = date("F j, Y", strtotime($row['date']));
+					$convdate = gmdate("F n, Y", $phpdate);
+					?>
+						<tr>
+							<td><font color="white">Changelog #<?php echo $row['id']; ?></font> [<a href="changelogdetails.php?chgsid=<?php echo $row['id']; ?>">Details</a> / <a href="editchangelog.php?chgsid=<?php echo $row['id']; ?>">Edit</a> / <a href="delchangelog.php?chgsid=<?php echo $row['id']; ?>">Delete</a>]</td>
+						</tr>
+					<?php
+				}
+				?>
+				</tbody>
+				</table>
+				<?php
+				
+				mysqli_close($newscon);
+			}else{
+					?>
+					<center>
+					<p>
+						<font size="6">No action choosed</font>
+					</p>
+					<p>
+						<font size="5">You have not selected an action.</font>
+					</p> 
+					</center>
+					<?php
+			}
 			?>
 	</div>
 </div>
