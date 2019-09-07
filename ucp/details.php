@@ -103,6 +103,196 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
 			<?php
+			if(isset($_GET['change'])){
+                $change = htmlspecialchars($_GET['change']);
+            }else{
+                ?>
+                <center>
+                    <p>
+                        <font size="6">Invalid action</font>
+                    </p>
+                    <p>
+                        <font size="5">You have not selected any actions.</font>
+                    </p> 
+				</center>
+                <?php
+            }
+                    
+            if($change == "password"){
+				
+				$curpass = $_POST['curpass'];
+				$pass = $_POST['pass'];
+				$repass = $_POST['repass'];
+
+				$lgconn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+				$conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+
+				$nick = $_SESSION["loggedin"];
+				
+				$sql= "SELECT * FROM account WHERE username = '" . $nick . "' AND sha_pass_hash = '" . sha1(strtoupper($nick).':'.strtoupper($repass)) . "'";
+				$result = mysqli_query($lgconn,$sql);
+				$user = mysqli_fetch_array($result);
+
+				$sql2= "SELECT * FROM account WHERE username = '" . $nick . "' AND sha_pass_hash = '" . sha1(strtoupper($nick).':'.strtoupper($curpass)) . "'";
+				$result2 = mysqli_query($lgconn,$sql2);
+				$user2 = mysqli_fetch_array($result2);
+				
+				$sql3= "SELECT * FROM account WHERE username = '" . $nick . "'";
+				$result3= mysqli_query($lgconn,$sql3);
+				$user3 = mysqli_fetch_array($result3);
+				
+				if($nick){
+					if (empty($curpass) || empty($pass) || empty($repass)){
+						?>
+							<center>
+							<p><font size="6">Empty fields</font></p>
+							<p>
+								<font size="5">Complete all fields and try again.</font>
+							</p> 
+							</center>
+							<?php
+							header( "refresh:5;url=ucp.php" );
+					}else{
+						if($curpass && $user2){
+							if($pass == $repass){
+								if($user['sha_pass_hash'] == $user2['sha_pass_hash']){
+									?>
+										<center>
+										<p><font size="6">Same password</font></p>
+										<p>
+											<font size="5">You currently have the same password.</font>
+										</p> 
+										</center>
+										<?php
+										header( "refresh:5;url=ucp.php" );
+								}else{
+									if(strlen($repass) < 6){
+										?>
+										<center>
+										<p><font size="6">A short password</font></p>
+										<p>
+											<font size="5">Your password must contain at least 6 characters.</font>
+										</p> 
+										</center>
+										<?php
+										header( "refresh:5;url=ucp.php" );
+									}else{
+										$passfinal = sha1(strtoupper($nick).':'.strtoupper($repass));
+										$sql2 = "UPDATE account SET sha_pass_hash='".$passfinal."' WHERE username='$nick'";
+										$insertpass = mysqli_query($lgconn,$sql2);
+										$insertlog = mysqli_query($conn, "INSERT INTO logs_acc (`logger`, `logger_id`, `logdetails`, `logdate`) 
+										VALUES ('".$_SESSION['loggedin']."', '".$user3['id']."', 'ACCOUNT: Changed Password for: `".$_SESSION['loggedin']."`', NOW());");
+										if($insertpass){
+											?>
+											<center>
+											<p><font size="6">Password changed</font></p>
+											<p>
+												<font size="5">Your password has been changed successfully.</font>
+											</p> 
+											</center>
+											<?php
+											unset($_SESSION["loggedin"]);
+											session_destroy();
+											if(isset($_COOKIE["userRM_login"])) {
+												setcookie ("userRM_login","");
+											}
+											header( "refresh:5;url=ucp.php" );
+										}else{
+											?>
+											<center>
+											<p><font size="6">Error when updating</font></p>
+											<p>
+												<font size="5">An error occurred while updating the password.</font>
+											</p> 
+											</center>
+											<?php
+											header( "refresh:5;url=ucp.php" );
+										}
+									}
+								}
+							}else{
+								?>
+										<center>
+										<p><font size="6">Passwords mismatch</font></p>
+										<p>
+											<font size="5">The entered passwords are not the same.</font>
+										</p> 
+										</center>
+										<?php
+										header( "refresh:5;url=ucp.php" );
+							}
+						}else{
+							?>
+										<center>
+										<p><font size="6">Wrong password</font></p>
+										<p>
+											<font size="5">Your current password does not match.</font>
+										</p> 
+										</center>
+										<?php
+										header( "refresh:5;url=ucp.php" );
+						}
+					}
+				}else{
+					header( "Location: index.php" );
+				}
+				mysqli_close($lgconn);
+				mysqli_close($conn);
+
+			}elseif($change == "location"){
+				$country = $_POST['location'];
+
+				$lgconn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+				$conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+
+				$nick = $_SESSION["loggedin"];
+				
+				$sql3= "SELECT * FROM account WHERE username = '" . $nick . "'";
+				$result3= mysqli_query($lgconn,$sql3);
+				$user3 = mysqli_fetch_array($result3);
+				
+				if($nick){
+									if(strlen($country) > 15){
+										?>
+										<center>
+										<p><font size="6">A long location</font></p>
+										<p>
+											<font size="5">Your country must contain less than 15 characters.</font>
+										</p> 
+										</center>
+										<?php
+										header( "refresh:5;url=ucp.php" );
+									}else{
+										$sql2 = "UPDATE account SET location='$country' WHERE username='$nick'";
+										$insertdetails = mysqli_query($lgconn,$sql2);
+										if($insertdetails){
+											?>
+											<center>
+											<p><font size="6">Details changed</font></p>
+											<p>
+												<font size="5">Your profile details has been changed successfully.</font>
+											</p> 
+											</center>
+											<?php
+											header( "refresh:5;url=ucp.php" );
+										}else{
+											?>
+											<center>
+											<p><font size="6">Error when updating</font></p>
+											<p>
+												<font size="5">An error occurred while updating your details.</font>
+											</p> 
+											</center>
+											<?php
+											header( "refresh:5;url=ucp.php" );
+										}
+									}
+				}else{
+					header( "Location: index.php" );
+				}
+				mysqli_close($lgconn);
+				mysqli_close($conn);
+			}elseif($change == "mail"){
 				$remail = $_POST['remail'];
 				$mail = $_POST['mail'];
 
@@ -204,7 +394,19 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				}
 				mysqli_close($lgconn);
 				mysqli_close($conn);
-				?>     
+			}else{
+				?>
+                <center>
+                    <p>
+                        <font size="6">No action choosed</font>
+                    </p>
+                    <p>
+                        <font size="5">You have not selected an action.</font>
+                    </p> 
+				</center>
+                <?php
+			}
+			?>     
 		</div>
 	</div>
 </div>

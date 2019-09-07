@@ -501,7 +501,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				if (isset($_SESSION['loggedin'])) {
 					$getlocation = $rows['location'];
 					?>
-					<form action='/ucp/detailschanged.php' method='POST'>
+					<form action='/ucp/details.php?change=location' method='POST'>
 						<input type="text" id="location" name="location" size="40" maxlenght="30" class="wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border" value="<?php echo $getlocation; ?>"/><br><br>
 						<input type='submit' value='CHANGE LOCATION' class='wm-ui-btn'/>
 					</form>
