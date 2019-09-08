@@ -144,6 +144,23 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 <div class="content-wrapper">
     <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
+            <?php
+            $bugid = $_GET['bgid'];
+            if(isset($bugid)){
+
+            }else{
+                ?>
+                <center>
+                    <p>
+                        <font size="6">Invalid action</font>
+                    </p>
+                    <p>
+                        <font size="5">You have not selected any actions.</font>
+                    </p> 
+				</center>
+                <?php
+            }
+            ?>
         </div>
     </div>
 </div>
