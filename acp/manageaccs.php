@@ -63,6 +63,9 @@
 <script src="/script/warmane.js?v=57"></script>
 <script src="/script/jquery.wm.bpopup.js"></script>
 <script src="/script/jquery.wm-contextmenu.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" rel="stylesheet"/>
 <link rel="stylesheet" href="minified/themes/default.min.css" />
 <script src="minified/sceditor.min.js"></script>
 </head>
@@ -160,8 +163,6 @@
 
 
 <div class="content-wrapper">
-	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-		<div id="wm-error-page">
 			<?php 
 			if(isset($_GET['player'])){
 				$action = htmlspecialchars($_GET['player']);
@@ -170,15 +171,52 @@
 			if($action == "player"){
 				    
 			}else{
+				$conn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
 				?>
-				Search for player
+				<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 350px;">
+				<span>ACCOUNT MANAGER</span>
+				<table>
+				<tbody>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>Search for player:</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>
+						<?php
+						$result = mysqli_query($conn, "SELECT * FROM account");
+						?>
+						<select id='searchlive'>
+							<option>Search for account</option>
+							<?php
+							while($row = mysqli_fetch_array($result)){
+								?>
+								<option><?php echo $row['username']; ?></option>
+								<?php
+							}
+							?>
+						</select>
+					</td>
+				</tr>
+				</tbody>
+				</table>
+				</div>
+    			<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 350px;">
+				</div>
 				<?php
+				mysqli_close($conn);
 			}
 			?>
-		</div>
-	</div>
 </div>
 <div class="clear"></div>
+<script>
+	$("#searchlive").chosen();
+</script>
 <script>
 $(window).load(function() {
     $('.page-articles-right').height($('.page-articles-left').height()-42);
