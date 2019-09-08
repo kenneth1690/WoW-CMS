@@ -1,0 +1,16 @@
+{
+  "name": "WoW-CMS",
+  "version": "0.4.5",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Markuu/WoW-CMS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Markuu/WoW-CMS/issues"
+  },
+  "homepage": "https://github.com/Markuu/WoW-CMS#readme"
+}
