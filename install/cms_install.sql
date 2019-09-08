@@ -32,7 +32,9 @@ CREATE TABLE `bugtracker` (
   `content` varchar(255) NOT NULL,
   `author` varchar(255) NOT NULL,
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `solved` int(11) NOT NULL DEFAULT '0'
+  `solved` int(11) NOT NULL DEFAULT '0',
+  `solved_by` varchar(255) DEFAULT NULL,
+  `solved_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

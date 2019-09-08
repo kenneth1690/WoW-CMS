@@ -142,14 +142,96 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 
 
 <div class="content-wrapper">
-    <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-		<div id="wm-error-page">
             <?php
             $bugid = $_GET['bgid'];
-            if(isset($bugid)){
 
+            $conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+            $nick = $_SESSION["loggedin"];
+            
+            if(isset($bugid)){
+                $checkbug = mysqli_query($conn, 'SELECT * FROM bugtracker WHERE id="'.$bugid.'"');
+                if(mysqli_num_rows($checkbug)>0){
+					$rowbug = mysqli_fetch_array($checkbug);
+                    ?>
+                            <div id="content-wrapper">
+								<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: auto;">
+									<span>REPORTED BUG DETAILS</span>
+									<table>
+										<tbody>
+										<tr>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+											<td>Problem:<br><font color="white"><?php echo $rowbug['title']; ?></font></td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+											<td>Description:<br><font color="white"><?php echo $rowbug['content']; ?></font></td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+											<td>Author:<br><font color="white"><?php echo $rowbug['author']; ?></font></td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+											<td>Reported date:<br><font color="white"><?php echo $rowbug['date']; ?></font></td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+								<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: auto;">
+									<span>OTHER INFORMATIONS</span>
+									<table>
+										<tbody>
+										<tr>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+											<td>Solved ?:<br><font color="white"><?php if($rowbug['solved_by']==0){ echo "No"; }else{ echo "Yes";} ?></font></td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+											<td>Solved by:<br><font color="white"><?php if(empty($rowbug['solved_by'])){ echo "---"; }else{ echo $rowbug['solved_by'];} ?></font></td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+											<td>Solved date:<br><font color="white"><?php if(empty($rowbug['solved_date'])){ echo "---"; }else{ echo $rowbug['solved_date'];} ?></font></td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+                            </div>
+                        <?php
+                }else{
+                    ?>
+                    <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+		            <div id="wm-error-page">
+                    <center>
+                        <p>
+                            <font size="6">Invalid Bug ID</font>
+                        </p>
+                        <p>
+                            <font size="5">Bug with that ID not exists.</font>
+                        </p> 
+                    </center>
+                    </div>
+                    </div>
+                    <?php
+                }
             }else{
                 ?>
+                <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+		        <div id="wm-error-page">
                 <center>
                     <p>
                         <font size="6">Invalid action</font>
@@ -158,11 +240,11 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                         <font size="5">You have not selected any actions.</font>
                     </p> 
 				</center>
+                </div>
+                </div>
                 <?php
             }
             ?>
-        </div>
-    </div>
 </div>
 
 <div class="clear"></div>
