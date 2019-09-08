@@ -23,6 +23,25 @@ $id = $_SESSION['UID'];
 if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
     header("location: ../login.php");
 	exit;
+}elseif(isset($_SESSION["loggedin"])){
+		$nick = $_SESSION["loggedin"];
+		$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+		
+		$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+		$result = mysqli_query($checkacp,$sql);
+		$rows = mysqli_fetch_array($result);
+		
+		$idcheck = $rows['id'];
+		
+		$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+		$resultgm = mysqli_query($checkacp,$gm);
+		$rowsgm = mysqli_fetch_array($resultgm);
+		
+		if(!$rowsgm || $rowsgm['gmlevel']==0){
+			header("location: ../index.php");
+			exit;
+		}
+		mysqli_close($checkacp);
 }
 ?>
 <html lang="en" class="active"><head>
@@ -142,112 +161,29 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 
 
 <div class="content-wrapper">
+    <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+		<div id="wm-error-page">
             <?php
             $bugid = $_GET['bgid'];
 
             $conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
             $nick = $_SESSION["loggedin"];
-            $checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
 
-            $sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
-            $result = mysqli_query($checkacp,$sql);
-            $rows = mysqli_fetch_array($result);
-            
-            $idcheck = $rows['id'];
-
-            $gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
-            $resultgm = mysqli_query($checkacp,$gm);
-            $rowsgm = mysqli_fetch_array($resultgm);
-            
             if(isset($bugid)){
                 $checkbug = mysqli_query($conn, 'SELECT * FROM bugtracker WHERE id="'.$bugid.'"');
                 if(mysqli_num_rows($checkbug)>0){
-					$rowbug = mysqli_fetch_array($checkbug);
-                    ?>
-                            <div id="content-wrapper">
-								<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: auto;">
-									<span>REPORTED BUG DETAILS</span>
-									<table>
-										<tbody>
-										<tr>
-											<td>&nbsp;</td>
-										</tr>
-										<tr>
-											<td>Problem:<br><font color="white"><?php echo $rowbug['title']; ?></font></td>
-										</tr>
-										<tr>
-											<td>&nbsp;</td>
-										</tr>
-										<tr>
-											<td>Description:<br><font color="white"><?php echo $rowbug['content']; ?></font></td>
-										</tr>
-										<tr>
-											<td>&nbsp;</td>
-										</tr>
-										<tr>
-											<td>Author:<br><font color="white"><?php echo $rowbug['author']; ?></font></td>
-										</tr>
-										<tr>
-											<td>&nbsp;</td>
-										</tr>
-										<tr>
-											<td>Reported date:<br><font color="white"><?php echo $rowbug['date']; ?></font></td>
-										</tr>
-										</tbody>
-									</table>
-								</div>
-								<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: auto;">
-									<span>OTHER INFORMATIONS</span>
-									<table>
-										<tbody>
-										<tr>
-											<td>&nbsp;</td>
-										</tr>
-										<tr>
-											<td>Solved ?:<br><font color="white"><?php if($rowbug['solved_by']==0){ echo "No"; }else{ echo "Yes";} ?></font></td>
-										</tr>
-										<tr>
-											<td>&nbsp;</td>
-										</tr>
-										<tr>
-											<td>Solved by:<br><font color="white"><?php if(empty($rowbug['solved_by'])){ echo "---"; }else{ echo $rowbug['solved_by'];} ?></font></td>
-										</tr>
-										<tr>
-											<td>&nbsp;</td>
-										</tr>
-										<tr>
-											<td>Solved date:<br><font color="white"><?php if(empty($rowbug['solved_date'])){ echo "---"; }else{ echo $rowbug['solved_date'];} ?></font></td>
-										</tr>
-										</tbody>
-									</table>
-                                    <?php
-                                    if($rowsgm['gmlevel']>2){
-                                        ?><br><br>
-                                        <span>TOOLS</span>
-                                        <table>
-                                            <tbody>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                <form action='bugstatus.php?bgid=<?php echo $bugid; ?>' method='POST'>
-                                                    <input type='submit' value='CHANGE STATUS' class='wm-ui-btn'/>
-                                                </form>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                        <?php
-                                    }
-                                    ?>
-								</div>
-                            </div>
-                        <?php
+					?>
+                    <center>
+                        <p>
+                            <font size="6">Bug status changed</font>
+                        </p>
+                        <p>
+                            <font size="5">You changed status of this bug report.</font>
+                        </p> 
+                    </center>
+                    <?php
                 }else{
                     ?>
-                    <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-		            <div id="wm-error-page">
                     <center>
                         <p>
                             <font size="6">Invalid Bug ID</font>
@@ -256,14 +192,10 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                             <font size="5">Bug with that ID not exists.</font>
                         </p> 
                     </center>
-                    </div>
-                    </div>
                     <?php
                 }
             }else{
                 ?>
-                <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-		        <div id="wm-error-page">
                 <center>
                     <p>
                         <font size="6">Invalid action</font>
@@ -272,11 +204,11 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                         <font size="5">You have not selected any actions.</font>
                     </p> 
 				</center>
-                </div>
-                </div>
                 <?php
             }
             ?>
+        </div>
+    </div>
 </div>
 
 <div class="clear"></div>
