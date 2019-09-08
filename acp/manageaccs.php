@@ -588,41 +588,26 @@
 			}else{
 				$conn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
 				?>
-				<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 350px;">
-				<span>ACCOUNT MANAGER</span>
-				<table>
-				<tbody>
-				<tr>
-					<td>&nbsp;</td>
-				</tr>
-				<tr>
-					<td>Search for player:</td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-				</tr>
-				<tr>
-					<td>
-						<?php
-						$result = mysqli_query($conn, "SELECT * FROM account");
-						?>
-						<select id='searchlive'>
-							<option>Search for account</option>
-							<?php
-							while($row = mysqli_fetch_array($result)){
-								?>
-								<option value="manageaccs.php?action=details&id=<?php echo $row['id']; ?>"><?php echo $row['username']; ?></option>
+				<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+					<div id="wm-error-page">
+						<center>
+							<font size='5'><b>Search for account by username:</b></font><br><br>
 								<?php
-							}
-							?>
-						</select>
-					</td>
-				</tr>
-				</tbody>
-				</table>
-				</div>
-    			<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 350px;">
-				</div>
+								$result = mysqli_query($conn, "SELECT * FROM account");
+								?>
+								<select id='searchlive'>
+									<option>Search by username</option>
+									<?php
+									while($row = mysqli_fetch_array($result)){
+										?>
+										<option value="manageaccs.php?action=details&id=<?php echo $row['id']; ?>"><?php echo $row['username']; ?></option>
+										<?php
+									}
+									?>
+								</select>
+							</center>
+						</div>
+					</div>
 				<?php
 				mysqli_close($conn);
 			}
