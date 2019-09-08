@@ -164,12 +164,72 @@
 
 <div class="content-wrapper">
 			<?php 
-			if(isset($_GET['player'])){
-				$action = htmlspecialchars($_GET['player']);
+			if(isset($_GET['action'])){
+				$action = htmlspecialchars($_GET['action']);
 			}
 
-			if($action == "player"){
-				    
+			if($action == "details"){
+				if(isset($_GET['id'])){
+					$acid = $_GET['id'];
+            		$conn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+            		$nick = $_SESSION["loggedin"];
+					$checkac = mysqli_query($conn, 'SELECT * FROM account WHERE id="'.$acid.'"');
+                	if(mysqli_num_rows($checkac)>0){
+						?>
+						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 350px;">
+						<span>ACCOUNT SUMMARY</span>
+						<table>
+						<tbody>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+						</tbody>
+						</table>
+						</div>
+						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 350px;">
+						<span>ACCOUNT DETAILS</span>
+						<table>
+						<tbody>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+						</tbody>
+						</table>
+						</div>
+						<?php
+					}else{
+						?>
+						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+						<div id="wm-error-page">
+						<center>
+							<p>
+								<font size="6">Invalid Player ID</font>
+							</p>
+							<p>
+								<font size="5">Player with that ID not exists.</font>
+							</p> 
+						</center>
+						</div>
+					</div>
+						<?php
+					}
+				}else{
+						?>
+					<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+						<div id="wm-error-page">
+						<center>
+							<p>
+								<font size="6">No player selected</font>
+							</p>
+							<p>
+								<font size="5">You have not selected a player ID.</font>
+							</p> 
+						</center>
+						</div>
+					</div>
+					<?php
+					header("refresh:5;url=website.php");
+				}
 			}else{
 				$conn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
 				?>
@@ -196,7 +256,7 @@
 							<?php
 							while($row = mysqli_fetch_array($result)){
 								?>
-								<option><?php echo $row['username']; ?></option>
+								<option value="manageaccs.php?action=details&id=<?php echo $row['id']; ?>"><?php echo $row['username']; ?></option>
 								<?php
 							}
 							?>
@@ -214,6 +274,17 @@
 			?>
 </div>
 <div class="clear"></div>
+<script>
+    $(function(){
+      $('#searchlive').on('change', function () {
+          var url = $(this).val();
+          if (url) {
+              window.location = url;
+          }
+          return false;
+      });
+    });
+</script>
 <script>
 	$("#searchlive").chosen();
 </script>
