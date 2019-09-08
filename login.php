@@ -139,10 +139,8 @@ if(isset($_SESSION["loggedin"]) && !empty($_SESSION["loggedin"])){
     </div>
     <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-two-side-page-ulist wm-ui-left-border wm-ui-top-border">
         <ul>
-			<li>List of things to add in stable 0.5:</li>
-            <li><a href="#" class="wm-ui-hyper-custom-b">Forgot your account password?</a></li>
-            <li><a href="#" class="wm-ui-hyper-custom-b">Forgot your account username?</a></li>
-            <li><a href="#" class="wm-ui-hyper-custom-b">Forgot your email address?</a></li>
+			<li>Need help? Check this out:</li>
+            <li><a href="forgot.php?what=password" class="wm-ui-hyper-custom-b">Forgot your account password?</a></li>
         </ul>
     </div>
     <?php
