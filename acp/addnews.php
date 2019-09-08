@@ -140,7 +140,7 @@ while($row = mysqli_fetch_array($qr3)){
 				<?php
                 if($rowsgm && $rowsgm['gmlevel']>1){ 
                 ?>
-				<li><a href="#" class="active">NEWS</a></li>  
+				<li><a href="/acp/listcontent.php?action=news" class="active">NEWS</a></li>  
                 <li><a href="/acp/listcontent.php?action=changelogs">CHANGELOGS</a></li>
                 <li><a href="/acp/logs.php">LOGS</a></li>
 				<?php

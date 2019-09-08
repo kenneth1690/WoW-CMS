@@ -153,7 +153,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					<?php
 				}
 			    ?>
-			    <li><a href="#" class="active">ADMIN PANEL</a></li>
+			    <li><a href="/acp/acp.php" class="active">ADMIN PANEL</a></li>
 			    <?php
 		    }
 		mysqli_close($checkacp);

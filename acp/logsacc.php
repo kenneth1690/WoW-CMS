@@ -181,7 +181,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                 ?>
             <li><a href="/acp/listcontent.php?action=news">NEWS</a></li>  
                 <li><a href="/acp/listcontent.php?action=changelogs">CHANGELOGS</a></li>
-            <li><a href="#" class="active">LOGS</a></li>
+            <li><a href="/acp/logs.php" class="active">LOGS</a></li>
 			<?php
 				}
 				if($rowsgm && $rowsgm['gmlevel']>2){ 

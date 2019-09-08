@@ -135,7 +135,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$esttime = round($datediff / (60 * 60 * 24));
 		
 		
-		?><li><a href="#" class="active">ACCOUNT PANEL</a></li>
+		?><li><a href="/ucp/ucp.php" class="active">ACCOUNT PANEL</a></li>
 		<li><a href="/ucp/characters/characters.php">CHARACTERS</a></li>
 		<li><a href="/ucp/donate/donate.php">DONATE</a></li>
 		<li><a href="/ucp/store/store.php">STORE</a></li>

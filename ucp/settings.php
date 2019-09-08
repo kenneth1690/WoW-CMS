@@ -143,7 +143,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		<li><a href="/ucp/services/services.php">SERVICES</a></li>
 		<li><a href="/ucp/support/support.php">SUPPORT</a></li>
 		<li><a href="/ucp/lottery.php">LOTTERY</a></li>
-		<li><a href="#" class="active">SETTINGS</a></li>
+		<li><a href="/ucp/settings.php" class="active">SETTINGS</a></li>
 </ul>
 <ul>
 		<?php

@@ -165,7 +165,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				}
 				if($rowsgm && $rowsgm['gmlevel']>2){ 
 					?>
-					<li><a href="#" class="active">WEBSITE</a></li>
+					<li><a href="/acp/website.php" class="active">WEBSITE</a></li>
 					<?php
 				}
 			    ?>

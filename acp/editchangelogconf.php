@@ -141,7 +141,7 @@
                 if($rowsgm && $rowsgm['gmlevel']>1){ 
                 ?>
                 <li><a href="/acp/listcontent.php?action=news">NEWS</a></li>  
-                <li><a href="#" class="active">CHANGELOGS</a></li>
+                <li><a href="/acp/listcontent.php?action=changelogs" class="active">CHANGELOGS</a></li>
                 <li><a href="/acp/logs.php">LOGS</a></li>
                 <?php
 				}

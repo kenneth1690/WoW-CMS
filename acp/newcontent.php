@@ -137,13 +137,13 @@
 					$action = htmlspecialchars($_GET['action']);
 					if($action == "newnews"){
 					?>
-					<li><a href="#" class="active">NEWS</a></li>  
+					<li><a href="/acp/listcontent.php?action=news" class="active">NEWS</a></li>  
 					<li><a href="/acp/listcontent.php?action=changelogs">CHANGELOGS</a></li>
 					<?php
 					}elseif($action == "newchangelog"){
 					?>
 					<li><a href="/acp/listcontent.php?action=news">NEWS</a></li>  
-					<li><a href="#" class="active">CHANGELOGS</a></li>
+					<li><a href="/acp/listcontent.php?action=changelogs" class="active">CHANGELOGS</a></li>
 					<?php
 					}else{
 					?>
