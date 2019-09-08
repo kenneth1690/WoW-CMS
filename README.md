@@ -3,9 +3,9 @@
 Advanced World of Warcraft: Wrath of the Lich King (Trinity Core 3.3.5a) CMS with features like: Forums, Account &amp; Admin Systems, News &amp; Changelogs &amp; Bugtracker, Account Settings, Server Status.
 
 # Build Status
-| master | language | license |
+| master | latest | downloads | license | language |
 | :------------: | :------------: | :------------: |
-| [![master Build Status](https://travis-ci.com/Markuu/WoW-CMS.svg?branch=master)](https://travis-ci.com/Markuu/WoW-CMS) | ![master Build Language](https://img.shields.io/badge/made_by-PHP-blue.svg) | ![master Build License](https://img.shields.io/badge/license-GPL3-blue.svg) |
+| [![master Build Status](https://travis-ci.com/Markuu/WoW-CMS.svg?branch=master)](https://travis-ci.com/Markuu/WoW-CMS) | ![master Build Release](https://img.shields.io/github/v/release/Markuu/WoW-CMS.svg) | ![master Build Downloads](https://img.shields.io/github/downloads/Markuu/WoW-CMS/total.svg) | ![master Build License](https://img.shields.io/github/license/Markuu/WoW-CMS.svg) | ![master Build Language](https://img.shields.io/badge/made_in-PHP-blue.svg) |
 
 # Important Note
 
