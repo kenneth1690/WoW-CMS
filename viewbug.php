@@ -204,7 +204,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 											<td>&nbsp;</td>
 										</tr>
 										<tr>
-											<td>Solved ?:<br><font color="white"><?php if($rowbug['solved_by']==0){ echo "No"; }else{ echo "Yes";} ?></font></td>
+											<td>Solved ?:<br><font color="white"><?php if($rowbug['solved']==0){ echo "No"; }else{ echo "Yes";} ?></font></td>
 										</tr>
 										<tr>
 											<td>&nbsp;</td>

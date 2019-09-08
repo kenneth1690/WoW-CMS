@@ -182,6 +182,15 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                         </p> 
                     </center>
                     <?php
+                    $rowbug = mysqli_fetch_array($checkbug);
+                    if($rowbug['solved']==0){
+                        mysqli_query($conn, "UPDATE `bugtracker` SET `solved`='1', `solved_by`='".$nick."', `solved_date`=NOW() WHERE `id`=".$_GET['bgid']);
+                    }elseif($rowbug['solved']==1){
+                        mysqli_query($conn, "UPDATE `bugtracker` SET `solved`='0', `solved_by`=NULL, `solved_date`=NULL WHERE `id`=".$_GET['bgid']);
+                    }
+                    $insertlog = mysqli_query($conn, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+                              VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'BUGTRACKER: Changed Bug status (BID: ".$_GET['bgid'].")', NOW());");
+                    header("refresh:5;url=index.php");
                 }else{
                     ?>
                     <center>
