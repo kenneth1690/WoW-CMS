@@ -4,8 +4,8 @@ Advanced World of Warcraft: Wrath of the Lich King (Trinity Core 3.3.5a) CMS wit
 
 # Build Status
 | master | latest | downloads | license | language |
-| :------------: | :------------: | :------------: |
-| [![master Build Status](https://travis-ci.com/Markuu/WoW-CMS.svg?branch=master)](https://travis-ci.com/Markuu/WoW-CMS) | ![master Build Release](https://img.shields.io/github/v/release/Markuu/WoW-CMS.svg) | ![master Build Downloads](https://img.shields.io/github/downloads/Markuu/WoW-CMS/total.svg) | ![master Build License](https://img.shields.io/github/license/Markuu/WoW-CMS.svg) | ![master Build Language](https://img.shields.io/badge/made_in-PHP-blue.svg) |
+| :------------: | :------------: | :------------: | :------------: | :------------: |
+| [![master Build Status](https://travis-ci.com/Markuu/WoW-CMS.svg?branch=master)](https://travis-ci.com/Markuu/WoW-CMS) | ![master Build Release](https://img.shields.io/github/v/release/Markuu/WoW-CMS.svg) | ![master Build Downloads](https://img.shields.io/github/downloads/Markuu/WoW-CMS/total.svg) | ![master Build License](https://img.shields.io/github/license/Markuu/WoW-CMS.svg) | ![master Build Language](https://img.shields.io/badge/made_with-PHP-blue.svg) |
 
 # Important Note
 
