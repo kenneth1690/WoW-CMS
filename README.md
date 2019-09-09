@@ -3,9 +3,9 @@
 Advanced World of Warcraft: Wrath of the Lich King (Trinity Core 3.3.5a) CMS with features like: Forums, Account &amp; Admin Systems, News &amp; Changelogs &amp; Bugtracker, Account Settings, Server Status.
 
 # Build Status
-| master | latest | downloads | license | language |
+| master | latest | license | quality | language |
 | :------------: | :------------: | :------------: | :------------: | :------------: |
-| [![master Build Status](https://travis-ci.com/Markuu/WoW-CMS.svg?branch=master)](https://travis-ci.com/Markuu/WoW-CMS) | ![master Build Release](https://img.shields.io/github/v/release/Markuu/WoW-CMS.svg) | ![master Build Downloads](https://img.shields.io/github/downloads/Markuu/WoW-CMS/total.svg) | ![master Build License](https://img.shields.io/github/license/Markuu/WoW-CMS.svg) | ![master Build Language](https://img.shields.io/badge/made_with-PHP-blue.svg) |
+| [![master Build Status](https://travis-ci.com/Markuu/WoW-CMS.svg?branch=master)](https://travis-ci.com/Markuu/WoW-CMS) | ![master Build Release](https://img.shields.io/github/v/release/Markuu/WoW-CMS.svg) | ![master Build License](https://img.shields.io/github/license/Markuu/WoW-CMS.svg) | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ee13b8d8b948454182d3bd9e60e20fd8)](https://www.codacy.com/manual/Markuu/WoW-CMS?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Markuu/WoW-CMS&amp;utm_campaign=Badge_Grade) | ![master Build Language](https://img.shields.io/badge/made_with-PHP-blue.svg) |
 
 # Important Note
 
