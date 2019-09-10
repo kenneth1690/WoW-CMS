@@ -32,6 +32,7 @@ while($row = mysqli_fetch_array($qr6)){
 }
 
 function getplayercount() {
+	$conn=mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 	$querysql="SELECT * FROM characters WHERE online = ?";
 	$queryplayers=mysqli_query($conn, $querysql);
 	if(mysqli_num_rows($queryplayers) > 0) {
