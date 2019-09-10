@@ -7,10 +7,6 @@ Advanced World of Warcraft: Wrath of the Lich King (Trinity Core 3.3.5a) CMS wit
 | :------------: | :------------: | :------------: | :------------: | :------------: |
 | [![master Build Status](https://travis-ci.com/Markuu/WoW-CMS.svg?branch=master)](https://travis-ci.com/Markuu/WoW-CMS) | ![master Build Release](https://img.shields.io/github/v/release/Markuu/WoW-CMS.svg) | ![master Build License](https://img.shields.io/github/license/Markuu/WoW-CMS.svg) | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ee13b8d8b948454182d3bd9e60e20fd8)](https://www.codacy.com/manual/Markuu/WoW-CMS?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Markuu/WoW-CMS&amp;utm_campaign=Badge_Grade) | ![master Build Language](https://img.shields.io/badge/made_with-PHP-blue.svg) |
 
-# Important Note
-
-The code is a bit shitty, because my skills in php were quite low six months ago .. But everything works fine and I encourage you to use this CMS because I'm still improving code!
-
 # Features
 - Installation setup
 - News & Changelogs & Bugtracker
