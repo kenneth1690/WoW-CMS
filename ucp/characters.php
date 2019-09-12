@@ -233,7 +233,127 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										<td>&nbsp;</td>
 									</tr>
 									<tr>
-										<td>Character name: <?php echo $rowschar['name']; ?></td>
+										<td>Character name: <font color="white"><?php echo $rowschar['name']; ?></font></td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>Character race: <font color="white">
+										<?php
+										if($rowschar['race']==1){
+											?>
+											Human
+											<?php
+										}elseif($rowschar['race']==2){
+											?>
+											Orc
+											<?php
+										}elseif($rowschar['race']==3){
+											?>
+											Dwarf
+											<?php
+										}elseif($rowschar['race']==4){
+											?>
+											Night Elf
+											<?php
+										}elseif($rowschar['race']==5){
+											?>
+											Undead
+											<?php
+										}elseif($rowschar['race']==6){
+											?>
+											Tauren
+											<?php
+										}elseif($rowschar['race']==7){
+											?>
+											Gnome
+											<?php
+										}elseif($rowschar['race']==8){
+											?>
+											Troll
+											<?php
+										}elseif($rowschar['race']==10){
+											?>
+											Blood Elf
+											<?php
+										}elseif($rowschar['race']==11){
+											?>
+											Draenei
+											<?php
+										}else{
+											?>
+											Unknown
+											<?php
+										}
+										?>
+										</font></td>
+									</tr>
+									<tr>
+										<td>Character class: <font color="white">
+										<?php
+										if($rowschar['class']==1){
+											?>
+											Warrior
+											<?php
+										}elseif($rowschar['class']==2){
+											?>
+											Paladin
+											<?php
+										}elseif($rowschar['class']==3){
+											?>
+											Hunter
+											<?php
+										}elseif($rowschar['class']==4){
+											?>
+											Rogue
+											<?php
+										}elseif($rowschar['class']==5){
+											?>
+											Priest
+											<?php
+										}elseif($rowschar['class']==6){
+											?>
+											Death Knight
+											<?php
+										}elseif($rowschar['class']==7){
+											?>
+											Shaman
+											<?php
+										}elseif($rowschar['class']==8){
+											?>
+											Mage
+											<?php
+										}elseif($rowschar['class']==9){
+											?>
+											Warlock
+											<?php
+										}elseif($rowschar['class']==11){
+											?>
+											Druid
+											<?php
+										}else{
+											?>
+											Unknown
+											<?php
+										}
+										?>
+										</font></td>
+									</tr>
+									<tr>
+										<td>Character gender: <font color="white">
+										<?php
+										if($rowschar['gender']==1){
+											?>
+											Female
+											<?php
+										}else{
+											?>
+											Male
+											<?php
+										}
+										?>
+										</font></td>
 									</tr>
 								</tbody></table>
 							</div>
