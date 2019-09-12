@@ -173,76 +173,103 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
             		$conn = mysqli_connect($db_host, $db_username, $db_password, $chars_db_name, $db_port);
             		$nick = $_SESSION["loggedin"];
 					$checkac = mysqli_query($conn, 'SELECT * FROM characters WHERE guid="'.$acid.'"');
-                	if(mysqli_num_rows($checkac)>0){
-						?>
-						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 350px;">
-							<span>CHARACTERS SUMMARY</span>
-							<table>
-								<tbody><tr>
-									<td>&nbsp;</td>
-								</tr>
-								<?php
-								$nick = $_SESSION["loggedin"];
-								$checkauth = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
-								$sql1 = "SELECT * FROM account WHERE username = '" . $nick . "'";
-								$result1 = mysqli_query($checkauth,$sql1);
-								$rows = mysqli_fetch_array($result1);
-								
-								$idcheck = $rows['id'];
-								$charconn = mysqli_connect($db_host, $db_username, $db_password, $chars_db_name, $db_port);
-								$sql = "SELECT * FROM characters WHERE account = '" . $rows['id'] . "'";
-								$result = $charconn->query($sql);
-								while($charr = $result->fetch_assoc()) {
-									?>
-									<tr>
-										<td><?php echo $charr['name']; ?> 
-										<?php
-										if($charr['guid']==$_GET['id']){
-											?>
-											(<a href="characters.php?action=details&id=<?php echo $charr['guid']; ?>">Selected</a>)
-											<?php
-										}else{
-											?>
-											(<a href="characters.php?action=details&id=<?php echo $charr['guid']; ?>">Select</a>)
-											<?php
-										}
-										?>
-									</tr>
-									<tr>
+					$checkownerres = mysqli_query($conn,"SELECT * FROM characters WHERE guid = '" . $acid . "'");
+					$ownerchar = mysqli_fetch_array($checkownerres);
+
+					$nick = $_SESSION["loggedin"];
+					$checkauth = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+					$sql1 = "SELECT * FROM account WHERE username = '" . $nick . "'";
+					$result1 = mysqli_query($checkauth,$sql1);
+					$rows = mysqli_fetch_array($result1);
+					
+					$idcheck = $rows['id'];
+					if($ownerchar['account']==$rows['id']){
+						if(mysqli_num_rows($checkac)>0){
+							?>
+							<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 350px;">
+								<span>CHARACTERS SUMMARY</span>
+								<table>
+									<tbody><tr>
 										<td>&nbsp;</td>
 									</tr>
 									<?php
-								}
+									$charconn = mysqli_connect($db_host, $db_username, $db_password, $chars_db_name, $db_port);
+									$sql = "SELECT * FROM characters WHERE account = '" . $rows['id'] . "'";
+									$result = $charconn->query($sql);
+									while($charr = $result->fetch_assoc()) {
+										?>
+										<tr>
+											<td><?php echo $charr['name']; ?> 
+											<?php
+											if($charr['guid']==$_GET['id']){
+												?>
+												(<a href="characters.php?action=details&id=<?php echo $charr['guid']; ?>">Selected</a>)
+												<?php
+											}else{
+												?>
+												(<a href="characters.php?action=details&id=<?php echo $charr['guid']; ?>">Select</a>)
+												<?php
+											}
+											?>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+										</tr>
+										<?php
+									}
+									?>
+								</tbody></table>
+							</div>
+							<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 350px;">
+								<?php
+								$checkchar2 = mysqli_connect($db_host, $db_username, $db_password, $chars_db_name, $db_port);
+								$sql12 = "SELECT * FROM characters WHERE guid = '" . $acid. "'";
+								$resultchar = mysqli_query($checkchar2,$sql12);
+								$rowschar = mysqli_fetch_array($resultchar);
 								?>
-							</tbody></table>
+								<span>CHARACTER DETAILS</span>
+								<table>
+									<tbody><tr>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>Character name: <?php echo $rowschar['name']; ?></td>
+									</tr>
+								</tbody></table>
+							</div>
+							<?php
+						}else{
+							?>
+							<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+							<div id="wm-error-page">
+							<center>
+								<p>
+									<font size="6">Invalid Character ID</font>
+								</p>
+								<p>
+									<font size="5">Character with that ID not exists.</font>
+								</p> 
+							</center>
+							</div>
 						</div>
-						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 350px;">
-							<span>CHARACTER DETAILS</span>
-							<table>
-								<tbody><tr>
-									<td>&nbsp;</td>
-								</tr>
-								<tr>
-									<td>SELECTED.</td>
-								</tr>
-							</tbody></table>
-						</div>
-						<?php
+							<?php
+						}
 					}else{
 						?>
-						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+					<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 						<div id="wm-error-page">
 						<center>
 							<p>
-								<font size="6">Invalid Character ID</font>
+								<font size="6">No character owned</font>
 							</p>
 							<p>
-								<font size="5">Character with that ID not exists.</font>
+								<font size="5">That is not your character.</font>
 							</p> 
 						</center>
 						</div>
 					</div>
-						<?php
+					<?php
+					header("refresh:5;url=ucp.php");
 					}
 				}else{
 						?>
@@ -259,7 +286,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						</div>
 					</div>
 					<?php
-					header("refresh:5;url=website.php");
+					header("refresh:5;url=ucp.php");
 				}
 			}else{
 				?>
