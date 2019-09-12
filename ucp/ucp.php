@@ -136,12 +136,12 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		
 		
 		?><li><a href="/ucp/ucp.php" class="active">ACCOUNT PANEL</a></li>
-		<li><a href="/ucp/characters/characters.php">CHARACTERS</a></li>
-		<li><a href="/ucp/donate/donate.php">DONATE</a></li>
-		<li><a href="/ucp/store/store.php">STORE</a></li>
-		<li><a href="/ucp/trade/trade.php">TRADE</a></li>
-		<li><a href="/ucp/services/services.php">SERVICES</a></li>
-		<li><a href="/ucp/support/support.php">SUPPORT</a></li>
+		<li><a href="/ucp/characters.php">CHARACTERS</a></li>
+		<li><a href="/ucp/donate.php">DONATE</a></li>
+		<li><a href="/ucp/store.php">STORE</a></li>
+		<li><a href="/ucp/trade.php">TRADE</a></li>
+		<li><a href="/ucp/services.php">SERVICES</a></li>
+		<li><a href="/ucp/support.php">SUPPORT</a></li>
 		<li><a href="/ucp/lottery.php">LOTTERY</a></li>
 		<li><a href="/ucp/settings.php">SETTINGS</a></li>
 		</ul>
