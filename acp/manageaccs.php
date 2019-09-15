@@ -375,6 +375,7 @@
 								?>
 								</span>
 							</div>
+							<font color="white">(</font><font color="lightgreen">Unban</font><font color="white">/</font><font color="orange">Mute</font><font color="white">)</font>
 							<?php
 							}elseif(($resultmute && $rowsmute['mutedate']) && !(($rowsban && ($rowsban['active']=='1')) || ($resultbanip && $rowsbanip['unbandate']))){
 							?>
@@ -398,6 +399,7 @@
 								<font color="f57b01">Banned:</font> <font color="1df701">no</font>
 								</span>
 							</div>
+							<font color="white">(</font><font color="orange">Ban</font><font color="white">/</font><font color="lightgreen">Unmute</font><font color="white">)</font>
 							<?php
 							}elseif(($resultmute && $rowsmute['mutedate']) && (($resultban && ($rowsban['active']=='1')) || ($resultbanip && $rowsbanip['unbandate']))){
 							?>
@@ -458,12 +460,14 @@
 								}
 								?>
 							</div>
+							<font color="white">(</font><font color="lightgreen">Unban</font><font color="white">/</font><font color="lightgreen">Unmute</font><font color="white">)</font>
 							<?php
 							}else{
 							?>
 							<div class="tooltip"><font color="white">In good standing</font> <font color="1df701">(?)</font>
 								<span class="tooltiptext"><font color="FFE4B5">ACCOUNT STATUS</font><br><br><font color="9e34e7">Muted:</font> <font color="1df701">no</font><br><font color="f57b01">Banned:</font> <font color="1df701">no</font></span>
 							</div>
+							<font color="white">(</font><font color="orange">Ban</font><font color="white">/</font><font color="orange">Mute</font><font color="white">)</font>
 							<?php
 							}
 							?>
