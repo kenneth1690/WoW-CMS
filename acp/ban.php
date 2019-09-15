@@ -234,7 +234,12 @@
                                         header("refresh:5;url=acp.php");
                                     }
                                 }else{
-                                    ?>
+                                        $bantime = time();
+                                        $bandays = $_POST['bandays'];
+                                        $banreason = $_POST['banreason'];
+                                        $finalbantime = time() + ($bandays*24)*60*60;
+                                        mysqli_query($conn, 'INSERT INTO account_banned (id, bandate, unbandate, bannedby, banreason, active) VALUES ("'.$acid.'", "'.$bantime.'", "'.$finalbantime.'", "'.$nick.'", "'.$banreason.'", 1)');
+                                        ?>
                                         <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
                                         <div id="wm-error-page">
                                         <center>

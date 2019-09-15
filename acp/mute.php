@@ -197,11 +197,11 @@
                                 $checkgm = mysqli_query($conn, 'SELECT * FROM account_access WHERE id="'.$acid.'"');
                                 if(mysqli_num_rows($checkgm)>0){
                                     if($rowsgm['gmlevel']==4){
-                                        $mutetime = time();
+                                        $mutedate = time();
                                         $mutedays = $_POST['mutedays'];
                                         $mutereason = $_POST['mutereason'];
-                                        $finalmutetime = time() + ($mutedays*24)*60*60;
-                                        mysqli_query($conn, 'INSERT INTO account_muted (guid, mutedate, mutetime, mutedby, mutereason) VALUES ("'.$acid.'", "'.$mutetime.'", "'.$finalmutetime.'", "'.$nick.'", "'.$mutereason.'")');
+                                        $finalmutetime = ($mutedays*24)*60*60;
+                                        mysqli_query($conn, 'INSERT INTO account_muted (guid, mutedate, mutetime, mutedby, mutereason) VALUES ("'.$acid.'", "'.$mutedate.'", "'.$finalmutetime.'", "'.$nick.'", "'.$mutereason.'")');
                                         ?>
                                         <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
                                         <div id="wm-error-page">
@@ -235,7 +235,12 @@
                                         header("refresh:5;url=acp.php");
                                     }
                                 }else{
-                                    ?>
+                                        $mutedate = time();
+                                        $mutedays = $_POST['mutedays'];
+                                        $mutereason = $_POST['mutereason'];
+                                        $finalmutetime = ($mutedays*24)*60*60;
+                                        mysqli_query($conn, 'INSERT INTO account_muted (guid, mutedate, mutetime, mutedby, mutereason) VALUES ("'.$acid.'", "'.$mutedate.'", "'.$finalmutetime.'", "'.$nick.'", "'.$mutereason.'")');
+                                        ?>
                                         <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
                                         <div id="wm-error-page">
                                         <center>

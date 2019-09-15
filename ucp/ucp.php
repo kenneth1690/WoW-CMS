@@ -125,6 +125,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$unbanipdate = date("F j, Y / H:i:s", $rowsbanip['unbandate']);
 		
 		$mutedate = date("F j, Y / H:i:s", $rowsmute['mutedate']);
+		$finalmutedate = date("F j, Y / H:i:s", ($rowsmute['mutedate']+$rowsmute['mutetime']));
 		
 		$unixjoin = strtotime($rows['joindate']);
 		$joindate = date("F j, Y", $unixjoin);
@@ -344,7 +345,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					}else{
 						?>
 					<font color="9e34e7">*Date:</font> <font color="red"><?php echo $mutedate; ?></font><br>
-					<font color="9e34e7">*Expires:</font> <font color="red">todo</font><br>
+					<font color="9e34e7">*Expires:</font> <font color="red"><?php echo $finalmutedate; ?></font><br>
 					<?php
 					}
 					?>
@@ -367,7 +368,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					}else{
 						?>
 					<font color="9e34e7">*Date:</font> <font color="red"><?php echo $mutedate; ?></font><br>
-					<font color="9e34e7">*Expires:</font> <font color="red">todo</font><br>
+					<font color="9e34e7">*Expires:</font> <font color="red"><?php echo $finalmutedate; ?></font><br>
 					<?php
 					}
 					?>
