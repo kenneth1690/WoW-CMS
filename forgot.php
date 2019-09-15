@@ -123,42 +123,57 @@ if(isset($_SESSION["loggedin"]) && !empty($_SESSION["loggedin"])){
     }
     
     if($what == "password"){
-        ?>
-        <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border">
-    	<?php 
-		  $lgconn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
-		  $conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
-		  
-		  if (isset($_POST['loginbtn'])) {
-			$username = $_POST['userID'];
-			$pass = $_POST['userPW'];
+        if(isset($_GET['action']) || !empty($_GET['action'])){
+            $mailsend = $_POST['emailsend'];
+            $alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            $newpass = substr(str_shuffle($alphabet), 0, 8);
 
-			$sql= "SELECT * FROM account WHERE username = '" . $username . "' AND sha_pass_hash = '" . sha1(strtoupper($username).':'.strtoupper($pass)) . "'";
-			$result = mysqli_query($lgconn,$sql);
-			$user = mysqli_fetch_array($result);
-			if($user) {
-				$_SESSION["UID"] = $user["id"];
-				$_SESSION["USERNAME"] = $user["username"];
-				$_SESSION["loggedin"] = $user["username"];
-				?><span class="wm-ui-form-identifier">You have successfully logged into account '<?php echo $username ?>'.<br><br>Now you can browse the rest of the page.</span><?php
-				$insertlog = mysqli_query($conn, "INSERT INTO logs_acc (`logger`, `logger_id`, `logdetails`, `logdate`) 
-								  VALUES ('".$_SESSION['loggedin']."', '".$user['id']."', 'ACCOUNT: Logged in to Account: `".$_SESSION['loggedin']."`', NOW());");
-				if ($insertlog) {
-					header( "refresh:5;url=index.php" );
-				}
-			}else{
-				?><span class="wm-ui-form-identifier">Invalid Account name or Password.<br><br>In a moment you will be taken back to the login page.</span><?php
-				header( "refresh:5;url=login.php" );
-			}
-			mysqli_close($conn);
-			mysqli_close($lgconn);
-		  }
-		?>
-	</div>
-	<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border">
-    	
-	</div>
-    <?php
+            $authconn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port); 
+            $sql= "SELECT * FROM account WHERE email = '" . $mailsend . "'";
+            $result = mysqli_query($authconn,$sql);
+            $user = mysqli_fetch_array($result);
+
+            $yourmail = $user['email'];
+            $to = $yourmail;
+            $subject = $sitename." | Forgot Password";
+            $message = "Hello, \nif you see this message it means that someone wanted to restore your account password.\nHere is the new password for your account:\n ".$newpass."\n\nIf you did not report the password change, change the account email address!";
+            $headers = "From: ".$sitename;
+
+            mail($to, $subject, $message, $headers);
+
+            $lgconn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+            $passfinal = sha1(strtoupper($user['username']).':'.strtoupper($newpass));
+            $sql2 = "UPDATE account SET sha_pass_hash='".$passfinal."' WHERE email='$mailsend'";
+            $insertpass = mysqli_query($lgconn,$sql2);
+            ?>
+            <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+            <div id="wm-error-page">
+            <center>
+                <p>
+                    <font size="6">New password sent</font>
+                </p>
+                <p>
+                    <font size="5">If this email is existing, you will get new password in mail.</font>
+                </p> 
+            </center>
+            </div>
+            </div>
+        <?php
+        }else{
+            ?>
+            <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border">
+                                    <form action='forgot.php?what=password&action=confirm' method='POST'>
+                                        <p>Account Email Address: </p>
+                                        <input type='text' id='emailsend' name='emailsend' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
+                                        <br /><br>
+                                        <input type='submit' value='SEND NEW PASSWORD' class='wm-ui-btn'/>
+                                    </form>
+            </div>
+            <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border">
+                
+            </div>
+            <?php
+        }
     }elseif(isset($_GET['what'])){
         ?>
         <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
