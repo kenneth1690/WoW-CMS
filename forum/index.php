@@ -2,7 +2,7 @@
 session_start();
 
 include("check.php");
-include('config/config.php');
+include('../config/config.php');
 
 $conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 $qr1 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'sitename'");
