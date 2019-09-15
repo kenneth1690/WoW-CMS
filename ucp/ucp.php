@@ -113,7 +113,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$resultbanip = mysqli_query($checkacp,$banip);
 		$rowsbanip = mysqli_fetch_array($resultbanip);
 		
-		$mute= "SELECT * FROM account_muted WHERE guid = '" . $idcheck . "'";
+		$mute= "SELECT * FROM account_muted WHERE guid = '" . $idcheck . "' ORDER BY mutedate DESC LIMIT 1";
 		$resultmute = mysqli_query($checkacp,$mute);
 		$rowsmute = mysqli_fetch_array($resultmute);
 		
@@ -126,6 +126,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		
 		$mutedate = date("F j, Y / H:i:s", $rowsmute['mutedate']);
 		$finalmutedate = date("F j, Y / H:i:s", ($rowsmute['mutedate']+$rowsmute['mutetime']));
+
+		$mutedhowmuch = $rowsmute['mutedate']+$rowsmute['mutetime'];
 		
 		$unixjoin = strtotime($rows['joindate']);
 		$joindate = date("F j, Y", $unixjoin);
@@ -311,7 +313,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					}elseif(($resultban && ($rowsban['active']=='1')) && !($resultbanip && ($rowsbanip['unbandate']>=$getbantime))){
 						if($rowsban['bandate'] == $rowsban['unbandate']){
 							?>
-							<font color="f57b01">Banned:</font> <font color="red">yes (cccount)</font><br>
+							<font color="f57b01">Banned:</font> <font color="red">yes (account)</font><br>
 							<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsban['banreason']; ?></font><br>
 							<font color="f57b01">*Date:</font> <font color="red"><?php echo $bandate; ?></font><br>
 							<font color="f57b01">*Expires:</font> <font color="red">never</font><br>
@@ -331,7 +333,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					</span>
 				</div>
 				<?php
-				}elseif(($resultmute && $rowsmute['mutedate']) && !(($rowsban && ($rowsban['active']=='1')) || ($resultbanip && $rowsbanip['unbandate']))){
+				}elseif(($resultmute && $mutedhowmuch>time()) && !(($rowsban && ($rowsban['active']=='1')) || ($resultbanip && $rowsbanip['unbandate']))){
 				?>
 				<div class="tooltip"><span class="q1"><font color="9e34e7">Muted</font> <font color="red">(?)</font>
 					<span class="tooltiptext"><font color="FFE4B5">ACCOUNT STATUS</font><br><br><font color="9e34e7">Muted:</font> <font color="red">yes</font><br>
@@ -354,7 +356,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					</span>
 				</div>
 				<?php
-				}elseif(($resultmute && $rowsmute['mutedate']) && (($resultban && ($rowsban['active']=='1')) || ($resultbanip && $rowsbanip['unbandate']))){
+				}elseif(($resultmute && $mutedhowmuch>time()) && (($resultban && ($rowsban['active']=='1')) || ($resultbanip && $rowsbanip['unbandate']))){
 				?>
 				<div class="tooltip"><font color="9e34e7">Muted</font> <font color="white">&</font> <font color="f57b01">Banned</font> <font color="red">(?)</font>
 					<span class="tooltiptext"><font color="FFE4B5">ACCOUNT STATUS</font><br><br><font color="9e34e7">Muted:</font> <font color="red">yes</font><br>
@@ -395,7 +397,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					}elseif(($resultban && ($rowsban['active']=='1')) && !($resultbanip && ($rowsbanip['unbandate']>=$getbantime))){
 						if($rowsban['bandate'] == $rowsban['unbandate']){
 							?>
-							<font color="f57b01">Banned:</font> <font color="red">yes (cccount)</font><br>
+							<font color="f57b01">Banned:</font> <font color="red">yes (account)</font><br>
 							<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsban['banreason']; ?></font><br>
 							<font color="f57b01">*Date:</font> <font color="red"><?php echo $bandate; ?></font><br>
 							<font color="f57b01">*Expires:</font> <font color="red">never</font><br>

@@ -166,28 +166,23 @@
 			<?php 
 			if(isset($_GET['action'])){
 				$action = htmlspecialchars($_GET['action']);
-			}
-
-			if($action == "confirm"){
-				if(isset($_GET['id'])){
-                    if(!empty($_POST['mutereason'])){
+			}else{
+                if(isset($_GET['id'])){
                         $conn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
                         $acid = $_GET['id'];
                         $checkac = mysqli_query($conn, 'SELECT * FROM account WHERE id="'.$acid.'"');
                         if(mysqli_num_rows($checkac)>0){
-                            $checkmute = mysqli_query($conn, "SELECT * FROM account_muted WHERE guid = '" . $acid . "' ORDER BY mutedate DESC LIMIT 1");
-                            $rowscheckmute = mysqli_fetch_array($checkmute);
-                            $mutedhowmuch = $rowscheckmute['mutedate']+$rowscheckmute['mutetime'];
-                            if(mysqli_num_rows($checkmute)>0 && $mutedhowmuch>time()){
+                            $checkban = mysqli_query($conn, 'SELECT * FROM account_banned WHERE id="'.$acid.'"');
+                            if($checkban && mysqli_num_rows($checkban)==0){
                                 ?>
                                 <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
                                 <div id="wm-error-page">
                                 <center>
                                     <p>
-                                        <font size="6">Already muted</font>
+                                        <font size="6">Player in good standing</font>
                                     </p>
                                     <p>
-                                        <font size="5">You want to mute player who is already muted.</font>
+                                        <font size="5">You wanted to unban player who is not banned.</font>
                                     </p> 
                                 </center>
                                 </div>
@@ -195,68 +190,22 @@
                                 <?php
                                 header("refresh:5;url=acp.php");
                             }else{
-                                $checkgm = mysqli_query($conn, 'SELECT * FROM account_access WHERE id="'.$acid.'"');
-                                if(mysqli_num_rows($checkgm)>0){
-                                    if($rowsgm['gmlevel']==4){
-                                        $mutedate = time();
-                                        $mutedays = $_POST['mutedays'];
-                                        $mutereason = $_POST['mutereason'];
-                                        $finalmutetime = ($mutedays*24)*60*60;
-                                        mysqli_query($conn, 'INSERT INTO account_muted (guid, mutedate, mutetime, mutedby, mutereason) VALUES ("'.$acid.'", "'.$mutedate.'", "'.$finalmutetime.'", "'.$nick.'", "'.$mutereason.'")');
+                                mysqli_query($conn, 'DELETE FROM account_banned WHERE id="'.$acid.'"');
                                         ?>
                                         <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
                                         <div id="wm-error-page">
                                         <center>
                                             <p>
-                                                <font size="6">Muted successfully</font>
+                                                <font size="6">Unbanned successfully</font>
                                             </p>
                                             <p>
-                                                <font size="5">Player has been muted successfully.</font>
+                                                <font size="5">Player has been unbanned successfully.</font>
                                             </p> 
                                         </center>
                                         </div>
                                         </div>
                                         <?php
                                         header("refresh:5;url=acp.php");
-                                    }else{
-                                        ?>
-                                        <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-                                        <div id="wm-error-page">
-                                        <center>
-                                            <p>
-                                                <font size="6">Access denied</font>
-                                            </p>
-                                            <p>
-                                                <font size="5">You want to mute GM but you're not allowed to do that.</font>
-                                            </p> 
-                                        </center>
-                                        </div>
-                                        </div>
-                                        <?php
-                                        header("refresh:5;url=acp.php");
-                                    }
-                                }else{
-                                        $mutedate = time();
-                                        $mutedays = $_POST['mutedays'];
-                                        $mutereason = $_POST['mutereason'];
-                                        $finalmutetime = ($mutedays*24)*60*60;
-                                        mysqli_query($conn, 'INSERT INTO account_muted (guid, mutedate, mutetime, mutedby, mutereason) VALUES ("'.$acid.'", "'.$mutedate.'", "'.$finalmutetime.'", "'.$nick.'", "'.$mutereason.'")');
-                                        ?>
-                                        <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-                                        <div id="wm-error-page">
-                                        <center>
-                                            <p>
-                                                <font size="6">Muted successfully</font>
-                                            </p>
-                                            <p>
-                                                <font size="5">Player has been muted successfully.</font>
-                                            </p> 
-                                        </center>
-                                        </div>
-                                        </div>
-                                        <?php
-                                        header("refresh:5;url=acp.php");
-                                }
                             }
                         }else{
                             ?>
@@ -275,23 +224,6 @@
                             <?php
                             header("refresh:5;url=acp.php");
                         }
-                    }else{
-                        ?>
-                        <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-                            <div id="wm-error-page">
-                            <center>
-                                <p>
-                                    <font size="6">Empty fields</font>
-                                </p>
-                                <p>
-                                    <font size="5">Complete all fields and do it again.</font>
-                                </p> 
-                            </center>
-                            </div>
-                        </div>
-                        <?php
-                        header("refresh:5;url=acp.php");
-                    }
                 }else{
                     ?>
                     <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
@@ -309,118 +241,7 @@
 					<?php
 					header("refresh:5;url=acp.php");
                 }
-			}else{
-				if(isset($_GET['id'])){
-                    $conn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
-                    $acid = $_GET['id'];
-                    $checkac = mysqli_query($conn, 'SELECT * FROM account WHERE id="'.$acid.'"');
-                	if(mysqli_num_rows($checkac)>0){
-                        $checkmute = mysqli_query($conn, "SELECT * FROM account_muted WHERE guid = '" . $acid . "' ORDER BY mutedate DESC LIMIT 1");
-                        $rowscheckmute = mysqli_fetch_array($checkmute);
-                        $mutedhowmuch = $rowscheckmute['mutedate']+$rowscheckmute['mutetime'];
-                        if(mysqli_num_rows($checkmute)>0 && $mutedhowmuch>time()){
-                            ?>
-                            <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-                            <div id="wm-error-page">
-                            <center>
-                                <p>
-                                    <font size="6">Already muted</font>
-                                </p>
-                                <p>
-                                    <font size="5">You want to mute player who is already muted.</font>
-                                </p> 
-                            </center>
-                            </div>
-                            </div>
-                            <?php
-                            header("refresh:5;url=acp.php");
-                        }else{
-                            $checkgm = mysqli_query($conn, 'SELECT * FROM account_access WHERE id="'.$acid.'"');
-                            if(mysqli_num_rows($checkgm)>0){
-                                if($rowsgm['gmlevel']==4){
-                                    ?>
-                                    <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-		                            <div id="wm-error-page">
-                                    <form action='mute.php?id=<?php echo $_GET['id']; ?>&action=confirm' method='POST'>
-                                        <p>Mute days (empty for perm): </p>
-                                        <input type='text' id='mutedays' name='mutedays' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
-                                        <p>Mute reason: </p>
-                                        <input type='text' id='mutereason' name='mutereason' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
-                                        <br /><br>
-                                        <input type='submit' value='CONFIRM MUTE' class='wm-ui-btn'/>
-                                    </form>
-                                    </div>
-                                    </div>
-                                    <?php
-                                }else{
-                                    ?>
-                                    <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-                                    <div id="wm-error-page">
-                                    <center>
-                                        <p>
-                                            <font size="6">Access denied</font>
-                                        </p>
-                                        <p>
-                                            <font size="5">You want to mute GM but you're not allowed to do that.</font>
-                                        </p> 
-                                    </center>
-                                    </div>
-                                    </div>
-                                    <?php
-                                    header("refresh:5;url=acp.php");
-                                }
-                            }else{
-                                ?>
-                                    <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-		                            <div id="wm-error-page">
-                                    <form action='mute.php?id=<?php echo $_GET['id']; ?>&action=confirm' method='POST'>
-                                        <p>Mute days (empty for perm): </p>
-                                        <input type='text' id='mutedays' name='mutedays' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
-                                        <p>Mute reason: </p>
-                                        <input type='text' id='mutereason' name='mutereason' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
-                                        <br /><br>
-                                        <input type='submit' value='CONFIRM MUTE' class='wm-ui-btn'/>
-                                    </form>
-                                    </div>
-                                    </div>
-                                    <?php
-                            }
-                        }
-                    }else{
-                        ?>
-                        <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-						<div id="wm-error-page">
-						<center>
-							<p>
-								<font size="6">No player</font>
-							</p>
-							<p>
-								<font size="5">Player with that ID is not exist.</font>
-							</p> 
-						</center>
-						</div>
-                        </div>
-                        <?php
-                        header("refresh:5;url=acp.php");
-                    }
-                }else{
-                    ?>
-                    <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-						<div id="wm-error-page">
-						<center>
-							<p>
-								<font size="6">No player selected</font>
-							</p>
-							<p>
-								<font size="5">You have not selected a player ID.</font>
-							</p> 
-						</center>
-						</div>
-					</div>
-					<?php
-					header("refresh:5;url=acp.php");
-                }
-			}
+            }
 			?>
 </div>
 <div class="clear"></div>
