@@ -28,7 +28,7 @@ Advanced World of Warcraft: Wrath of the Lich King (Trinity Core 3.3.5a) CMS wit
 - Headers
 
 # Useful Links
-- [Demo Website (New!)](http://185.239.238.237/)
+- [Demo Website](http://185.239.238.237/)
 - [Suggestions & Issues](https://github.com/Markuu/WoW-CMS/issues)
 - [Installation Wiki](https://github.com/Markuu/WoW-CMS/wiki/Installation)
 - [Update Wiki](https://github.com/Markuu/WoW-CMS/wiki/Updating)
