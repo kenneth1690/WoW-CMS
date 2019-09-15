@@ -199,15 +199,62 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 									while($charr = $result->fetch_assoc()) {
 										?>
 										<tr>
-											<td><?php echo $charr['name']; ?> 
+											<td>
+											<?php
+										if($charr['class']==1){
+											?>
+											<font color="C79C6E"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/warrior.gif">
+											<?php
+										}elseif($charr['class']==2){
+											?>
+											<font color="F58CBA"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/paladin.gif">
+											<?php
+										}elseif($charr['class']==3){
+											?>
+											<font color="ABD473"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/hunter.gif">
+											<?php
+										}elseif($charr['class']==4){
+											?>
+											<font color="FFF569"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/rogue.gif">
+											<?php
+										}elseif($charr['class']==5){
+											?>
+											<font color="FFFFFF"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/priest.gif">
+											<?php
+										}elseif($charr['class']==6){
+											?>
+											<font color="C41F3B"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/deathknight.gif">
+											<?php
+										}elseif($charr['class']==7){
+											?>
+											<font color="0070DE"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/shaman.gif">
+											<?php
+										}elseif($charr['class']==8){
+											?>
+											<font color="40C7EB"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/mage.gif">
+											<?php
+										}elseif($charr['class']==9){
+											?>
+											<font color="8787ED"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/warlock.gif">
+											<?php
+										}elseif($charr['class']==11){
+											?>
+											<font color="FF7D0A"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/druid.gif">
+											<?php
+										}else{
+											?>
+											Unknown
+											<?php
+										}
+										?>
 											<?php
 											if($charr['guid']==$_GET['id']){
 												?>
-												(<a href="characters.php?action=details&id=<?php echo $charr['guid']; ?>">Selected</a>)
+												<font color="white">(<a href="characters.php?action=details&id=<?php echo $charr['guid']; ?>"><font color="orange">Selected</font></a>)</font>
 												<?php
 											}else{
 												?>
-												(<a href="characters.php?action=details&id=<?php echo $charr['guid']; ?>">Select</a>)
+												<font color="white">(<a href="characters.php?action=details&id=<?php echo $charr['guid']; ?>"><font color="lightgreen">Select</font></a>)</font>
 												<?php
 											}
 											?>
@@ -226,6 +273,16 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 								$sql12 = "SELECT * FROM characters WHERE guid = '" . $acid. "'";
 								$resultchar = mysqli_query($checkchar2,$sql12);
 								$rowschar = mysqli_fetch_array($resultchar);
+
+								$sql13 = "SELECT * FROM guild_member WHERE guid = '" . $acid. "'";
+								$resultguild = mysqli_query($checkchar2,$sql13);
+								$rowsguild = mysqli_fetch_array($resultguild);
+
+								$money = $rowschar['money'];
+								$gold = intval($money/10000);
+								$money = intval($money%10000);
+								$silver = intval($money/100);
+								$copper = intval($money%100);
 								?>
 								<span>CHARACTER DETAILS</span>
 								<table>
@@ -243,10 +300,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										</td>
 									</tr>
 									<tr>
-										<td>Money: 
-										<?php
-										
-										?>
+										<td>Money: <img src="/uploads/account/gold.png"> <font color="white"><?php echo $gold; ?></font> / <img src="/uploads/account/silver.png"> <font color="white"><?php echo $silver; ?></font> / <img src="/uploads/account/copper.png"> <font color="white"><?php echo $copper; ?></font>
 										</td>
 									</tr>
 									<tr>
@@ -374,13 +428,57 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 									</tr>
 									<tr>
 										<td>Faction: 
+										<?php
+										if($rowschar['race']==1 || $rowschar['race']==3 || $rowschar['race']==4 || $rowschar['race']==7 || $rowschar['race']==11){
+											?>
+											<font color="blue">Alliance</font> <img src="/uploads/account/alliance.png">
+											<?php
+										}else{
+											?>
+											<font color="red">Horde</font> <img src="/uploads/account/horde.png">
+											<?php
+										}
+										?>
+										</td>
+									</tr>
+									<tr>
+										<td>Guild: 
+										<?php
+										if(mysqli_num_rows($resultguild)>0){
+											$sql14 = "SELECT * FROM guild_member WHERE guid = '" . $acid. "'";
+											$ifguild = mysqli_query($checkchar2,$sql14);
+											$checkguild = mysqli_fetch_array($ifguild);
+											
+											$guildidthen = $checkguild['guildid'];
+											$sql15 = "SELECT * FROM guild WHERE guildid = '" . $guildidthen. "'";
+											$ifshowguild = mysqli_query($checkchar2,$sql15);
+											$showguild = mysqli_fetch_array($ifshowguild);
+											?>
+											<font color="white"><?php echo $showguild['name']; ?></font>
+											<?php
+										}else{
+											?>
+											<font color="white">None</font>
+											<?php
+										}
+										?>
 										</td>
 									</tr>
 									<tr>
 										<td>&nbsp;</td>
 									</tr>
 									<tr>
-										<td>Guild: 
+										<td>Total playtime: 
+										<?php
+											$days = intval(intval($rowschar['totaltime']) / (3600*24));
+											$hours = (intval($rowschar['totaltime']) / 3600) % 24;
+											$minutes = (intval($rowschar['totaltime']) / 60) % 60;
+										?>
+										<div class="tooltip"><font color="white">Days: <?php echo $days; ?></font> / <font color="white">Hours: <?php echo $hours; ?></font> / <font color="white">Minutes: <?php echo $minutes; ?></font> <font color="1df701">(?)</font>
+											<span class="tooltiptext"><font color="FFE4B5">TOTAL PLAYTIME</font><br><br>
+											<font color="606060">The total time that the character has been active in the world.</font>
+											</span>
+										</div>
 										</td>
 									</tr>
 								</tbody></table>
@@ -458,7 +556,53 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						while($charr = $result->fetch_assoc()) {
 							?>
 							<tr>
-								<td><?php echo $charr['name']; ?> (<a href="characters.php?action=details&id=<?php echo $charr['guid']; ?>">Select</a>)</td>
+								<td><?php
+										if($charr['class']==1){
+											?>
+											<font color="C79C6E"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/warrior.gif">
+											<?php
+										}elseif($charr['class']==2){
+											?>
+											<font color="F58CBA"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/paladin.gif">
+											<?php
+										}elseif($charr['class']==3){
+											?>
+											<font color="ABD473"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/hunter.gif">
+											<?php
+										}elseif($charr['class']==4){
+											?>
+											<font color="FFF569"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/rogue.gif">
+											<?php
+										}elseif($charr['class']==5){
+											?>
+											<font color="FFFFFF"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/priest.gif">
+											<?php
+										}elseif($charr['class']==6){
+											?>
+											<font color="C41F3B"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/deathknight.gif">
+											<?php
+										}elseif($charr['class']==7){
+											?>
+											<font color="0070DE"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/shaman.gif">
+											<?php
+										}elseif($charr['class']==8){
+											?>
+											<font color="40C7EB"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/mage.gif">
+											<?php
+										}elseif($charr['class']==9){
+											?>
+											<font color="8787ED"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/warlock.gif">
+											<?php
+										}elseif($charr['class']==11){
+											?>
+											<font color="FF7D0A"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/druid.gif">
+											<?php
+										}else{
+											?>
+											Unknown
+											<?php
+										}
+										?> <font color="white">(<a href="characters.php?action=details&id=<?php echo $charr['guid']; ?>"><font color="lightgreen">Select</font></a>)</font></td>
 							</tr>
 							<tr>
 								<td>&nbsp;</td>
