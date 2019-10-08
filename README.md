@@ -22,9 +22,9 @@ Advanced World of Warcraft: Wrath of the Lich King (Trinity Core 3.3.5a) CMS wit
 - PHP 7.0+
 - MySQL 5.6.0+
 - Fsockopen
-#### PHP:
+#### Modules:
+- PHP mail()
 - Rewrite
-- Mail
 - Headers
 
 # Useful Links

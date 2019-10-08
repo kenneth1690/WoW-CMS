@@ -57,12 +57,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 <link rel="stylesheet" href="/css/ui.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/wm-contextmenu.css">
-<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="/script/ui.js?v=56"></script>
-<script src="/script/jquery.wm-listener.js"></script>
-<script src="/script/warmane.js?v=57"></script>
-<script src="/script/jquery.wm.bpopup.js"></script>
-<script src="/script/jquery.wm-contextmenu.js"></script>
 <style>
 		#customers {
 			  border-collapse: collapse;
@@ -221,11 +215,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 </div>
 
 <div class="clear"></div>
-<script>
-$(window).load(function() {
-    $('.page-articles-right').height($('.page-articles-left').height()-42);
-});
-</script>
 
 
             <div class="clear"></div>

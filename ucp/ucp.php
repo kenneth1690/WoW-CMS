@@ -38,19 +38,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 <link rel="stylesheet" href="/css/ui.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/wm-contextmenu.css">
-<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="/script/ui.js?v=56"></script>
-<script src="/script/jquery.wm-listener.js"></script>
-<script src="/script/warmane.js?v=57"></script>
-<script src="/script/jquery.wm.bpopup.js"></script>
-<script src="/script/jquery.wm-contextmenu.js"></script>
 </head>
 <body>
-<noscript>
-    &lt;div id="noscript-override"&gt;
-        &lt;p&gt;This site makes extensive use of JavaScript.&lt;/b&gt;&lt;br&gt;Please &lt;a href="https://www.google.com/support/adsense/bin/answer.py?answer=12654" target="_blank"&gt;enable JavaScript&lt;/a&gt; in your browser.&lt;/p&gt;
-    &lt;/div&gt;
-</noscript>
 <div class="navigation-wrapper">
     <a href="/" class="navigation-logo"></a>
     <div class="navigation">

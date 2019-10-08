@@ -11,12 +11,12 @@
 			}else{
 				$step = 1;
             }
-                
+			
 			if($step == 1){
 				if(filesize("../config/config.php")){
 					die("<b><font size='11'>Website already installed.</font></b><br><font size='6'>Your website is installed, you should delete 'install' folder</font>");
 				}
-            ?>		
+				?>		
                 <button class="button active">Installation</button> <button class="button">Requirements</button> <button class="button">Database Setup</button> <button class="button">Account Setup</button> <button class="button">Finish</button>
                 
                 <div class="pane">
@@ -27,15 +27,29 @@
                     <button class="button">Check Requirements</button>
                 </form>
                 </div>
-			<?php
+				<?php
 			}elseif($step == 2){
                 ?>		
                 <button class="button">Installation</button> <button class="button active">Requirements</button> <button class="button">Database Setup</button> <button class="button">Account Setup</button> <button class="button">Finish</button>
                 
                 <div class="pane">
                     <b>Requirements</b><br><br>
+					<?php
+					$canbeinstalled = 0;
+					
+					if(strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false){
+						?>
+                        Apache2: <font color="green"><b>Yes</b></font>
+                        <?php
+						$canbeinstalled=$canbeinstalled+1;
+					}else{
+						?>
+						Apache2: <font color="red"><b>No</b></font>
+						<?php
+					}
+					?>
+					<br>
                     <?php
-                    $canbeinstalled = 0;
                     if(phpversion() < 7.0){
                         ?>
                         PHP +7.0: <font color="red"><b>No</b></font>   (Your: <b><?php echo phpversion(); ?></b>)
@@ -78,9 +92,49 @@
                         <?php
 					}
 					?>
-                    <br><br>
+					<br><br>
+					<b>Modules</b><br><br>
+					<?php
+					if(function_exists("mail")) {
+						?>
+                        PHP mail(): <font color="green"><b>Enabled</b></font>
+                        <?php
+                        $canbeinstalled=$canbeinstalled+1;
+					}else{
+						?>
+                        PHP mail(): <font color="red"><b>Disabled</b></font>
+                        <?php
+					}
+					?>
+					<br>
+					<?php
+					$mods = apache_get_modules();
+					if(array_search("mod_headers",$mods)){
+						?>
+                        Headers: <font color="green"><b>Enabled</b></font>
+                        <?php
+                        $canbeinstalled=$canbeinstalled+1;
+					}else{
+						?>
+                        Headers: <font color="red"><b>Disabled</b></font>
+                        <?php
+					}
+					?>
+                    <br>
+					<?php
+					if(array_search("mod_rewrite",$mods)){
+						?>
+                        Rewrite: <font color="green"><b>Enabled</b></font>
+                        <?php
+                        $canbeinstalled=$canbeinstalled+1;
+					}else{
+						?>
+                        Rewrite: <font color="red"><b>Disabled</b></font>
+                        <?php
+					}
+					?><br><br>
                     <?php
-					if($canbeinstalled == 3){ 
+					if($canbeinstalled == 7){ 
                         ?>
                         <form method="POST" action="index.php?step=3" class="form label-inline">
                             <button class="button">Start installation</button>
@@ -239,7 +293,7 @@
 						mysqli_query($linkauth, "INSERT INTO `account_access` (`id`, `gmlevel`, `RealmID`) VALUES ('1', '4', '-1' )");
 					}
 					?>
-					<b>Website successfully installed!</b><br><br>Congratulations! Your TS website has been successfully installed! Now you can easily go to the home page, but before you do it, I recommend removing the 'install' folder from the site directory!<br><br>
+					<b>Website successfully installed!</b><br><br>Congratulations! Your WoW-CMS has been successfully installed! Now you can easily go to the home page, but before you do it, I recommend removing the 'install' folder from the site directory!<br><br>
 					<form method="POST" action="../index.php" class="form label-inline">
                     	<button class="button">Go to Index</button>
                 	</form>

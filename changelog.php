@@ -32,19 +32,7 @@ while($row = mysqli_fetch_array($qr3)){
 <link rel="stylesheet" href="/css/ui.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/wm-contextmenu.css">
-<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="/script/ui.js?v=56"></script>
-<script src="/script/jquery.wm-listener.js"></script>
-<script src="/script/warmane.js?v=57"></script>
-<script src="/script/jquery.wm.bpopup.js"></script>
-<script src="/script/jquery.wm-contextmenu.js"></script>
-<script src="//cdn.openwow.com/script/global.js"></script><link type="text/css" href="//cdn.openwow.com/style/global.css" rel="stylesheet"><script type="text/javascript" src="//wotlk.openwow.com/spell=34477&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=1787&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=22917&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=52451&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=53407&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=46392&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=46393&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=1044&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=53271&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=66923&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=16459&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=53736&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=20049&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=31884&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=43265&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=48263&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/item=43551&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=51099&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=50434&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=59921&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=46585&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/item=37201&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=13813&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=34600&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=55340&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=54646&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=55342&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=1038&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=42891&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=48108&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=15407&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=33196&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=605&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=20711&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=57470&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=2061&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=32645&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/item=45771&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=8232&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=686&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=17941&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=71&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=100&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=23922&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=12809&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=46859&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/quest=10980&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/quest=12454&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/quest=12097&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/quest=12922&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/quest=11457&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/quest=11510&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/quest=5441&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/item=47059&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/item=47271&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/item=47665&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/item=30720&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/item=9492&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=38145&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=23601&amp;power=true" charset="utf8"></script><script type="text/javascript" src="//wotlk.openwow.com/spell=49560&amp;power=true" charset="utf8"></script></head>
 <body>
-<noscript>
-    &lt;div id="noscript-override"&gt;
-        &lt;p&gt;This site makes extensive use of JavaScript.&lt;/b&gt;&lt;br&gt;Please &lt;a href="https://www.google.com/support/adsense/bin/answer.py?answer=12654" target="_blank"&gt;enable JavaScript&lt;/a&gt; in your browser.&lt;/p&gt;
-    &lt;/div&gt;
-</noscript>
 <div class="navigation-wrapper">
     <a href="/" class="navigation-logo"></a>
     <div class="navigation">
@@ -182,22 +170,6 @@ while($row = mysqli_fetch_array($qr3)){
     </div>
 </div>
 <div class="clear"></div>
-<script type="text/javascript">
-var selectedExpansion = "2";
-var selectedId = "26";
-
-function updateExpansion() {
-    window.location = '/changelog?expansion=' + $('#changelogExpansion').val();
-}
-
-function updateDate() {
-    window.location = '/changelog?expansion=' + selectedExpansion + '&id=' + $('#changelogDate').val();
-}
-
-$(function() {
-    $('select').msDropDown();
-});
-</script>
 
 
             <div class="clear"></div>

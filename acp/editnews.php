@@ -57,21 +57,8 @@
 <link rel="stylesheet" href="/css/ui.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/wm-contextmenu.css">
-<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="/script/ui.js?v=56"></script>
-<script src="/script/jquery.wm-listener.js"></script>
-<script src="/script/warmane.js?v=57"></script>
-<script src="/script/jquery.wm.bpopup.js"></script>
-<script src="/script/jquery.wm-contextmenu.js"></script>
-<link rel="stylesheet" href="minified/themes/default.min.css" />
-<script src="minified/sceditor.min.js"></script>
 </head>
 <body>
-<noscript>
-    &lt;div id="noscript-override"&gt;
-        &lt;p&gt;This site makes extensive use of JavaScript.&lt;/b&gt;&lt;br&gt;Please &lt;a href="https://www.google.com/support/adsense/bin/answer.py?answer=12654" target="_blank"&gt;enable JavaScript&lt;/a&gt; in your browser.&lt;/p&gt;
-    &lt;/div&gt;
-</noscript>
 <div class="navigation-wrapper">
     <a href="/" class="navigation-logo"></a>
     <div class="navigation">
@@ -218,11 +205,6 @@
 	</div>
 </div>
 <div class="clear"></div>
-<script>
-$(window).load(function() {
-    $('.page-articles-right').height($('.page-articles-left').height()-42);
-});
-</script>
 
 
             <div class="clear"></div>
@@ -237,25 +219,6 @@ $(window).load(function() {
 	<a href="/policies/terms">Terms of Service</a> &nbsp; <a href="/policies/privacy">Privacy Policy</a> &nbsp; <a href="/policies/refund"> Refund Policy </a> &nbsp; <a href="#">Contact Us</a><br>
 	Copyright ][ <?php echo $sitename; ?> ][ 2019. All Rights Reserved.
 </div>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-59798617-1', 'auto');
-  ga('send', 'pageview');
-</script>
-
-<script>
-$(function() {
-    $.warmane({
-        currentBackground: -1,
-        alertTime: 1441894995
-    });
-    
-    });
-</script>
 
 
 </body></html>
