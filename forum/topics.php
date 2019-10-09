@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 include("check.php");
 include('../config/config.php');
 
@@ -125,7 +124,20 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 	
 <div id="page-navigation" class="wm-ui-generic-frame wm-ui-bottom-border">
 	<ul>
+					<?php
+					$conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+					$getcid = $_GET['cid'];
+					$getscid = $_GET['scid'];
+					$select = mysqli_query($conn, "SELECT * FROM `subcategories` WHERE `subcat_id`='$getscid'");
+					$row = mysqli_fetch_assoc($select);
+					$select2 = mysqli_query($conn, "SELECT * FROM `categories` WHERE `cat_id`='$getcid'");
+					$row2 = mysqli_fetch_assoc($select2);
+					?>
     	    		<li><a href="/forum/" class="active">Forum</a></li>
+					<li>></li>
+					<li><a href="<?php echo "/forum/topics/".$_GET['cid']."/".$_GET['scid'].""; ?>" class="active"><?php echo $row2['category_title']; ?></a></li>
+            		<li>></li>
+					<li><a href="<?php echo "/forum/topics/".$_GET['cid']."/".$_GET['scid'].""; ?>" class="active"><?php echo $row['subcategory_title']; ?></a></li>
             </ul>
     <ul>
         <li><?php
@@ -137,43 +149,84 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 
 
 <div class="content-wrapper">
-	<?php
-		$conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
-		$select = mysqli_query($conn, "SELECT * FROM categories");
-		
-		while ($row = mysqli_fetch_assoc($select)) {
-			?>
-			<table id="categories">
-				<tr>
-					<th><?php echo $row['category_title']; ?></th>
-					<th width="35%">Last topic</th>
-					<th width="8%">Topics</th>
-				</tr>
+	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+		<div id="wm-error-page">
 			<?php
-			$catid = $row['cat_id'];
-			$select2 = mysqli_query($conn, "SELECT * FROM subcategories WHERE parent_id = '$catid'");
-			while ($row2 = mysqli_fetch_assoc($select2)) {
-				$scatid = $row2['subcat_id'];
-				$counttopics = mysqli_query($conn, "SELECT * FROM topics WHERE category_id = $catid AND subcategory_id = $scatid");
+					session_start();
+					$getscid = $_GET['scid'];
+					$select = mysqli_query($conn, "SELECT * FROM `subcategories` WHERE `subcat_id`='$getscid'");
+					$row = mysqli_fetch_assoc($select);
+					
+					if(isset($_SESSION["loggedin"])) {
+						$nick = $_SESSION["loggedin"];
+						$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+					}
+					
+					$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+					$result = mysqli_query($checkacp,$sql);
+					$rows = mysqli_fetch_array($result);
+					
+					$idcheck = $rows['id'];
+					
+					$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+					$resultgm = mysqli_query($checkacp,$gm);
+					$rowsgm = mysqli_fetch_array($resultgm);
+					
+					if (isset($_SESSION['loggedin'])) {
+						if($row['special']>0){
+							if($rowsgm['gmlevel']>0){
+								echo "
+								<form action='/forum/newtopic/".$_GET['cid']."/".$_GET['scid']."'>
+										<input type='submit' value='CREATE NEW TOPIC' class='wm-ui-btn'/>
+								</form>";
+								echo "Category only for GM's, but you still have permission to create topic.";
+							}else{
+								echo "Category only for GM's, you can not create topic.";
+							}
+						}else{
+							echo "
+								<form action='/forum/newtopic/".$_GET['cid']."/".$_GET['scid']."'>
+										<input type='submit' value='CREATE NEW TOPIC' class='wm-ui-btn'/>
+								</form>";
+						}
+					}
 				?>
-				<tr>
-					<td>
-						<a href="/forum/topics/<?php echo $row2['parent_id']; ?>/<?php echo $row2['subcat_id']; ?>"><font color="839309"><?php echo $row2['subcategory_title']; ?></font><br>
-						<font color="c1b575"><?php echo $row2['subcategory_desc']; ?></font></a>
-					</td>
-					<td>Todo</td>
-					<td><?php echo mysqli_num_rows($counttopics); ?></td>
-				</tr>
+				
+		</div>
+	</div>
+	<?php
+		$getcid = $_GET['cid'];
+		$getscid = $_GET['scid'];
+		$select = mysqli_query($conn, "SELECT * FROM topics WHERE category_id = $getcid AND subcategory_id = $getscid ORDER BY pinned=1 DESC, topic_id DESC");
+		if (mysqli_num_rows($select) != 0) {
+			echo "<table id='categories'>";
+			echo "<tr><th width='30%'>Title</th><th>Posted By</th><th>Date Posted</th><th width='8%'>Views</th><th width='8%'>Replies</th></tr>";
+			while ($row = mysqli_fetch_assoc($select)) {
+				?>
+				<tr><td><a href='/forum/readtopic/<?php echo $cid; ?>/<?php echo $scid; ?>/<?php echo $row['topic_id']; ?>'>
+					 <?php
+					if($row['locked']==1){
+						?>
+						<img src="/uploads/lock.png">
+						<?php
+					}
+					if($row['pinned']==1){
+						?>
+						<img src="/uploads/pin.png">
+						<?php
+					}
+					?><?php echo$row['title']; ?></a></td><td><?php echo $row['author']; ?></td><td><?php echo $row['date_posted']; ?></td><td><?php echo $row['views']; ?></td>
+					 <td><?php echo $row['replies']; ?></td></tr>
 				<?php
 			}
-			?>
-			</table>
-			<?php
+			echo "</table>";
+		} else {
+			echo "<table id='categories'><tr><th>This category has no topics yet! <a href='/forum/newtopic/".$cid."/".$scid."'>
+				 Add the very first topic like a boss!</a></th></tr></table>";
 		}
 	?>
 </div>
 <div class="clear"></div>
-
 
             <div class="clear"></div>
         </div>
