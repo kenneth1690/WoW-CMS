@@ -39,6 +39,44 @@ include('content_function.php');
 <link rel="stylesheet" href="/css/ui.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/wm-contextmenu.css">
+<style>
+#categories {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#categories td, #categories th {
+  border: 1px solid #ddd;
+  background: #0f0f0f none repeat-x left;
+  color: #c1b575;
+    border-bottom: 1px solid #1e1e1e;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+  padding: 10px;
+  font-size: 15px;
+}
+
+#categories tr:nth-child(even){background-color: #f2f2f2;}
+
+#categories tr:hover {background-color: #ddd;}
+
+#categories th {
+  padding-top: 6.5px;
+  padding-bottom: 6.5px;
+  text-align: left;
+  background-color: #131313;
+  color: #505050;
+  box-shadow: -2px 2px 2px transparent;
+  border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+	border-left: 1px solid transparent;
+	border-right: 1px solid transparent;
+    border: 1px solid #1e1e1e;
+	font-size: 15px;
+	vertical-align: text-top;
+}
+
+</style>
 </head>
 <body>
 <div class="navigation-wrapper">
@@ -100,7 +138,38 @@ include('content_function.php');
 
 
 <div class="content-wrapper">
-				
+	<?php
+		$conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+		$select = mysqli_query($conn, "SELECT * FROM categories");
+		
+		while ($row = mysqli_fetch_assoc($select)) {
+			?>
+			<table id="categories">
+				<tr>
+					<th><?php echo $row['category_title']; ?></th>
+					<th width="35%">Last topic</th>
+					<th width="8%">Topics</th>
+				</tr>
+			<?php
+			$catid = $row['cat_id'];
+			$select2 = mysqli_query($conn, "SELECT subcategory_title, subcategory_desc FROM subcategories WHERE parent_id = '$catid'");
+			while ($row2 = mysqli_fetch_assoc($select2)) {
+				?>
+				<tr>
+					<td>
+						<a href="/forum/topics/<?php echo $row2['cat_id']; ?>/<?php echo $row2['subcat_id']; ?>"><font color="839309"><?php echo $row2['subcategory_title']; ?></font><br>
+						<font color="c1b575"><?php echo $row2['subcategory_desc']; ?></font></a>
+					</td>
+					<td>Todo</td>
+					<td>Todo</td>
+				</tr>
+				<?php
+			}
+			?>
+			</table>
+			<?php
+		}
+	?>
 </div>
 <div class="clear"></div>
 
