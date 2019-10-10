@@ -414,11 +414,11 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 						
 						if($rowsgm['gmlevel']>0){
 							if($row['locked']=='0'){
-								echo "<form action='/forum/locktopic.php?cid=".$cid."&scid=".$scid."&tid=".$tid."' method='POST'>
+								echo "<form action='/forum/locktopic.php?cid=".$getcid."&scid=".$getscid."&tid=".$gettid."' method='POST'>
 											<input type='submit' value='LOCK' class='wm-ui-btn'/>
 										</form>";
 							}elseif($row['locked']=='1'){
-								echo "<form action='/forum/locktopic.php?cid=".$cid."&scid=".$scid."&tid=".$tid."' method='POST'>
+								echo "<form action='/forum/locktopic.php?cid=".$getcid."&scid=".$getscid."&tid=".$gettid."' method='POST'>
 											<input type='submit' value='UNLOCK' class='wm-ui-btn'/>
 										</form>";
 							}
@@ -426,11 +426,11 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 						
 						if($rowsgm['gmlevel']>0){
 							if($row['pinned']=='0'){
-								echo "<form action='/forum/pintopic.php?cid=".$cid."&scid=".$scid."&tid=".$tid."' method='POST'>
+								echo "<form action='/forum/pintopic.php?cid=".$getcid."&scid=".$getscid."&tid=".$gettid."' method='POST'>
 											<input type='submit' value='PIN' class='wm-ui-btn'/>
 										</form>";
 							}elseif($row['pinned']=='1'){
-								echo "<form action='/forum/pintopic.php?cid=".$cid."&scid=".$scid."&tid=".$tid."' method='POST'>
+								echo "<form action='/forum/pintopic.php?cid=".$getcid."&scid=".$getscid."&tid=".$gettid."' method='POST'>
 											<input type='submit' value='UNPIN' class='wm-ui-btn'/>
 										</form>";
 							}
