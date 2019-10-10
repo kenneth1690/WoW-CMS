@@ -215,7 +215,14 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<img src="/uploads/pin.png">
 						<?php
 					}
-					?><?php echo $row['title']; ?></a></td><td><?php echo $row['author']; ?></td><td><?php echo $row['date_posted']; ?></td><td><?php echo $row['views']; ?></td>
+					?><?php
+						if(strlen($row['title'])>16){
+							echo substr($row['title'], 0, 16);
+							echo "...";
+						}else{
+							echo $row['title'];
+						}
+					?></a></td><td><?php echo $row['author']; ?></td><td><?php echo $row['date_posted']; ?></td><td><?php echo $row['views']; ?></td>
 					 <td><?php echo $row['replies']; ?></td></tr>
 				<?php
 			}
