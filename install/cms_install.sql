@@ -337,6 +337,11 @@ ALTER TABLE `news`
 ALTER TABLE `replies`
   MODIFY `reply_id` int(3) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `topics`
+--
+ALTER TABLE `topics`
+  MODIFY `topic_id` int(3) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
 -- Constraints for dumped tables
 --
 

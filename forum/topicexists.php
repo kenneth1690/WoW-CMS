@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 include("check.php");
 include('../config/config.php');
 
@@ -37,44 +38,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 <link rel="stylesheet" href="/css/ui.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/wm-contextmenu.css">
-<style>
-#categories {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#categories td, #categories th {
-  border: 1px solid #ddd;
-  background: #0f0f0f none repeat-x left;
-  color: #c1b575;
-    border-bottom: 1px solid #1e1e1e;
-    border-left: 1px solid transparent;
-    border-right: 1px solid transparent;
-  padding: 10px;
-  font-size: 15px;
-}
-
-#categories tr:nth-child(even){background-color: #f2f2f2;}
-
-#categories tr:hover {background-color: #ddd;}
-
-#categories th {
-  padding-top: 6.5px;
-  padding-bottom: 6.5px;
-  text-align: left;
-  background-color: #131313;
-  color: #505050;
-  box-shadow: -2px 2px 2px transparent;
-  border-top-right-radius: 0px;
-	border-top-left-radius: 0px;
-	border-left: 1px solid transparent;
-	border-right: 1px solid transparent;
-    border: 1px solid #1e1e1e;
-	font-size: 15px;
-	vertical-align: text-top;
-}
-
-</style>
 </head>
 <body>
 <div class="navigation-wrapper">
@@ -108,6 +71,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
     <div class="center">
         <iframe width="100%" height="100%" src="/images/bg3.jpg" frameborder="0" scrolling="no" allowfullscreen=""></iframe>
     </div>
+    <div id="wm-theme-navigation"><a href="javascript:;" data-background="1"></a><a href="javascript:;" data-background="0"></a></div>
     <div class="footer"></div>
     <div class="rightmost-frame"></div>
 	<div class="frame-corners bl"></div>
@@ -121,24 +85,11 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
     <div class="center">
         <div id="page-content">
             
-	
+
 <div id="page-navigation" class="wm-ui-generic-frame wm-ui-bottom-border">
-	<ul>
-					<?php
-					$conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
-					$getcid = $_GET['cid'];
-					$getscid = $_GET['scid'];
-					$select = mysqli_query($conn, "SELECT * FROM `subcategories` WHERE `subcat_id`='$getscid'");
-					$row = mysqli_fetch_assoc($select);
-					$select2 = mysqli_query($conn, "SELECT * FROM `categories` WHERE `cat_id`='$getcid'");
-					$row2 = mysqli_fetch_assoc($select2);
-					?>
-    	    		<li><a href="/forum/" class="active">Forum</a></li>
-					<li>></li>
-					<li><a href="<?php echo "/forum/topics/".$_GET['cid']."/".$_GET['scid'].""; ?>" class="active"><?php echo $row2['category_title']; ?></a></li>
-            		<li>></li>
-					<li><a href="<?php echo "/forum/topics/".$_GET['cid']."/".$_GET['scid'].""; ?>" class="active"><?php echo $row['subcategory_title']; ?></a></li>
-            </ul>
+<ul>
+	<li><a href="/forum/" class="active">Forum</a></li>
+</ul>
     <ul>
         <li><?php
 		$dt = new DateTime("now", new DateTimeZone('Europe/Warsaw'));
@@ -147,86 +98,19 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
     </ul>
 </div>
 
-
 <div class="content-wrapper">
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
-			<?php
-					session_start();
-					$getscid = $_GET['scid'];
-					$select = mysqli_query($conn, "SELECT * FROM `subcategories` WHERE `subcat_id`='$getscid'");
-					$row = mysqli_fetch_assoc($select);
-					
-					if(isset($_SESSION["loggedin"])) {
-						$nick = $_SESSION["loggedin"];
-						$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
-					}
-					
-					$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
-					$result = mysqli_query($checkacp,$sql);
-					$rows = mysqli_fetch_array($result);
-					
-					$idcheck = $rows['id'];
-					
-					$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
-					$resultgm = mysqli_query($checkacp,$gm);
-					$rowsgm = mysqli_fetch_array($resultgm);
-					
-					if (isset($_SESSION['loggedin'])) {
-						if($row['special']>0){
-							if($rowsgm['gmlevel']>0){
-								echo "
-								<form action='/forum/newtopic/".$_GET['cid']."/".$_GET['scid']."'>
-										<input type='submit' value='CREATE NEW TOPIC' class='wm-ui-btn'/>
-								</form>";
-								echo "Category only for GM's, but you still have permission to create topic.";
-							}else{
-								echo "Category only for GM's, you can not create topic.";
-							}
-						}else{
-							echo "
-								<form action='/forum/newtopic/".$_GET['cid']."/".$_GET['scid']."'>
-										<input type='submit' value='CREATE NEW TOPIC' class='wm-ui-btn'/>
-								</form>";
-						}
-					}
-				?>
-				
+			<center>
+			<p><font size="6">Existing topic</font></p>
+			<p>
+				<font size="5">A topic with this name already exists.</font>
+			</p> 
+			</center>
+			<?php header("refresh:5;url=index.php"); ?>
 		</div>
 	</div>
-	<?php
-		$getcid = $_GET['cid'];
-		$getscid = $_GET['scid'];
-		$select = mysqli_query($conn, "SELECT * FROM topics WHERE category_id = $getcid AND subcategory_id = $getscid ORDER BY pinned=1 DESC, topic_id DESC");
-		if (mysqli_num_rows($select) != 0) {
-			echo "<table id='categories'>";
-			echo "<tr><th width='30%'>Title</th><th>Posted By</th><th>Date Posted</th><th width='8%'>Views</th><th width='8%'>Replies</th></tr>";
-			while ($row = mysqli_fetch_assoc($select)) {
-				?>
-				<tr><td><a href='/forum/readtopic/<?php echo $getcid; ?>/<?php echo $getscid; ?>/<?php echo $row['topic_id']; ?>'>
-					 <?php
-					if($row['locked']==1){
-						?>
-						<img src="/uploads/lock.png">
-						<?php
-					}
-					if($row['pinned']==1){
-						?>
-						<img src="/uploads/pin.png">
-						<?php
-					}
-					?><?php echo $row['title']; ?></a></td><td><?php echo $row['author']; ?></td><td><?php echo $row['date_posted']; ?></td><td><?php echo $row['views']; ?></td>
-					 <td><?php echo $row['replies']; ?></td></tr>
-				<?php
-			}
-			echo "</table>";
-		} else {
-			echo "<table id='categories'><tr><th>This category has no topics yet! <a href='/forum/newtopic/".$cid."/".$scid."'>
-				 Add the very first topic like a boss!</a></th></tr></table>";
-		}
-	?>
 </div>
-<div class="clear"></div>
 
             <div class="clear"></div>
         </div>
