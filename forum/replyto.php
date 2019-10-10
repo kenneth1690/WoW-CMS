@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 include("check.php");
@@ -28,9 +29,30 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
     header("location: ../login.php");
 	exit;
 }
+	$select = mysqli_query($conn, "SELECT * FROM topics WHERE category_id = $getcid AND subcategory_id = $getscid AND topic_id = $gettid");
+	$row = mysqli_fetch_assoc($select);
 
-$update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE category_id = ".$_GET['cid']." AND
-									  subcategory_id = ".$_GET['scid']." AND topic_id = ".$_GET['tid']."");
+	if($row['locked']=='1'){
+		$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+						
+		$nick = $_SESSION["loggedin"];
+						
+		$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+		$result = mysqli_query($checkacp,$sql);
+		$rows = mysqli_fetch_array($result);
+						
+		$idcheck = $rows['id'];
+						
+		$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+		$resultgm = mysqli_query($checkacp,$gm);
+		$rowsgm = mysqli_fetch_array($resultgm);
+
+		if(!$rowsgm || $rowsgm['gmlevel']==0){
+			header("location: /forum/index.php");
+			exit;
+		}
+	}
+
 ?>
 <html lang="en" class="active"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -132,7 +154,7 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 	
 <div id="page-navigation" class="wm-ui-generic-frame wm-ui-bottom-border">
 	<ul>
-					<?php		
+					<?php
 					$getcid = $_GET['cid'];
 					$getscid = $_GET['scid'];
 					$gettid = $_GET['tid'];
@@ -150,6 +172,8 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 					<li><a href="<?php echo "/forum/topics/".$_GET['cid']."/".$_GET['scid'].""; ?>" class="active"><?php echo $row['subcategory_title']; ?></a></li>
 					<li>></li>
 					<li><a href="<?php echo "/forum/readtopic/".$_GET['cid']."/".$_GET['scid']."/".$_GET['tid'].""; ?>" class="active"><?php echo $row3['title']; ?></a></li>
+					<li>></li>
+					<li><a href="#" class="active">New Reply</a></li>
             </ul>
     <ul>
         <li><?php
@@ -379,65 +403,29 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
 			<?php
-					if (isset($_SESSION['loggedin'])) {
-						$select = mysqli_query($con, "SELECT * FROM topics WHERE category_id = $getcid AND subcategory_id = $getscid AND topic_id = $gettid");
-						$row = mysqli_fetch_assoc($select);
-						
-						$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
-						
-						$nick = $_SESSION["loggedin"];
-						
-						$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
-						$result = mysqli_query($checkacp,$sql);
-						$rows = mysqli_fetch_array($result);
-						
-						$idcheck = $rows['id'];
-						
-						$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
-						$resultgm = mysqli_query($checkacp,$gm);
-						$rowsgm = mysqli_fetch_array($resultgm);
-
-						if($row['locked']=='0'){
-							echo "<form action='/forum/replyto/".$getcid."/".$getscid."/".$gettid."'>
-										<input type='submit' value='REPLY' class='wm-ui-btn'/>
-									</form>";
-						}elseif($row['locked']=='1'){
-							if($rowsgm['gmlevel']>0){
-								echo "<form action='/forum/replyto/".$getcid."/".$getscid."/".$gettid."'>
-										<input type='submit' value='REPLY' class='wm-ui-btn'/>
-									</form>";
-								echo "The topic is locked, but you still have permission to reply.";
-							}else{
-								echo "Topic is locked, you can not reply.";
-							}
-						}
-						
-						if($rowsgm['gmlevel']>0){
-							if($row['locked']=='0'){
-								echo "<form action='/forum/locktopic.php?cid=".$cid."&scid=".$scid."&tid=".$tid."' method='POST'>
-											<input type='submit' value='LOCK' class='wm-ui-btn'/>
-										</form>";
-							}elseif($row['locked']=='1'){
-								echo "<form action='/forum/locktopic.php?cid=".$cid."&scid=".$scid."&tid=".$tid."' method='POST'>
-											<input type='submit' value='UNLOCK' class='wm-ui-btn'/>
-										</form>";
-							}
-						}
-						
-						if($rowsgm['gmlevel']>0){
-							if($row['pinned']=='0'){
-								echo "<form action='/forum/pintopic.php?cid=".$cid."&scid=".$scid."&tid=".$tid."' method='POST'>
-											<input type='submit' value='PIN' class='wm-ui-btn'/>
-										</form>";
-							}elseif($row['pinned']=='1'){
-								echo "<form action='/forum/pintopic.php?cid=".$cid."&scid=".$scid."&tid=".$tid."' method='POST'>
-											<input type='submit' value='UNPIN' class='wm-ui-btn'/>
-										</form>";
-							}
-						}
-						mysqli_close($checkacp);
+			if (isset($_SESSION['loggedin'])) {
+				$select = mysqli_query($conn, "SELECT * FROM topics WHERE category_id = $getcid AND subcategory_id = $getscid AND topic_id = $gettid");
+				$row = mysqli_fetch_assoc($select);
+				if($row['locked']=='0'){
+					echo "<div class='content'><form action='/forum/addreply.php?cid=".$getcid."&scid=".$getscid."&tid=".$gettid."' method='POST'>
+							  <p>Reply: </p>
+							  <textarea cols='80' rows='14' id='comment' name='comment' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br />
+							  <br><input type='submit' value='CREATE' class='wm-ui-btn'/>
+							  </form></div>";
+				}elseif($row['locked']=='1'){
+					if($rowsgm['gmlevel']>0){
+						echo "<div class='content'><form action='/forum/addreply.php?cid=".$getcid."&scid=".$getscid."&tid=".$gettid."' method='POST'>
+								  <p>Reply: </p>
+								  <textarea cols='80' rows='14' id='comment' name='comment' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br />
+								  <br><input type='submit' value='CREATE' class='wm-ui-btn'/>
+								  </form></div>";
+						echo "Topic is locked, but you still have permission to reply.";
+					}else{
+						echo "Topic is locked, you can not reply.";
 					}
-				?>
+				}
+			}
+			?>
 		</div>
 	</div>
 </div>
