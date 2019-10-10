@@ -154,6 +154,11 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			$select2 = mysqli_query($conn, "SELECT * FROM subcategories WHERE parent_id = '$catid'");
 			while ($row2 = mysqli_fetch_assoc($select2)) {
 				$scatid = $row2['subcat_id'];
+				
+				$sqllast= "SELECT * FROM topics WHERE category_id = $catid AND subcategory_id = $scatid ORDER BY topic_id DESC LIMIT 1";
+				$resultlast = mysqli_query($conn,$sqllast);
+				$rowlast = mysqli_fetch_array($resultlast);
+				
 				$counttopics = mysqli_query($conn, "SELECT * FROM topics WHERE category_id = $catid AND subcategory_id = $scatid");
 				?>
 				<tr>
@@ -161,7 +166,22 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<a href="/forum/topics/<?php echo $row2['parent_id']; ?>/<?php echo $row2['subcat_id']; ?>"><font color="839309"><?php echo $row2['subcategory_title']; ?></font><br>
 						<font color="c1b575"><?php echo $row2['subcategory_desc']; ?></font></a>
 					</td>
-					<td>Todo</td>
+					<td>
+						<?php
+						if($rowlast['title']){
+							if(strlen($rowlast['title'])>16){
+								echo substr($rowlast['title'], 0, 16);
+								echo "...";
+							}else{
+								echo $rowlast['title'];
+							}
+						}else{
+							?>
+							None
+							<?php
+						}
+						?>
+					</td>
 					<td><?php echo mysqli_num_rows($counttopics); ?></td>
 				</tr>
 				<?php
