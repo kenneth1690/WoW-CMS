@@ -117,28 +117,28 @@
 		$resultcms = mysqli_query($cmsconn,$cmssql);
 		$rowscms = mysqli_fetch_array($resultcms);
 		
-		?><li><a href="/ucp/ucp.php">ACCOUNT PANEL</a></li>
-        </ul>
-        <ul>
+		?><li><a href="/acp/acp.php"><i class="fas fa-user-secret"></i> ADMIN PANEL</a></li>
             <?php
 		    if($rowsgm && $rowsgm['gmlevel']>0){ 
 				?>
-				<li><a href="/acp/manageaccs.php">ACCOUNTS</a></li>
+				<li><a href="/acp/manageaccs.php"><i class="fas fa-user-friends"></i> ACCOUNTS</a></li>
 				<?php
                 if($rowsgm && $rowsgm['gmlevel']>1){ 
                 ?>
-                <li><a href="/acp/listcontent.php?action=news">NEWS</a></li>  
-                <li><a href="/acp/listcontent.php?action=changelogs" class="active">CHANGELOGS</a></li>
-                <li><a href="/acp/logs.php">LOGS</a></li>
-				<?php
+                <li><a href="/acp/listcontent.php?action=news"><i class="fas fa-newspaper"></i> NEWS</a></li>  
+                <li><a href="/acp/listcontent.php?action=changelogs" class="active"><i class="fas fa-exclamation-circle"></i> CHANGELOGS</a></li>
+                <li><a href="/acp/logs.php"><i class="fas fa-clipboard-list"></i> LOGS</a></li>
+                <?php
 				}
 				if($rowsgm && $rowsgm['gmlevel']>2){ 
 					?>
-					<li><a href="/acp/website.php">WEBSITE</a></li>
+					<li><a href="/acp/website.php"><i class="fas fa-cogs"></i> WEBSITE</a></li>
 					<?php
 				}
 			    ?>
-			    <li><a href="/acp/acp.php" class="active">ADMIN PANEL</a></li>
+				</ul>
+				<ul>
+			    <li><a href="/ucp/ucp.php"><i class="fas fa-user"></i> ACCOUNT PANEL</a></li>
 			    <?php
 		    }
 		mysqli_close($checkacp);
@@ -222,7 +222,6 @@
 </div>
 
 <div id="page-footer">
-	<a href="/policies/terms">Terms of Service</a> &nbsp; <a href="/policies/privacy">Privacy Policy</a> &nbsp; <a href="/policies/refund"> Refund Policy </a> &nbsp; <a href="#">Contact Us</a><br>
 	Copyright ][ <?php echo $sitename; ?> ][ 2019. All Rights Reserved.
 </div>
 
