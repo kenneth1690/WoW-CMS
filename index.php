@@ -229,7 +229,7 @@ function getplayercount() {
 				</tr>
 				<tr>
 					<td colspan="3">
-						Server status: <span><?php
+						<i class="fas fa-eye"></i> Server status: <span><?php
 						$connection = @fsockopen($realmip, $realmport);
 
 						if (is_resource($connection)) {
