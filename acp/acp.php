@@ -121,9 +121,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$resultcms2 = mysqli_query($cmsconn,$cmssql2);
 		$rowscms2 = mysqli_fetch_array($resultcms2);
 		
-		?><li><a href="/ucp/ucp.php">ACCOUNT PANEL</a></li>
-        </ul>
-        <ul>
+		?><li><a href="/acp/acp.php" class="active">ADMIN PANEL</a></li>
             <?php
 		    if($rowsgm && $rowsgm['gmlevel']>0){ 
 				?>
@@ -142,7 +140,9 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					<?php
 				}
 			    ?>
-			    <li><a href="/acp/acp.php" class="active">ADMIN PANEL</a></li>
+				</ul>
+				<ul>
+			    <li><a href="/ucp/ucp.php">ACCOUNT PANEL</a></li>
 			    <?php
 		    }
 		mysqli_close($checkacp);
