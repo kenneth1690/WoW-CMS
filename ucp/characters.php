@@ -124,21 +124,20 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$esttime = round($datediff / (60 * 60 * 24));
 		
 		
-		?><li><a href="/ucp/ucp.php">ACCOUNT PANEL</a></li>
-		<li><a href="/ucp/characters.php" class="active">CHARACTERS</a></li>
-		<li><a href="/ucp/donate.php">DONATE</a></li>
-		<li><a href="/ucp/store.php">STORE</a></li>
-		<li><a href="/ucp/trade.php">TRADE</a></li>
-		<li><a href="/ucp/services.php">SERVICES</a></li>
-		<li><a href="/ucp/support.php">SUPPORT</a></li>
-		<li><a href="/ucp/lottery.php">LOTTERY</a></li>
-		<li><a href="/ucp/settings.php">SETTINGS</a></li>
+		?><li><a href="/ucp/ucp.php"><i class="fas fa-user"></i> ACCOUNT PANEL</a></li>
+		<li><a href="/ucp/characters.php" class="active"><i class="fas fa-users-cog"></i> CHARACTERS</a></li>
+		<li><a href="/ucp/donate.php"><i class="fas fa-dollar-sign"></i> DONATE</a></li>
+		<li><a href="/ucp/store.php"><i class="fas fa-shopping-cart"></i> STORE</a></li>
+		<li><a href="/ucp/trade.php"><i class="fas fa-sync-alt"></i> TRADE</a></li>
+		<li><a href="/ucp/support.php"><i class="fas fa-life-ring"></i> SUPPORT</a></li>
+		<li><a href="/ucp/lottery.php"><i class="fas fa-ticket-alt"></i> LOTTERY</a></li>
+		<li><a href="/ucp/settings.php"><i class="fas fa-cog"></i> SETTINGS</a></li>
 		</ul>
 		<ul>
 		<?php
 		if($rowsgm && $rowsgm['gmlevel']>0){ 
 			?>
-			<li><a href="/acp/acp.php">ADMIN PANEL</a></li>
+			<li><a href="/acp/acp.php"><i class="fas fa-user-secret"></i> ADMIN PANEL</a></li>
 			<?php
 		}
 		mysqli_close($checkacp);
@@ -626,7 +625,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 </div>
 
 <div id="page-footer">
-	<a href="/policies/terms">Terms of Service</a> &nbsp; <a href="/policies/privacy">Privacy Policy</a> &nbsp; <a href="/policies/refund"> Refund Policy </a> &nbsp; <a href="#">Contact Us</a><br>
 	Copyright ][ <?php echo $sitename; ?> ][ 2019. All Rights Reserved.
 </div>
 
