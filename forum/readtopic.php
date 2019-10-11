@@ -453,7 +453,6 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 </div>
 
 <div id="page-footer">
-	<a href="/policies/terms">Terms of Service</a> &nbsp; <a href="/policies/privacy">Privacy Policy</a> &nbsp; <a href="/policies/refund"> Refund Policy </a> &nbsp; <a href="#">Contact Us</a><br>
 	Copyright ][ <?php echo $sitename; ?> ][ 2019. All Rights Reserved.
 </div>
 
