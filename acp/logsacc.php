@@ -199,8 +199,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				<th width="15%">Log date</th>
 			</tr>
 			<?php
-			include('db.php');
-
 			if (isset($_GET['page_no']) && $_GET['page_no']!="") {
 				$page_no = $_GET['page_no'];
 			}else{

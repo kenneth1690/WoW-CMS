@@ -274,8 +274,9 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 		
 		
 		if (mysqli_num_rows($select) != 0) {
-			?>
+			?><br>
 			<table id='categories'>
+			<th colspan='2'>Replies:</th></tr>
 			<?php
 			while ($row = mysqli_fetch_assoc($select)) {
 				if(isset($_SESSION["loggedin"])) {

@@ -201,7 +201,29 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		if (mysqli_num_rows($select) != 0) {
 			echo "<table id='categories'>";
 			echo "<tr><th width='30%'>Title</th><th>Posted By</th><th>Date Posted</th><th width='8%'>Views</th><th width='8%'>Replies</th></tr>";
-			while ($row = mysqli_fetch_assoc($select)) {
+			
+			if (isset($_GET['page_no']) && $_GET['page_no']!="") {
+				$page_no = $_GET['page_no'];
+			}else{
+				$page_no = 1;
+			}
+			
+			$cmsconn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+			
+			$total_records_per_page = 10;
+			$offset = ($page_no-1) * $total_records_per_page;
+			$previous_page = $page_no - 1;
+			$next_page = $page_no + 1;
+			$adjacents = "2"; 
+
+			$result_count = mysqli_query($cmsconn,"SELECT COUNT(*) As total_records FROM `topics`");
+			$total_records = mysqli_fetch_array($result_count);
+			$total_records = $total_records['total_records'];
+			$total_no_of_pages = ceil($total_records / $total_records_per_page);
+			$second_last = $total_no_of_pages - 1; // total page minus 1
+			
+			$result = mysqli_query($cmsconn,"SELECT * FROM topics WHERE category_id = $getcid AND subcategory_id = $getscid ORDER BY pinned=1 DESC, topic_id DESC LIMIT $offset, $total_records_per_page");
+			while ($row = mysqli_fetch_assoc($result)) {
 				?>
 				<tr><td><a href='/forum/readtopic/<?php echo $getcid; ?>/<?php echo $getscid; ?>/<?php echo $row['topic_id']; ?>'>
 					 <?php
@@ -231,6 +253,78 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			echo "<table id='categories'><tr><th>This category has no topics yet! <a href='/forum/newtopic/".$cid."/".$scid."'>
 				 Add the very first topic like a boss!</a></th></tr></table>";
 		}
+	?>
+	<?php
+	if (mysqli_num_rows($select) > 10) {
+	?>
+	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+		<div id="wm-error-page">
+			<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
+			<?php // if($page_no > 1){ echo "<li><a href='/forum/topics/$getcid/$getscid&page_no=1'>First Page</a></li>"; } ?>
+			
+			<b><a <?php if($page_no > 1){ echo "href='/forum/topics/$getcid/$getscid&page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
+			   
+			<?php 
+			if ($total_no_of_pages <= 10){  	 
+				for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+					if ($counter == $page_no) {
+						echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+					}else{
+						echo "<b><a href='/forum/topics/$getcid/$getscid&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+					}
+				}
+			}elseif($total_no_of_pages > 10){
+				if($page_no <= 4) {			
+					for ($counter = 1; $counter < 8; $counter++){		 
+						if ($counter == $page_no) {
+							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+						}else{
+							echo "<b><a href='/forum/topics/$getcid/$getscid&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+						}
+					}
+					echo "<b><a>...</a></b>";
+					echo "<b><a href='/forum/topics/$getcid/$getscid&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+					echo "<b><a href='/forum/topics/$getcid/$getscid&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
+				}elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
+					echo "<b><a href='/forum/topics/$getcid/$getscid&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+					echo "<b><a href='/forum/topics/$getcid/$getscid&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+					echo "<b><a>...</a></b>";
+					for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {			
+						if ($counter == $page_no) {
+							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+						}else{
+							echo "<b><a href='/forum/topics/$getcid/$getscid&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+						}                  
+				   }
+				   echo "<b><a>...</a></b>";
+				   echo "<b><a href='/forum/topics/$getcid/$getscid&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+				   echo "<b><a href='/forum/topics/$getcid/$getscid&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
+				}else {
+					echo "<b><a href='/forum/topics/$getcid/$getscid&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+					echo "<b><a href='/forum/topics/$getcid/$getscid&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+					echo "<b><a>...</a></b>";
+
+					for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+						if ($counter == $page_no) {
+							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+						}else{
+							echo "<b><a href='/forum/topics/$getcid/$getscid&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+						}                   
+					}
+				}
+			}
+			?>
+    
+			<b><a <?php if($page_no < $total_no_of_pages) { echo "href='/forum/topics/$getcid/$getscid&page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
+			<?php
+			if($page_no < $total_no_of_pages){
+				echo "<b><a href='/forum/topics/$getcid/$getscid&page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
+			}
+			?>
+		</div>
+	</div>
+	<?php
+	}
 	?>
 </div>
 <div class="clear"></div>
