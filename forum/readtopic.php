@@ -286,7 +286,7 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 			
 			$cmsconn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 			
-			$total_records_per_page = 10;
+			$total_records_per_page = 6;
 			$offset = ($page_no-1) * $total_records_per_page;
 			$previous_page = $page_no - 1;
 			$next_page = $page_no + 1;
@@ -465,7 +465,7 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 	</div>
 	<?php
 	$select2 = mysqli_query($con, "SELECT * FROM replies WHERE category_id = $getcid AND subcategory_id = $getscid AND topic_id = $gettid");
-	if (mysqli_num_rows($selectreps) > 10) {
+	if (mysqli_num_rows($selectreps) > 6) {
 	?>
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
