@@ -149,141 +149,176 @@
 <div class="content-wrapper">
 			<?php 
 			if(isset($_GET['id'])){
-				if(isset($_GET['id'])){
-					$acid = $_GET['id'];
-            		$conn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
-            		$nick = $_SESSION["loggedin"];
-					$checkac = mysqli_query($conn, 'SELECT * FROM account WHERE id="'.$acid.'"');
-                	if(mysqli_num_rows($checkac)>0){
+				$acid = $_GET['id'];
+            	$conn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+            	$nick = $_SESSION["loggedin"];
+				$checkac = mysqli_query($conn, 'SELECT * FROM account WHERE id="'.$acid.'"');
+                if(mysqli_num_rows($checkac)>0){
+					if(empty($_POST['username'])){
+						?>
+						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+						<div id="wm-error-page">
+						<center>
+							<p>
+								<font size="6">Empty field</font>
+							</p>
+							<p>
+								<font size="5">Field `username` cannot be empty.</font>
+							</p> 
+						</center>
+						</div>
+					</div>
+						<?php
+						header("refresh:5;url=acp.php");
+					}elseif(!empty($_POST['gmlevel']) && $_POST['gmlevel']>4){
+						?>
+						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+						<div id="wm-error-page">
+						<center>
+							<p>
+								<font size="6">Invalid GM Level</font>
+							</p>
+							<p>
+								<font size="5">Field `GM Level` cannot be more than 4.</font>
+							</p> 
+						</center>
+						</div>
+					</div>
+						<?php
+						header("refresh:5;url=acp.php");
+					}elseif(!is_numeric($_POST['coins'])){
+						?>
+						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+						<div id="wm-error-page">
+						<center>
+							<p>
+								<font size="6">Empty field</font>
+							</p>
+							<p>
+								<font size="5">Field `coins` cannot be empty.</font>
+							</p> 
+						</center>
+						</div>
+					</div>
+						<?php
+						header("refresh:5;url=acp.php");
+					}elseif(!is_numeric($_POST['posts'])){
+						?>
+						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+						<div id="wm-error-page">
+						<center>
+							<p>
+								<font size="6">Empty field</font>
+							</p>
+							<p>
+								<font size="5">Field `posts` cannot be empty.</font>
+							</p> 
+						</center>
+						</div>
+					</div>
+						<?php
+						header("refresh:5;url=acp.php");
+					}elseif(empty($_POST['email'])){
+						?>
+						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+						<div id="wm-error-page">
+						<center>
+							<p>
+								<font size="6">Empty field</font>
+							</p>
+							<p>
+								<font size="5">Field `email` cannot be empty.</font>
+							</p> 
+						</center>
+						</div>
+					</div>
+						<?php
+						header("refresh:5;url=acp.php");
+					}elseif(empty($_POST['location'])){
+						?>
+						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+						<div id="wm-error-page">
+						<center>
+							<p>
+								<font size="6">Empty field</font>
+							</p>
+							<p>
+								<font size="5">Field `location` cannot be empty.</font>
+							</p> 
+						</center>
+						</div>
+					</div>
+						<?php
+						header("refresh:5;url=acp.php");
+					}else{
+						$cmsconn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 						$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
 
-						$sql= "SELECT * FROM account WHERE id = '" . $acid . "'";
-						$result = mysqli_query($checkacp,$sql);
-						$rows = mysqli_fetch_array($result);
+						$sqledit= "SELECT * FROM account WHERE id = '" . $acid . "'";
+						$resultedit = mysqli_query($checkacp,$sqledit);
+						$rowsedit = mysqli_fetch_array($resultedit);
 						
-						$idcheck = $rows['id'];
-						$ipcheck = $rows['last_ip'];
+						$editid = $rowsedit['id'];
 						
-						$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
-						$resultgm = mysqli_query($checkacp,$gm);
-						$rowsgm = mysqli_fetch_array($resultgm);
+						$gmedit= "SELECT * FROM account_access WHERE id = '" . $editid . "'";
+						$resultgmedit = mysqli_query($checkacp,$gmedit);
+						$rowsgmedit = mysqli_fetch_array($resultgmedit);
 						
-						?>
-						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 450px;">
-						<form action='/acp/edituser.php?id=<?php echo $rows['id']; ?>' method='POST'>
-						<span>ACCOUNT EDITOR</span>
-						<table>
-						<tbody><tr>
-							<td>&nbsp;</td>
-						</tr>
-						<tr>
-							<td>Player editing 
-							<?php
-							if($rows['posts']>=0 && $rows['posts']<50){
+						if($idcheck==$editid){
+							header("refresh:5;url=acp.php");
 								?>
-								<font color="ffffff"><?php echo $rows['username']; ?></font>
+								<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+								<div id="wm-error-page">
+								<center>
+									<p>
+										<font size="6">Editing failed</font>
+									</p>
+									<p>
+										<font size="5">You cannot edit your own account.</font>
+									</p> 
+								</center>
+								</div>
+							</div>
 								<?php
-							}elseif($rows['posts']>=50 && $rows['posts']<100){
+						}else{
+							if($rowsgm['gmlevel']>$rowsgmedit['gmlevel']){
+								header("refresh:5;url=acp.php");
+								$insertlog = mysqli_query($cmsconn, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+									  VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'MANAGER: User `".$nick."` edited user `".$rowsedit['username']."` (ID: ".$editid.")', NOW());");
 								?>
-								<font color="#1df701"><?php echo $rows['username']; ?></font>
-								<?php
-							}elseif($rows['posts']>=100 && $rows['posts']<250){
-								?>
-								<font color="006dd7"><?php echo $rows['username']; ?></font>
-								<?php
-							}elseif($rows['posts']>=250 && $rows['posts']<500){
-								?>
-								<font color="9e34e7"><?php echo $rows['username']; ?></font>
-								<?php
-							}elseif($rows['posts']>=500){
-								?>
-								<font color="f57b01"><?php echo $rows['username']; ?></font>
-								<?php
-							}
-							if($rowsgm['gmlevel']==1){
-								?>
-								<font color="00ba0d">*Moderator*</font>
-								<?php
-							}elseif($rowsgm['gmlevel']==2){
-								?>
-								<font color="cf7c00">*Administrator*</font>
-								<?php
-							}elseif($rowsgm['gmlevel']==3){
-								?>
-								<font color="c70000">*Head Admin*</font>
-								<?php
-							}elseif($rowsgm['gmlevel']==4){
-								?>
-								<font color="9000b8">*Owner*</font>
+								<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+								<div id="wm-error-page">
+								<center>
+									<p>
+										<font size="6">Successfully edited</font>
+									</p>
+									<p>
+										<font size="5">Account has been successfully edited.</font>
+									</p> 
+								</center>
+								</div>
+							</div>
 								<?php
 							}else{
-								?>
-								<font color="ffffff">*Player*</font>
-								<?php
+								header("refresh:5;url=acp.php");
+									?>
+									<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+									<div id="wm-error-page">
+									<center>
+										<p>
+											<font size="6">Editing failed</font>
+										</p>
+										<p>
+											<font size="5">You're trying to edit GM who is higher than you.</font>
+										</p> 
+									</center>
+									</div>
+								</div>
+									<?php
 							}
-							?>
-							</td>
-						</tr>
-						<tr>
-							<td>&nbsp;</td>
-						</tr>
-						<tr>
-							<td>
-								<p>Username: </p>
-								<input type='text' id='username' name='username' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rows['username']; ?>'/><br /><br>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<p>GM Level (1-4, empty for none): </p>
-								<input type='text' id='gmlevel' name='gmlevel' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rowsgm['gmlevel']; ?>'/><br /><br>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<p>Coins: </p>
-								<input type='text' id='coins' name='coins' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rows['coins']; ?>'/><br /><br>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<p>Posts: </p>
-								<input type='text' id='posts' name='posts' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rows['posts']; ?>'/><br /><br>
-							</td>
-						</tr>
-					</tbody></table>
-						</div>
-						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 450px;">
-						<span>ACCOUNT EDITOR</span>
-						<table>
-						<tbody><tr>
-							<td>&nbsp;</td>
-						</tr>
-						<tr>
-							<td>
-								<p>Email address: </p>
-								<input type='text' id='email' name='email' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rows['email']; ?>'/><br /><br>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<p>Location: </p>
-								<input type='text' id='location' name='location' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rows['location']; ?>'/><br /><br>
-							</td>
-						</tr>
-						<tr>
-							<td>&nbsp;</td>
-						</tr>
-						<tr>
-							<td>
-								<input type='submit' value='EDIT ACCOUNT' class='wm-ui-btn'/>
-							</td>
-						</tr>
-					</tbody></table>
-						</form>
-						</div>
-						<?php
-					}else{
+						}
+					}
+				}else{
 						?>
 						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 						<div id="wm-error-page">
@@ -298,23 +333,7 @@
 						</div>
 					</div>
 						<?php
-					}
-				}else{
-						?>
-					<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-						<div id="wm-error-page">
-						<center>
-							<p>
-								<font size="6">No player selected</font>
-							</p>
-							<p>
-								<font size="5">You have not selected a player ID.</font>
-							</p> 
-						</center>
-						</div>
-					</div>
-					<?php
-					header("refresh:5;url=acp.php");
+						header("refresh:5;url=acp.php");
 				}
 			}else{
 				?>
