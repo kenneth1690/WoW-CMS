@@ -238,7 +238,7 @@
 						</tr>
 						<tr>
 							<td>
-								<p>GM Level (1-4): </p>
+								<p>GM Level (1-4, empty for none): </p>
 								<input type='text' id='gmlevel' name='gmlevel' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rowsgm['gmlevel']; ?>'/><br /><br>
 							</td>
 						</tr>
