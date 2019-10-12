@@ -36,6 +36,16 @@
 		$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
 		$resultgm = mysqli_query($checkacp,$gm);
 		$rowsgm = mysqli_fetch_array($resultgm);
+			
+		$sqlmygm= "SELECT * FROM account WHERE username = '" . $nick . "'";
+		$resultmygm = mysqli_query($checkacp,$sqlmygm);
+		$rowsmygm = mysqli_fetch_array($resultmygm);
+		
+		$idcheckmy = $rowsmygm['id'];
+		
+		$gmmy= "SELECT * FROM account_access WHERE id = '" . $idcheckmy . "'";
+		$resultgmmy = mysqli_query($checkacp,$gmmy);
+		$rowsgmmycheck = mysqli_fetch_array($resultgmmy);
 		
 		if(!$rowsgm || $rowsgm['gmlevel']==0){
 			header("location: ../index.php");
@@ -543,6 +553,22 @@
 							</font>
 							</td>
 						</tr>
+						<?php
+						if($rowsgmmycheck['gmlevel']>2){
+						?>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td>
+								<form action='/acp/managedetails.php' method='POST'>
+									<input type='submit' value='MANAGE ACCOUNT' class='wm-ui-btn'/>
+								</form>
+							</td>
+						</tr>
+						<?php
+						}
+						?>
 					</tbody></table>
 						</div>
 						<?php
