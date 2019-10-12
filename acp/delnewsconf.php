@@ -183,7 +183,7 @@
 							$sqldate3 = "DELETE FROM `news` WHERE `id`=".$_GET['newsid'];
 							mysqli_query($cmsconn, $sqldate3);
 							$insertlog = mysqli_query($cmsconn, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
-									  VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'NEWS: Deleted News ID #".$_GET['newsid']."', NOW());");
+									  VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'NEWS: User `".$nick."` deleted news (NID: ".$_GET['newsid'].")', NOW());");
 							header("refresh:5;url=index.php");
 							?>
 							<center>

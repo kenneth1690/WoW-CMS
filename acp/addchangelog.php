@@ -155,7 +155,7 @@ while($row = mysqli_fetch_array($qr3)){
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
 			<?php 
-				session_start();
+				$cmscon = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 					
 					if(isset($_SESSION["loggedin"])) {
 						$nick = $_SESSION["loggedin"];
@@ -188,7 +188,7 @@ while($row = mysqli_fetch_array($qr3)){
 						$cmssql= "INSERT INTO changelogs (`content`, `author`, `date`) VALUES ('$content', '$nick', NOW())";
 						$resultcms = mysqli_query($cmsconn,$cmssql);
 						$insertlog = mysqli_query($cmsconn, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
-									  VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'CHANGELOGS: Added Changelogs', NOW());");
+									  VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'CHANGELOGS: User `".$nick."` created changelogs', NOW());");
 						header("refresh:5;url=index.php");
 						?>
 						<center>
