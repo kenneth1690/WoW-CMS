@@ -36,5 +36,5 @@ Advanced World of Warcraft: Wrath of the Lich King (Trinity Core 3.3.5a) CMS wit
 [![DONATE](https://www.paypalobjects.com/en_US/PL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7MK2QT5D4L682&source=url)
 
 # ScreenShots
-![SS1](https://i.imgur.com/RoxJE24.png)
-![SS2](https://i.imgur.com/jGcFdbj.png)
+![SS1](https://i.imgur.com/thASn2m.png)
+![SS2](https://i.imgur.com/HXmicDQ.png)
