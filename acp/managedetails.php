@@ -171,41 +171,10 @@
 						$resultgm = mysqli_query($checkacp,$gm);
 						$rowsgm = mysqli_fetch_array($resultgm);
 						
-						$ban= "SELECT * FROM account_banned WHERE id = '" . $idcheck . "' ORDER BY bandate DESC";
-						$resultban = mysqli_query($checkacp,$ban);
-						$rowsban = mysqli_fetch_array($resultban);
-						
-						$banip= "SELECT * FROM ip_banned WHERE ip = '" . $ipcheck . "' ORDER BY bandate DESC";
-						$resultbanip = mysqli_query($checkacp,$banip);
-						$rowsbanip = mysqli_fetch_array($resultbanip);
-						
-						$mute= "SELECT * FROM account_muted WHERE guid = '" . $idcheck . "' ORDER BY mutedate DESC LIMIT 1";
-						$resultmute = mysqli_query($checkacp,$mute);
-						$rowsmute = mysqli_fetch_array($resultmute);
-						
-						$bandate = date("F j, Y / H:i:s", $rowsban['bandate']);
-						$unbandate = date("F j, Y / H:i:s", $rowsban['unbandate']);
-						
-						$getbantime = new DateTime("now", new DateTimeZone('Europe/Warsaw'));
-						$banipdate = date("F j, Y / H:i:s", $rowsbanip['bandate']);
-						$unbanipdate = date("F j, Y / H:i:s", $rowsbanip['unbandate']);
-						
-						$mutedate = date("F j, Y / H:i:s", $rowsmute['mutedate']);
-						$finalmutedate = date("F j, Y / H:i:s", ($rowsmute['mutedate']+$rowsmute['mutetime']));
-
-						$mutedhowmuch = $rowsmute['mutedate']+$rowsmute['mutetime'];
-						
-						$unixjoin = strtotime($rows['joindate']);
-						$joindate = date("F j, Y", $unixjoin);
-						
-						$now = time();
-						$your_date = strtotime($rows['last_login']);
-						$datediff = $now - $your_date;
-						$esttime = round($datediff / (60 * 60 * 24));
 						?>
 						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 450px;">
-						<span>ACCOUNT EDITOR</span>
 						<form action='/acp/edituser.php?id=<?php echo $rows['id']; ?>' method='POST'>
+						<span>ACCOUNT EDITOR</span>
 						<table>
 						<tbody><tr>
 							<td>&nbsp;</td>
@@ -305,9 +274,17 @@
 								<input type='text' id='location' name='location' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rows['location']; ?>'/><br /><br>
 							</td>
 						</tr>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td>
+								<input type='submit' value='EDIT ACCOUNT' class='wm-ui-btn'/>
+							</td>
+						</tr>
 					</tbody></table>
-						</div>
 						</form>
+						</div>
 						<?php
 					}else{
 						?>
