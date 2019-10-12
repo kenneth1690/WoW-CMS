@@ -156,8 +156,17 @@
                         $acid = $_GET['id'];
                         $checkac = mysqli_query($conn, 'SELECT * FROM account WHERE id="'.$acid.'"');
                         if(mysqli_num_rows($checkac)>0){
-                            $checkban = mysqli_query($conn, 'SELECT * FROM account_banned WHERE id="'.$acid.'"');
-                            if($checkban && mysqli_num_rows($checkban)==0){
+								$checkban = mysqli_query($conn, 'SELECT * FROM account_banned WHERE id="'.$acid.'"');
+							
+								$cmscon = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+							
+								$sqla= "SELECT * FROM account WHERE id = '" . $acid . "'";
+								$resulta = mysqli_query($conn,$sqla);
+								$rowa = mysqli_fetch_array($resulta);
+								
+								$nickbanned = $rowa['username'];
+								
+                                if($checkban && mysqli_num_rows($checkban)==0){
                                 ?>
                                 <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
                                 <div id="wm-error-page">
@@ -175,7 +184,9 @@
                                 header("refresh:5;url=acp.php");
                             }else{
                                 mysqli_query($conn, 'DELETE FROM account_banned WHERE id="'.$acid.'"');
-                                        ?>
+                                        $insertlog = mysqli_query($cmscon, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+										VALUES ('".$_SESSION['loggedin']."', '".$idcheck."', '".$rowsgm['gmlevel']."', 'MANAGER: User `".$nickbanned."` has been unbanned (ID: ".$acid.")', NOW());");
+										?>
                                         <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
                                         <div id="wm-error-page">
                                         <center>

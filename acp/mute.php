@@ -180,6 +180,14 @@
                                 header("refresh:5;url=acp.php");
                             }else{
                                 $checkgm = mysqli_query($conn, 'SELECT * FROM account_access WHERE id="'.$acid.'"');
+                                $cmscon = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+
+								$sqla= "SELECT * FROM account WHERE id = '" . $acid . "'";
+								$resulta = mysqli_query($conn,$sqla);
+								$rowa = mysqli_fetch_array($resulta);
+								
+								$nickbanned = $rowa['username'];
+								
                                 if(mysqli_num_rows($checkgm)>0){
                                     if($rowsgm['gmlevel']==4){
                                         $mutedate = time();
@@ -187,7 +195,10 @@
                                         $mutereason = $_POST['mutereason'];
                                         $finalmutetime = ($mutedays*24)*60*60;
                                         mysqli_query($conn, 'INSERT INTO account_muted (guid, mutedate, mutetime, mutedby, mutereason) VALUES ("'.$acid.'", "'.$mutedate.'", "'.$finalmutetime.'", "'.$nick.'", "'.$mutereason.'")');
-                                        ?>
+                                        
+										$insertlog = mysqli_query($cmscon, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+										VALUES ('".$_SESSION['loggedin']."', '".$idcheck."', '".$rowsgm['gmlevel']."', 'MANAGER: User `".$nickbanned."` has been muted (ID: ".$acid.")', NOW());");
+										?>
                                         <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
                                         <div id="wm-error-page">
                                         <center>
@@ -225,7 +236,9 @@
                                         $mutereason = $_POST['mutereason'];
                                         $finalmutetime = ($mutedays*24)*60*60;
                                         mysqli_query($conn, 'INSERT INTO account_muted (guid, mutedate, mutetime, mutedby, mutereason) VALUES ("'.$acid.'", "'.$mutedate.'", "'.$finalmutetime.'", "'.$nick.'", "'.$mutereason.'")');
-                                        ?>
+                                        $insertlog = mysqli_query($cmscon, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+										VALUES ('".$_SESSION['loggedin']."', '".$idcheck."', '".$rowsgm['gmlevel']."', 'MANAGER: User `".$nickbanned."` has been muted (ID: ".$acid.")', NOW());");
+										?>
                                         <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
                                         <div id="wm-error-page">
                                         <center>
@@ -326,7 +339,7 @@
                                     <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		                            <div id="wm-error-page">
                                     <form action='mute.php?id=<?php echo $_GET['id']; ?>&action=confirm' method='POST'>
-                                        <p>Mute days (empty for perm): </p>
+                                        <p>Mute days: </p>
                                         <input type='text' id='mutedays' name='mutedays' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
                                         <p>Mute reason: </p>
                                         <input type='text' id='mutereason' name='mutereason' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>

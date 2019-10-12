@@ -585,16 +585,16 @@
 				<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 					<div id="wm-error-page">
 						<center>
-							<font size='5'><b>Search for account by username:</b></font><br><br>
+							<font size='5'><b>Search for account by username or ID:</b></font><br><br>
 								<?php
 								$result = mysqli_query($conn, "SELECT * FROM account");
 								?>
 								<select id='searchlive'>
-									<option>Search by username</option>
+									<option>Search for account..</option>
 									<?php
 									while($row = mysqli_fetch_array($result)){
 										?>
-										<option value="manageaccs.php?action=details&id=<?php echo $row['id']; ?>"><?php echo $row['username']; ?></option>
+										<option value="manageaccs.php?action=details&id=<?php echo $row['id']; ?>"><?php echo $row['username']; ?> (ID: <?php echo $row['id']; ?>)</option>
 										<?php
 									}
 									?>

@@ -174,6 +174,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
 			<?php
+				$cmscon = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+				
 				if(isset($_GET['change'])){
 					$change = htmlspecialchars($_GET['change']);
 				}else{
@@ -192,6 +194,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php
 					}else{
 						mysqli_query($conn, 'UPDATE settings SET conf_value="'.$_POST['sitename'].'" WHERE conf_key="sitename"');
+						$insertlog = mysqli_query($cmscon, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+						VALUES ('".$_SESSION['loggedin']."', '".$idcheck."', '".$rowsgm['gmlevel']."', 'WEBSITE: User `".$nick."` changed website setting (Site name to: ".$_POST['sitename'].")', NOW());");
 						?>		
 							<center>
 							<p><font size="6">Site name changed</font></p>
@@ -205,9 +209,16 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				}elseif($change == 'siteonline'){
 					if($siteonline=='yes'){
 						mysqli_query($conn, 'UPDATE settings SET conf_value="no" WHERE conf_key="siteonline"');
+						$insertlog = mysqli_query($cmscon, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+						VALUES ('".$_SESSION['loggedin']."', '".$idcheck."', '".$rowsgm['gmlevel']."', 'WEBSITE: User `".$nick."` changed website setting (Site status to: OFFLINE)', NOW());");
+						
 					}else{
 						mysqli_query($conn, 'UPDATE settings SET conf_value="yes" WHERE conf_key="siteonline"');
+						$insertlog = mysqli_query($cmscon, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+						VALUES ('".$_SESSION['loggedin']."', '".$idcheck."', '".$rowsgm['gmlevel']."', 'WEBSITE: User `".$nick."` changed website setting (Site status to: ONLINE)', NOW());");
+						
 					}
+						
 					?>		
 						<center>
 						<p><font size="6">Site status changed</font></p>
@@ -229,6 +240,9 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php
 					}else{
 						mysqli_query($conn, 'UPDATE settings SET conf_value="'.$_POST['offlinemessage'].'" WHERE conf_key="offlinemessage"');
+						$insertlog = mysqli_query($cmscon, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+						VALUES ('".$_SESSION['loggedin']."', '".$idcheck."', '".$rowsgm['gmlevel']."', 'WEBSITE: User `".$nick."` changed website setting (Offline message to: `".$_POST['offlinemessage']."`)', NOW());");
+						
 						?>		
 							<center>
 							<p><font size="6">Offline message changed</font></p>
@@ -251,6 +265,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php
 					}else{
 						mysqli_query($conn, 'UPDATE settings SET conf_value="'.$_POST['realmname'].'" WHERE conf_key="realmname"');
+						$insertlog = mysqli_query($cmscon, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+						VALUES ('".$_SESSION['loggedin']."', '".$idcheck."', '".$rowsgm['gmlevel']."', 'WEBSITE: User `".$nick."` changed website setting (Realm name to: `".$_POST['realmname']."`)', NOW());");
 						?>		
 							<center>
 							<p><font size="6">Realm name changed</font></p>
@@ -273,6 +289,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php
 					}else{
 						mysqli_query($conn, 'UPDATE settings SET conf_value="'.$_POST['realmip'].'" WHERE conf_key="realmip"');
+						$insertlog = mysqli_query($cmscon, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+						VALUES ('".$_SESSION['loggedin']."', '".$idcheck."', '".$rowsgm['gmlevel']."', 'WEBSITE: User `".$nick."` changed website setting (Realm IP to: `".$_POST['realmip']."`)', NOW());");
 						?>		
 							<center>
 							<p><font size="6">Realm IP changed</font></p>
@@ -295,6 +313,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php
 					}else{
 						mysqli_query($conn, 'UPDATE settings SET conf_value="'.$_POST['realmport'].'" WHERE conf_key="realmport"');
+						$insertlog = mysqli_query($cmscon, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+						VALUES ('".$_SESSION['loggedin']."', '".$idcheck."', '".$rowsgm['gmlevel']."', 'WEBSITE: User `".$nick."` changed website setting (Realm port to: `".$_POST['realmport']."`)', NOW());");
 						?>		
 							<center>
 							<p><font size="6">Realm port changed</font></p>
@@ -317,6 +337,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php
 					}else{
 						mysqli_query($conn, 'UPDATE settings SET conf_value="'.$_POST['realmlist'].'" WHERE conf_key="realmlist"');
+						$insertlog = mysqli_query($cmscon, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+						VALUES ('".$_SESSION['loggedin']."', '".$idcheck."', '".$rowsgm['gmlevel']."', 'WEBSITE: User `".$nick."` changed website setting (Realmlist to: `".$_POST['realmlist']."`)', NOW());");
 						?>		
 							<center>
 							<p><font size="6">Realmlist changed</font></p>

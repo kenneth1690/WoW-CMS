@@ -177,7 +177,15 @@
                                 <?php
                                 header("refresh:5;url=acp.php");
                             }else{
+								$cmscon = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
                                 $checkgm = mysqli_query($conn, 'SELECT * FROM account_access WHERE id="'.$acid.'"');
+								
+								$sqla= "SELECT * FROM account WHERE id = '" . $acid . "'";
+								$resulta = mysqli_query($conn,$sqla);
+								$rowa = mysqli_fetch_array($resulta);
+								
+								$nickbanned = $rowa['username'];
+								
                                 if(mysqli_num_rows($checkgm)>0){
                                     if($rowsgm['gmlevel']==4){
                                         $bantime = time();
@@ -185,7 +193,9 @@
                                         $banreason = $_POST['banreason'];
                                         $finalbantime = time() + ($bandays*24)*60*60;
                                         mysqli_query($conn, 'INSERT INTO account_banned (id, bandate, unbandate, bannedby, banreason, active) VALUES ("'.$acid.'", "'.$bantime.'", "'.$finalbantime.'", "'.$nick.'", "'.$banreason.'", 1)');
-                                        ?>
+                                        $insertlog = mysqli_query($cmscon, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+										VALUES ('".$_SESSION['loggedin']."', '".$idcheck."', '".$rowsgm['gmlevel']."', 'MANAGER: User `".$nickbanned."` has been banned (ID: ".$acid.")', NOW());");
+										?>
                                         <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
                                         <div id="wm-error-page">
                                         <center>
@@ -223,7 +233,9 @@
                                         $banreason = $_POST['banreason'];
                                         $finalbantime = time() + ($bandays*24)*60*60;
                                         mysqli_query($conn, 'INSERT INTO account_banned (id, bandate, unbandate, bannedby, banreason, active) VALUES ("'.$acid.'", "'.$bantime.'", "'.$finalbantime.'", "'.$nick.'", "'.$banreason.'", 1)');
-                                        ?>
+                                        $insertlog = mysqli_query($cmscon, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
+										VALUES ('".$_SESSION['loggedin']."', '".$idcheck."', '".$rowsgm['gmlevel']."', 'MANAGER: User `".$nickbanned."` has been banned (ID: ".$acid.")', NOW());");
+										?>
                                         <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
                                         <div id="wm-error-page">
                                         <center>
