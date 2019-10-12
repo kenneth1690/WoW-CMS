@@ -283,6 +283,24 @@
 						}else{
 							if($rowsgm['gmlevel']>$rowsgmedit['gmlevel']){
 								header("refresh:5;url=acp.php");
+								
+								if(empty($_POST['gmlevel'])){
+									$deletegm = mysqli_query($checkacp, "DELETE FROM `account_access` WHERE `id` = ".$editid."");
+								}else{
+									$checkgmexist = mysqli_query($checkacp,"SELECT * FROM account_access WHERE id = ".$editid."");
+									if(mysqli_num_rows($checkgmexist)>0){
+										$updategm = mysqli_query($checkacp,"UPDATE account_access SET gmlevel = ".$_POST['gmlevel']." WHERE id = ".$editid."");
+									}else{
+										$newgm = mysqli_query($checkacp, "INSERT INTO account_access (`id`, `gmlevel`, `RealmID`) VALUES ('".$editid."', '".$_POST['gmlevel']."', '-1')");	
+									}
+								}
+								
+								$updateuser = mysqli_query($checkacp,"UPDATE account SET username = '".$_POST['username']."', coins = '".$_POST['coins']."', posts = '".$_POST['posts']."', location = '".$_POST['location']."' WHERE id = '".$editid."'");
+								
+								if($rowsedit['email']!=$_POST['email']){
+									$updatemail = mysqli_query($checkacp,"UPDATE account SET email = '".$_POST['email']."', mailactivated = '0' WHERE id = '".$editid."'");
+								}
+								
 								$insertlog = mysqli_query($cmsconn, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
 									  VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'MANAGER: User `".$nick."` edited user `".$rowsedit['username']."` (ID: ".$editid.")', NOW());");
 								?>
@@ -309,7 +327,7 @@
 											<font size="6">Editing failed</font>
 										</p>
 										<p>
-											<font size="5">You're trying to edit GM who is higher than you.</font>
+											<font size="5">You're trying to edit GM who is higher or equal to you.</font>
 										</p> 
 									</center>
 									</div>
