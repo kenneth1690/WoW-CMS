@@ -105,6 +105,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                     </p> 
 				</center>
                 <?php
+				header( "refresh:5;url=index.php" );
             }
                     
             if($change == "password"){
@@ -170,7 +171,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										$sql2 = "UPDATE account SET sha_pass_hash='".$passfinal."' WHERE username='$nick'";
 										$insertpass = mysqli_query($lgconn,$sql2);
 										$insertlog = mysqli_query($conn, "INSERT INTO logs_acc (`logger`, `logger_id`, `logdetails`, `logdate`) 
-										VALUES ('".$_SESSION['loggedin']."', '".$user3['id']."', 'ACCOUNT: Changed Password for: `".$_SESSION['loggedin']."`', NOW());");
+										VALUES ('".$_SESSION['loggedin']."', '".$user3['id']."', 'ACCOUNT: User `".$nick."` changed password', NOW());");
 										if($insertpass){
 											?>
 											<center>
@@ -332,7 +333,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										$sql4 = "UPDATE account SET mailactivated='0' WHERE username='$nick'";
 										$insertactivated = mysqli_query($lgconn,$sql4);
 										$insertlog = mysqli_query($conn, "INSERT INTO logs_acc (`logger`, `logger_id`, `logdetails`, `logdate`) 
-										VALUES ('".$_SESSION['loggedin']."', '".$user3['id']."', 'ACCOUNT: Changed Email for: `".$_SESSION['loggedin']."`', NOW());");
+										VALUES ('".$_SESSION['loggedin']."', '".$user3['id']."', 'ACCOUNT: User `".$nick."` changed email (Mail: ".$remail.")', NOW());");
 										if($insertmail){
 											?>
 											<center>

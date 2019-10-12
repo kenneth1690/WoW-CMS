@@ -346,11 +346,12 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						</div>
 						</div>
 						<?php
+						header("refresh:5;url=index.php");
 					}else{
 						$cmssql= "INSERT INTO bugtracker (`title`, `content`, `author`, `date`) VALUES ('$problem', '$description', '$nick', NOW())";
 						$resultcms = mysqli_query($cmsconn,$cmssql);
 						$insertlog = mysqli_query($cmsconn, "INSERT INTO logs_bugs (`logger`, `logger_id`, `logdetails`, `logdate`) 
-									  VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', 'BUGTRACKER: Added Bug', NOW());");
+									  VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', 'BUGTRACKER: User `".$nick."` created bug titled `".$problem."`', NOW());");
 						header("refresh:5;url=index.php");
 						?>
 						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">

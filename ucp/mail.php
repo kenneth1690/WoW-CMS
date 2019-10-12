@@ -98,10 +98,13 @@ while($row = mysqli_fetch_array($qr3)){
 		<div id="wm-error-page">
             <?php
             $authconn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port); 
-						
+			$con = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+			
             $sql= "SELECT * FROM account WHERE username = '" . $_SESSION["loggedin"] . "'";
             $result = mysqli_query($authconn,$sql);
             $user = mysqli_fetch_array($result);
+			
+			$nick = $_SESSION["loggedin"];
 
             if(!isset($_SESSION["loggedin"]) && empty($_SESSION["loggedin"])){
                 header( "refresh:5;url=index.php" );
@@ -115,6 +118,7 @@ while($row = mysqli_fetch_array($qr3)){
                     </p> 
 				</center>
                 <?php
+				header( "refresh:5;url=index.php" );
                 die();
             }
 
@@ -131,6 +135,7 @@ while($row = mysqli_fetch_array($qr3)){
                     </p> 
 				</center>
                 <?php
+				header( "refresh:5;url=index.php" );
             }
                     
             if($action == "activate"){
@@ -149,9 +154,13 @@ while($row = mysqli_fetch_array($qr3)){
                                 </p> 
                             </center>
                             <?php
+							header( "refresh:5;url=index.php" );
                         }else{
                             $mail = $user['email'];
                             mysqli_query($authconn, "UPDATE account SET mailactivated='1' WHERE email='".$mail."'");
+							$insertlog = mysqli_query($con, "INSERT INTO logs_acc (`logger`, `logger_id`, `logdetails`, `logdate`) 
+								  VALUES ('".$_SESSION['loggedin']."', '".$user['id']."', 'ACCOUNT: User `".$nick."` verified email (Mail: ".$mail.")', NOW());");
+							
                             ?>
                             <center>
                                 <p>
@@ -162,6 +171,7 @@ while($row = mysqli_fetch_array($qr3)){
                                 </p> 
                             </center>
                             <?php
+							header( "refresh:5;url=index.php" );
                         }
                     }else{
                         ?>
@@ -174,6 +184,7 @@ while($row = mysqli_fetch_array($qr3)){
                             </p> 
                         </center>
                         <?php
+						header( "refresh:5;url=index.php" );
                     }
                 }else{
                     ?>
@@ -186,6 +197,7 @@ while($row = mysqli_fetch_array($qr3)){
                         </p> 
 					</center>
                     <?php
+					header( "refresh:5;url=index.php" );
                 }
             }elseif($action == "generate"){
                 if($user['mailactivated']==1){
@@ -199,6 +211,7 @@ while($row = mysqli_fetch_array($qr3)){
                         </p> 
 					</center>
                     <?php
+					header( "refresh:5;url=index.php" );
                 }else{
                     $newtoken = md5($user['email']);
                     $yourmail = $user['email'];
@@ -218,6 +231,7 @@ while($row = mysqli_fetch_array($qr3)){
                         </p> 
 					</center>
                     <?php
+					header( "refresh:5;url=index.php" );
                 }
             }else{
                 ?>
@@ -230,6 +244,7 @@ while($row = mysqli_fetch_array($qr3)){
                     </p> 
 				</center>
                 <?php
+				header( "refresh:5;url=index.php" );
             }
             ?>
 		</div>

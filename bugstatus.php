@@ -178,7 +178,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                         mysqli_query($conn, "UPDATE `bugtracker` SET `solved`='0', `solved_by`=NULL, `solved_date`=NULL WHERE `id`=".$_GET['bgid']);
                     }
                     $insertlog = mysqli_query($conn, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) 
-                              VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'BUGTRACKER: Changed Bug status (BID: ".$_GET['bgid'].")', NOW());");
+                              VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'BUGTRACKER: User `".$nick."` changed bug status (BID: ".$_GET['bgid'].")', NOW());");
                     header("refresh:5;url=index.php");
                 }else{
                     ?>
@@ -191,6 +191,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                         </p> 
                     </center>
                     <?php
+					header("refresh:5;url=index.php");
                 }
             }else{
                 ?>
@@ -203,6 +204,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                     </p> 
 				</center>
                 <?php
+				header("refresh:5;url=index.php");
             }
             ?>
         </div>

@@ -188,11 +188,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						$result = mysqli_query($link,$sql2);
 						$user = mysqli_fetch_array($result);
 						
+						$nick = $_SESSION["loggedin"];
+						
 						$av = basename( $_FILES["fileToUpload"]["name"]);
 						
 						$conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 						$insertlog = mysqli_query($conn, "INSERT INTO logs_acc (`logger`, `logger_id`, `logdetails`, `logdate`) 
-											  VALUES ('".$_SESSION['loggedin']."', '".$user['id']."', 'ACCOUNT: Changed avatar to file: `".$av."`', NOW());");
+											  VALUES ('".$_SESSION['loggedin']."', '".$user['id']."', 'ACCOUNT: User `".$nick."` changed avatar (File: ".$av.")', NOW());");
 						if ($insertlog) {
 							header( "refresh:5;url=index.php" );
 						}
