@@ -36,18 +36,8 @@
 		$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
 		$resultgm = mysqli_query($checkacp,$gm);
 		$rowsgm = mysqli_fetch_array($resultgm);
-			
-		$sqlmygm= "SELECT * FROM account WHERE username = '" . $nick . "'";
-		$resultmygm = mysqli_query($checkacp,$sqlmygm);
-		$rowsmygm = mysqli_fetch_array($resultmygm);
 		
-		$idcheckmy = $rowsmygm['id'];
-		
-		$gmmy= "SELECT * FROM account_access WHERE id = '" . $idcheckmy . "'";
-		$resultgmmy = mysqli_query($checkacp,$gmmy);
-		$rowsgmmycheck = mysqli_fetch_array($resultgmmy);
-		
-		if(!$rowsgm || $rowsgm['gmlevel']==0){
+		if(!$rowsgm || $rowsgm['gmlevel']==0 || $rowsgm['gmlevel']==1 || $rowsgm['gmlevel']==2){
 			header("location: ../index.php");
 			exit;
 		}
@@ -161,11 +151,7 @@
 
 <div class="content-wrapper">
 			<?php 
-			if(isset($_GET['action'])){
-				$action = htmlspecialchars($_GET['action']);
-			}
-
-			if($action == "details"){
+			if(isset($_GET['id'])){
 				if(isset($_GET['id'])){
 					$acid = $_GET['id'];
             		$conn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
@@ -553,22 +539,6 @@
 							</font>
 							</td>
 						</tr>
-						<?php
-						if($rowsgmmycheck['gmlevel']>2){
-						?>
-						<tr>
-							<td>&nbsp;</td>
-						</tr>
-						<tr>
-							<td>
-								<form action='/acp/managedetails.php?id=<?php echo $idcheck; ?>' method='POST'>
-									<input type='submit' value='MANAGE ACCOUNT' class='wm-ui-btn'/>
-								</form>
-							</td>
-						</tr>
-						<?php
-						}
-						?>
 					</tbody></table>
 						</div>
 						<?php
@@ -606,48 +576,25 @@
 					header("refresh:5;url=acp.php");
 				}
 			}else{
-				$conn = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
 				?>
-				<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-					<div id="wm-error-page">
+					<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+						<div id="wm-error-page">
 						<center>
-							<font size='5'><b>Search for account by username or ID:</b></font><br><br>
-								<?php
-								$result = mysqli_query($conn, "SELECT * FROM account");
-								?>
-								<select id='searchlive'>
-									<option>Search for account..</option>
-									<?php
-									while($row = mysqli_fetch_array($result)){
-										?>
-										<option value="manageaccs.php?action=details&id=<?php echo $row['id']; ?>"><?php echo $row['username']; ?> (ID: <?php echo $row['id']; ?>)</option>
-										<?php
-									}
-									?>
-								</select>
-							</center>
+							<p>
+								<font size="6">No player selected</font>
+							</p>
+							<p>
+								<font size="5">You have not selected a player ID.</font>
+							</p> 
+						</center>
 						</div>
 					</div>
-				<?php
-				mysqli_close($conn);
+					<?php
+					header("refresh:5;url=acp.php");
 			}
 			?>
 </div>
 <div class="clear"></div>
-<script>
-    $(function(){
-      $('#searchlive').on('change', function () {
-          var url = $(this).val();
-          if (url) {
-              window.location = url;
-          }
-          return false;
-      });
-    });
-</script>
-<script>
-	$("#searchlive").chosen();
-</script>
 
 
             <div class="clear"></div>
