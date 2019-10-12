@@ -203,14 +203,15 @@
 						$datediff = $now - $your_date;
 						$esttime = round($datediff / (60 * 60 * 24));
 						?>
-						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 300px;">
-						<span>ACCOUNT SUMMARY</span>
+						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 450px;">
+						<span>ACCOUNT EDITOR</span>
+						<form action='/acp/edituser.php?id=<?php echo $rows['id']; ?>' method='POST'>
 						<table>
 						<tbody><tr>
 							<td>&nbsp;</td>
 						</tr>
 						<tr>
-							<td>Player searched 
+							<td>Player editing 
 							<?php
 							if($rows['posts']>=0 && $rows['posts']<50){
 								?>
@@ -258,289 +259,55 @@
 							</td>
 						</tr>
 						<tr>
-							<td>Coins: <font color="gold"><?php echo $rows['coins']; ?></font>
-							</td>
-						</tr>
-						<tr>
-							<td>Posts: <font color="ffffff"><?php echo $rows['posts']; ?></font></td>
-						</tr>
-						<tr>
 							<td>&nbsp;</td>
 						</tr>
 						<tr>
-							<td>Email address: <div class="tooltip"><font color="ffffff"><?php echo $rows['email']; ?></font> 
-								<?php
-								if($rows['mailactivated']==1){
-									?>
-									<font color="1df701">*Activated*</font>
-									<?php
-								}else{
-									?>
-									<font color="red">*Not activated*</font>
-									<?php
-								}
-								?>
-								<span class="tooltiptext"><font color="FFE4B5">EMAIL STATUS</font><br><br>
-								<font color="606060">
-								<?php
-								if($rows['mailactivated']==1){
-									?>
-									Everything is okay, email address of this user is activated.
-									<?php
-								}else{
-									?>
-									Email address of this user is not activated yet.
-									<?php
-								}
-								?>
-								</font>
-								</span>
-							</div>
+							<td>
+								<p>Username: </p>
+								<input type='text' id='username' name='username' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rows['username']; ?>'/><br /><br>
 							</td>
 						</tr>
 						<tr>
-							<td>&nbsp;</td>
+							<td>
+								<p>GM Level (1-4): </p>
+								<input type='text' id='gmlevel' name='gmlevel' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rowsgm['gmlevel']; ?>'/><br /><br>
+							</td>
 						</tr>
 						<tr>
-							<td>Avatar:<br><img src="/uploads/avatars/<?php echo $rows['avatar']; ?>" width="100px" height="100px">
-						</td>
+							<td>
+								<p>Coins: </p>
+								<input type='text' id='coins' name='coins' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rows['coins']; ?>'/><br /><br>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<p>Posts: </p>
+								<input type='text' id='posts' name='posts' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rows['posts']; ?>'/><br /><br>
+							</td>
 						</tr>
 					</tbody></table>
 						</div>
-						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 300px;">
-						<span>ACCOUNT DETAILS</span>
+						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 450px;">
+						<span>ACCOUNT EDITOR</span>
 						<table>
 						<tbody><tr>
 							<td>&nbsp;</td>
 						</tr>
 						<tr>
-							<td>Account status: 
-							<?php
-							if((($rowsban && ($rowsban['active']=='1')) || ($resultbanip && $rowsbanip['unbandate'])) && !($resultmute && $rowsmute['mutedate'])){ 
-							?>
-							<div class="tooltip"><span class="q1"><font color="f57b01">Banned</font> <font color="red">(?)</font>
-								<span class="tooltiptext"><font color="FFE4B5">ACCOUNT STATUS</font><br><br><font color="9e34e7">Muted:</font> <font color="1df701">no</font><br>
-								<?php
-								if($resultbanip && $rowsbanip['unbandate']){
-									if($rowsbanip['bandate'] == $rowsbanip['unbandate']){
-										?>
-										<font color="f57b01">Banned:</font> <font color="red">yes (address IP)</font><br>
-										<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsbanip['banreason']; ?></font><br>
-										<font color="f57b01">*Date:</font> <font color="red"><?php echo $banipdate; ?></font><br>
-										<font color="f57b01">*Expires:</font> <font color="red">never</font><br>
-										<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsbanip['bannedby']; ?></font>
-										<?php
-									}else{
-										?>
-										<font color="f57b01">Banned:</font> <font color="red">yes (address IP)</font><br>
-										<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsbanip['banreason']; ?></font><br>
-										<font color="f57b01">*Date:</font> <font color="red"><?php echo $banipdate; ?></font><br>
-										<font color="f57b01">*Expires:</font> <font color="red"><?php echo $unbanipdate; ?></font><br>
-										<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsbanip['bannedby']; ?></font>
-									<?php
-									}
-								}elseif(($resultban && ($rowsban['active']=='1')) && !($resultbanip && ($rowsbanip['unbandate']>=$getbantime))){
-									if($rowsban['bandate'] == $rowsban['unbandate']){
-										?>
-										<font color="f57b01">Banned:</font> <font color="red">yes (account)</font><br>
-										<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsban['banreason']; ?></font><br>
-										<font color="f57b01">*Date:</font> <font color="red"><?php echo $bandate; ?></font><br>
-										<font color="f57b01">*Expires:</font> <font color="red">never</font><br>
-										<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsban['bannedby']; ?></font>
-										<?php
-									}else{
-										?>
-										<font color="f57b01">Banned:</font> <font color="red">yes (account)</font><br>
-										<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsban['banreason']; ?></font><br>
-										<font color="f57b01">*Date:</font> <font color="red"><?php echo $bandate; ?></font><br>
-										<font color="f57b01">*Expires:</font> <font color="red"><?php echo $unbandate; ?></font><br>
-										<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsban['bannedby']; ?></font>
-									<?php
-									}
-								}
-								?>
-								</span>
-							</div>
-							<font color="white">(</font><a href="unban.php?id=<?php echo $acid; ?>"><font color="lightgreen">Unban</font></a><font color="white">/</font><a href="mute.php?id=<?php echo $acid; ?>"><font color="orange">Mute</font></a><font color="white">)</font>
-							<?php
-							}elseif(($resultmute && $mutedhowmuch>time()) && !(($rowsban && ($rowsban['active']=='1')) || ($resultbanip && $rowsbanip['unbandate']))){
-							?>
-							<div class="tooltip"><span class="q1"><font color="9e34e7">Muted</font> <font color="red">(?)</font>
-								<span class="tooltiptext"><font color="FFE4B5">ACCOUNT STATUS</font><br><br><font color="9e34e7">Muted:</font> <font color="red">yes</font><br>
-								<font color="9e34e7">*Reason:</font> <font color="red"><?php echo $rowsmute['mutereason']; ?></font><br>
-								<?php
-								if($rowsmute['mutetime']=='0'){
-									?>
-									<font color="9e34e7">*Date:</font> <font color="red"><?php echo $mutedate; ?></font><br>
-									<font color="9e34e7">*Expires:</font> <font color="red">never</font><br>
-									<?php
-								}else{
-									?>
-								<font color="9e34e7">*Date:</font> <font color="red"><?php echo $mutedate; ?></font><br>
-								<font color="9e34e7">*Expires:</font> <font color="red"><?php echo $finalmutedate; ?></font><br>
-								<?php
-								}
-								?>
-								<font color="9e34e7">*Muted by:</font> <font color="red"><?php echo $rowsmute['mutedby']; ?></font><br>
-								<font color="f57b01">Banned:</font> <font color="1df701">no</font>
-								</span>
-							</div>
-							<font color="white">(</font><a href="ban.php?id=<?php echo $acid; ?>"><font color="orange">Ban</font></a><font color="white">/</font><a href="unmute.php?id=<?php echo $acid; ?>"><font color="lightgreen">Unmute</font></a><font color="white">)</font>
-							<?php
-							}elseif(($resultmute && $mutedhowmuch>time()) && (($resultban && ($rowsban['active']=='1')) || ($resultbanip && $rowsbanip['unbandate']))){
-							?>
-							<div class="tooltip"><font color="9e34e7">Muted</font> <font color="white">&</font> <font color="f57b01">Banned</font> <font color="red">(?)</font>
-								<span class="tooltiptext"><font color="FFE4B5">ACCOUNT STATUS</font><br><br><font color="9e34e7">Muted:</font> <font color="red">yes</font><br>
-								<font color="9e34e7">*Reason:</font> <font color="red"><?php echo $rowsmute['mutereason']; ?></font><br>
-								<?php
-								if($rowsmute['mutetime']=='0'){
-									?>
-									<font color="9e34e7">*Date:</font> <font color="red"><?php echo $mutedate; ?></font><br>
-									<font color="9e34e7">*Expires:</font> <font color="red">never</font><br>
-									<?php
-								}else{
-									?>
-								<font color="9e34e7">*Date:</font> <font color="red"><?php echo $mutedate; ?></font><br>
-								<font color="9e34e7">*Expires:</font> <font color="red"><?php echo $finalmutedate; ?></font><br>
-								<?php
-								}
-								?>
-								<font color="9e34e7">*Muted by:</font> <font color="red"><?php echo $rowsmute['mutedby']; ?></font><br>
-								<?php
-								if($resultbanip && $rowsbanip['unbandate']){
-									if($rowsbanip['bandate'] == $rowsbanip['unbandate']){
-										?>
-										<font color="f57b01">Banned:</font> <font color="red">yes (address IP)</font><br>
-										<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsbanip['banreason']; ?></font><br>
-										<font color="f57b01">*Date:</font> <font color="red"><?php echo $banipdate; ?></font><br>
-										<font color="f57b01">*Expires:</font> <font color="red">never</font><br>
-										<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsbanip['bannedby']; ?></font>
-										<?php
-									}else{
-										?>
-										<font color="f57b01">Banned:</font> <font color="red">yes (address IP)</font><br>
-										<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsbanip['banreason']; ?></font><br>
-										<font color="f57b01">*Date:</font> <font color="red"><?php echo $banipdate; ?></font><br>
-										<font color="f57b01">*Expires:</font> <font color="red"><?php echo $unbanipdate; ?></font><br>
-										<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsbanip['bannedby']; ?></font>
-									<?php
-									}
-								}elseif(($resultban && ($rowsban['active']=='1')) && !($resultbanip && ($rowsbanip['unbandate']>=$getbantime))){
-									if($rowsban['bandate'] == $rowsban['unbandate']){
-										?>
-										<font color="f57b01">Banned:</font> <font color="red">yes (account)</font><br>
-										<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsban['banreason']; ?></font><br>
-										<font color="f57b01">*Date:</font> <font color="red"><?php echo $bandate; ?></font><br>
-										<font color="f57b01">*Expires:</font> <font color="red">never</font><br>
-										<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsban['bannedby']; ?></font>
-										<?php
-									}else{
-										?>
-										<font color="f57b01">Banned:</font> <font color="red">yes (account)</font><br>
-										<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsban['banreason']; ?></font><br>
-										<font color="f57b01">*Date:</font> <font color="red"><?php echo $bandate; ?></font><br>
-										<font color="f57b01">*Expires:</font> <font color="red"><?php echo $unbandate; ?></font><br>
-										<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsban['bannedby']; ?></font>
-									<?php
-									}
-								}
-								?>
-							</div>
-							<font color="white">(</font><a href="unban.php?id=<?php echo $acid; ?>"><font color="lightgreen">Unban</font></a><font color="white">/</font><a href="unmute.php?id=<?php echo $acid; ?>"><font color="lightgreen">Unmute</font></a><font color="white">)</font>
-							<?php
-							}else{
-							?>
-							<div class="tooltip"><font color="white">In good standing</font> <font color="1df701">(?)</font>
-								<span class="tooltiptext"><font color="FFE4B5">ACCOUNT STATUS</font><br><br><font color="9e34e7">Muted:</font> <font color="1df701">no</font><br><font color="f57b01">Banned:</font> <font color="1df701">no</font></span>
-							</div>
-							<font color="white">(</font><a href="ban.php?id=<?php echo $acid; ?>"><font color="orange">Ban</font></a><font color="white">/</font><a href="mute.php?id=<?php echo $acid; ?>"><font color="orange">Mute</font></a><font color="white">)</font>
-							<?php
-							}
-							?>
-							</td>
-						</tr>
-						<?php
-						/*if($rowsgm){ 
-						?>
-						<tr>
-							<td>GM Level: <span><?php echo $rowsgm['gmlevel']; ?></span></td>
-						</tr>
-						<?php
-						}*/
-						?>
-						<tr>
-							<td>&nbsp;</td>
-						</tr>
-						<tr>
-							<td>Join date: <?php echo $joindate; ?></td>
-						</tr>
-						<tr>
-							<td>Last seen (in-game): <?php 
-							if($esttime==0){ 
-								?>Today from <?php echo $rows['last_ip'];
-							}elseif($esttime==1){
-								?>Yesterday from <?php echo $rows['last_ip'];
-							}elseif($esttime>18080){
-								?>Never<?php
-							}else{
-								echo $esttime;
-								?> days ago from <?php echo $rows['last_ip'];
-							}
-							?>
+							<td>
+								<p>Email address: </p>
+								<input type='text' id='email' name='email' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rows['email']; ?>'/><br /><br>
 							</td>
 						</tr>
 						<tr>
-							<td>&nbsp;</td>
-						</tr>
-						<tr>
-							<td>Community rank: <div class="tooltip">
-							<?php
-							if($rows['posts']>=0 && $rows['posts']<50){
-								?>
-								<font color="ffffff">Newbie</font> <font color="1df701">(?)</font>
-								<?php
-							}elseif($rows['posts']>=50 && $rows['posts']<100){
-								?>
-								<font color="#1df701">Expert</font> <font color="1df701">(?)</font>
-								<?php
-							}elseif($rows['posts']>=100 && $rows['posts']<250){
-								?>
-								<font color="006dd7">Elite</font> <font color="1df701">(?)</font>
-								<?php
-							}elseif($rows['posts']>=250 && $rows['posts']<500){
-								?>
-								<font color="9e34e7">Legend</font> <font color="1df701">(?)</font>
-								<?php
-							}elseif($rows['posts']>=500){
-								?>
-								<font color="f57b01">Senior</font> <font color="1df701">(?)</font>
-								<?php
-							}
-							?>
-								<span class="tooltiptext"><font color="FFE4B5">COMMUNITY RANK</font><br><br>
-								<font color="ffffff">Newbie</font> <font color="606060">0-49</font><br>
-								<font color="1df701">Expert</font> <font color="606060">50-99</font><br>
-								<font color="006dd7">Elite</font> <font color="606060">100-249</font><br>
-								<font color="9e34e7">Legend</font> <font color="606060">250-499</font><br>
-								<font color="f57b01">Senior</font> <font color="606060">500+</font>
-								</span>
-							</div>
-							</td>
-						</tr>
-						<tr>
-							<td>&nbsp;</td>
-						</tr>
-						<tr>
-							<td>Location: <font color="ffffff">
-							<?php
-							$getlocation = $rows['location'];
-							echo $getlocation;
-							?> 
-							</font>
+							<td>
+								<p>Location: </p>
+								<input type='text' id='location' name='location' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rows['location']; ?>'/><br /><br>
 							</td>
 						</tr>
 					</tbody></table>
 						</div>
+						</form>
 						<?php
 					}else{
 						?>
