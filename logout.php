@@ -78,7 +78,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 	
 <div id="page-navigation" class="wm-ui-generic-frame wm-ui-bottom-border">
 	<ul>
-    	    		<li><a href="#" class="active">LOG OUT</a></li>
+    	    		<li><a href="#" class="active"><i class="fas fa-sign-out-alt"></i> LOGGED OUT</a></li>
             </ul>
 			<ul>
         <li><?php

@@ -36,7 +36,7 @@ if(isset($_SESSION["loggedin"]) && !empty($_SESSION["loggedin"])){
 <title><?php echo $sitename; ?> | Create an Account</title>
 <link rel="stylesheet" href="/css/global.css">
 <link rel="stylesheet" href="/css/ui.css">
-<link rel="stylesheet" href="/css/font-awesomeS.min.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/wm-contextmenu.css">
 </head>
 <body>
@@ -90,7 +90,7 @@ function handlePress(evt){
 
 <div id="page-navigation" class="wm-ui-generic-frame wm-ui-bottom-border">
 	<ul>
-    	    		<li><a href="#" class="active">CREATE AN ACCOUNT</a></li>
+    	    		<li><a href="#" class="active"><i class="fas fa-user-plus"></i> NEW ACCOUNT</a></li>
             </ul>
     <ul>
         <li><?php

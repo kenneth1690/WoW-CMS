@@ -123,11 +123,11 @@ function getplayercount() {
 	
 <div id="page-navigation" class="wm-ui-generic-frame wm-ui-bottom-border">
 	<ul>
-    	    		<li><a href="/" class="active">NEWS</a></li>
+    	    		<li><a href="/" class="active"><i class="fas fa-newspaper"></i> NEWS</a></li>
             		<!--<li><a href="/stream" class="">STREAM</a></li>-->
             		<!--<li><a href="/devlog" class="">DEVLOG</a></li>-->
-            		<li><a href="/changelog.php">CHANGELOG</a></li>
-            		<li><a href="/bugtracker.php">BUGTRACKER</a></li>
+            		<li><a href="/changelog.php"><i class="fas fa-exclamation-circle"></i> CHANGELOG</a></li>
+            		<li><a href="/bugtracker.php"><i class="fas fa-bug"></i> BUGTRACKER</a></li>
             </ul>
     <ul>
         <li><?php
@@ -157,10 +157,10 @@ function getplayercount() {
 			if(mysqli_num_rows($result)==0){
 				?>
 				<div class="wm-ui-article-title">
-					<p>No news</p>
+					<p>Empty database!</p>
 				</div><br>
 				<div class="wm-ui-article-content">
-				<p>There's no news actually!</p>
+				<p>There's no news actually :(</p>
 				<p><i>
 				Stay tuned!
 				</i></p>

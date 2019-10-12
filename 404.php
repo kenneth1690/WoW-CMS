@@ -35,11 +35,6 @@ while($row = mysqli_fetch_array($qr3)){
 <link rel="stylesheet" href="/css/wm-contextmenu.css">
 </head>
 <body>
-<noscript>
-    &lt;div id="noscript-override"&gt;
-        &lt;p&gt;This site makes extensive use of JavaScript.&lt;/b&gt;&lt;br&gt;Please &lt;a href="https://www.google.com/support/adsense/bin/answer.py?answer=12654" target="_blank"&gt;enable JavaScript&lt;/a&gt; in your browser.&lt;/p&gt;
-    &lt;/div&gt;
-</noscript>
 <div class="navigation-wrapper">
     <a href="/" class="navigation-logo"></a>
     <div class="navigation">
@@ -88,7 +83,7 @@ while($row = mysqli_fetch_array($qr3)){
 
 <div id="page-navigation" class="wm-ui-generic-frame wm-ui-bottom-border">
 <ul>
-	<li><a href="#" class="active">NOT FOUND</a></li>
+	<li><a href="#" class="active"><i class="fas fa-exclamation-circle"></i> NOT FOUND</a></li>
 </ul>
     <ul>
         <li><?php

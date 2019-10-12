@@ -91,7 +91,7 @@ while($row = mysqli_fetch_array($qr5)){
 
 <div id="page-navigation" class="wm-ui-generic-frame wm-ui-bottom-border">
 	<ul>
-    	    		<li><a href="#" class="active">DOWNLOAD</a></li>
+    	    		<li><a href="#" class="active"><i class="fas fa-download"></i> DOWNLOAD</a></li>
             </ul>
     <ul>
         <li><?php
