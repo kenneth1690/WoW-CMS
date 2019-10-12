@@ -175,7 +175,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						if(mysqli_num_rows($checkac)>0){
 							?>
 							<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 350px;">
-								<span>CHARACTERS SUMMARY</span>
+								<span>CHARACTERS LIST</span>
 								<table>
 									<tbody><tr>
 										<td>&nbsp;</td>
@@ -525,7 +525,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			}else{
 				?>
 				<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 350px;">
-					<span>CHARACTERS SUMMARY</span>
+					<span>CHARACTERS LIST</span>
 					<table>
 						<tbody><tr>
 							<td>&nbsp;</td>
@@ -541,6 +541,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						$charconn = mysqli_connect($db_host, $db_username, $db_password, $chars_db_name, $db_port);
 						$sql = "SELECT * FROM characters WHERE account = '" . $rows['id'] . "'";
 						$result = $charconn->query($sql);
+						if(mysqli_num_rows($result)>0){
 						while($charr = $result->fetch_assoc()) {
 							?>
 							<tr>
@@ -594,6 +595,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 							</tr>
 							<tr>
 								<td>&nbsp;</td>
+							</tr>
+							<?php
+						}
+						}else{
+							?>
+							<tr>
+								<td>It looks like you have not any characters, don't you?</td>
 							</tr>
 							<?php
 						}
