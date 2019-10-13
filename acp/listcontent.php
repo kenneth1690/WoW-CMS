@@ -168,17 +168,17 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                 $action = htmlspecialchars($_GET['action']);
                 if($action == "news"){
                 ?>
-                <li><a href="/acp/listcontent.php?action=changelogs" class="active"><i class="fas fa-newspaper"></i> NEWS</a></li>  
+                <li><a href="/acp/listcontent.php?action=news" class="active"><i class="fas fa-newspaper"></i> NEWS</a></li>  
                 <li><a href="/acp/listcontent.php?action=changelogs"><i class="fas fa-exclamation-circle"></i> CHANGELOGS</a></li>
                 <?php
                 }elseif($action == "changelogs"){
                 ?>
-                <li><a href="/acp/listcontent.php?action=changelogs"><i class="fas fa-newspaper"></i> NEWS</a></li>  
+                <li><a href="/acp/listcontent.php?action=news"><i class="fas fa-newspaper"></i> NEWS</a></li>  
                 <li><a href="/acp/listcontent.php?action=changelogs" class="active"><i class="fas fa-exclamation-circle"></i> CHANGELOGS</a></li>
                 <?php
                 }else{
                 ?>
-                <li><a href="/acp/listcontent.php?action=changelogs"><i class="fas fa-newspaper"></i> NEWS</a></li>  
+                <li><a href="/acp/listcontent.php?action=news"><i class="fas fa-newspaper"></i> NEWS</a></li>  
                 <li><a href="/acp/listcontent.php?action=changelogs"><i class="fas fa-exclamation-circle"></i> CHANGELOGS</a></li>
                 <?php
                 }
