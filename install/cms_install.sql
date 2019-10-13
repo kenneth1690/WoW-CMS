@@ -131,6 +131,8 @@ CREATE TABLE `lotteries` (
   `id` int(11) UNSIGNED NOT NULL,
   `category` int(3) NOT NULL COMMENT '1 - coins',
   `prize` varchar(255) NOT NULL,
+  `start_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `end_date` datetime NOT NULL,
   `winner` int(255) NOT NULL,
   `status` int(3) NOT NULL DEFAULT '1' COMMENT '1 - active, 2 - finished'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
