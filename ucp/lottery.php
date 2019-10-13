@@ -157,19 +157,128 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 </div>
 
 <div id="content-wrapper">
-    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 350px;">
-        <span>LOTTERY SUMMARY</span>
+    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 380px;">
+        <span>CURRENT LOTTERY</span>
 		<table>
             <tbody>
 			<tr>
                 <td>&nbsp;</td>
             </tr>
+			<?php
+			$sqllottery = "SELECT * FROM lotteries WHERE status = '1' ORDER BY id DESC LIMIT 1";
+			$resultlottery = mysqli_query($conn,$sqllottery);
+			$rowlottery = mysqli_fetch_array($resultlottery);
+			
+			if(time()>$rowlottery['end_date']){
+				$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+				$getwinner = mysqli_query($checkacp, "SELECT * FROM account WHERE inlottery = 1 ORDER BY RAND() LIMIT 1");
+				$rowswin = mysqli_fetch_array($getwinner);
+				if(mysqli_num_rows($getwinner)==1){
+					$endlottery = mysqli_query($conn, "UPDATE lotteries SET winner = '".$rowswin['id']."', status = '2' WHERE status = '1'");
+					$giveprize = mysqli_query($checkacp, "UPDATE account SET coins = coins+".$rowlottery['prize']." WHERE id = '".$rowswin['id']."'");
+					$setinlottery = mysqli_query($checkacp, "UPDATE account SET inlottery = 0 WHERE inlottery = 1");
+				}
+			}
+			
+			$checkfor = mysqli_query($conn, "SELECT * FROM lotteries WHERE status = 1 ORDER BY id DESC LIMIT 1");
+			
+			$resultendedlottery = mysqli_query($conn,"SELECT * FROM lotteries WHERE status = '2' ORDER BY id DESC LIMIT 1");
+			$rowendedlottery = mysqli_fetch_array($resultendedlottery);
+			
+			if(mysqli_num_rows($checkfor)==0){
+				if(time()>($rowendedlottery['end_date']+24*60*60)){
+					$enddategen = time() + 24*60*60;
+					$rand = rand(1,3);
+					if($rand==3){
+						$randprize = rand(2,3);
+					}elseif($rand==2){
+						$randprize = rand(1,2);
+					}elseif($rand==1){
+						$randprize = 1;
+					}
+					$newlottery = mysqli_query($conn, "INSERT INTO lotteries (`category`, `prize`, `start_date`, `end_date`) VALUES ('1', '".$randprize."', '".time()."', '".$enddategen."')");
+				}
+			}
+			
+			$checkagain = mysqli_query($conn, "SELECT * FROM lotteries WHERE status = 1 ORDER BY id DESC LIMIT 1");
+			if(mysqli_num_rows($checkagain)==1){
+				$getstarteddate = gmdate("F j, Y / H:i:s", $rowlottery['start_date']);
+				$getendingdate = gmdate("F j, Y / H:i:s", $rowlottery['end_date']);
+				?>
+				<tr>
+					<td>Started: <font color="ffffff"><?php echo $getstarteddate; ?></font></td>
+				</tr>
+				<tr>
+					<td>Ending date: <font color="ffffff"><?php echo $getendingdate; ?></font></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>Category: <font color="gold">Coins</font></td>
+				</tr>
+				<tr>
+					<td>Prize: <font color="gold"><?php echo $rowlottery['prize']; ?></font></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>Are you IN lottery?: 
+					<?php
+					if($rows['inlottery']==0){
+						?>
+						<font color="red">No</font>
+						<?php
+					}else{
+						?>
+						<font color="1df701">Yes</font>
+						<?php
+					}
+					?>
+					</td>
+				</tr>
+				<?php
+				if($rows['inlottery']==0){
+				?>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>
+						<form action='/ucp/takeinlottery.php' method='POST'>
+							<input type='submit' value='TAKE IN LOTTERY' class='wm-ui-btn'/>
+						</form>
+					</td>
+				</tr>
+				<?php
+				}
+			}else{
+			?>
 			<tr>
-                <td>&nbsp;</td>
+                <td>There's no lottery actually.</td>
             </tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>Last lottery winner: <font color="ffffff"><?php echo $rowendedlottery['winner']; ?></td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td>Next lottery will be at: <font color="ffffff"><?php echo gmdate("F j, Y / H:i:s", $rowendedlottery['end_date']+24*60*60); ?></font></td>
+			</tr>
+			<?php
+			}
+			?>
 			</tbody>
 		</table>
     </div>
+	<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 50px;">
+	<center>Last 10 lotteries</center>
+	</div>
 		<table id="customers">
 			<tr>
 				<th width="45%">Ending</th>
@@ -187,7 +296,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 							<?php
 							if(is_null($row['winner'])){
 								?>
-								<th>*No winner*</th>
+								<th>*Not ended*</th>
 								<?php
 							}else{
 								$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
