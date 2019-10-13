@@ -186,8 +186,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			$rowendedlottery = mysqli_fetch_array($resultendedlottery);
 			
 			if(mysqli_num_rows($checkfor)==0){
-				if(time()>($rowendedlottery['end_date']+24*60*60)){
-					$enddategen = time() + 24*60*60;
+				if(time()>($rowendedlottery['end_date']+7*24*60*60)){
+					$enddategen = time() + 7*24*60*60;
 					$rand = rand(1,3);
 					if($rand==3){
 						$randprize = rand(2,3);
@@ -254,6 +254,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				<?php
 				}
 			}else{
+			$getlastwinner = mysqli_query($checkacp, "SELECT * FROM account WHERE id = '".$rowendedlottery['winner']."'");
+			$rowswinlast = mysqli_fetch_array($getlastwinner);
 			?>
 			<tr>
                 <td>There's no lottery actually.</td>
@@ -262,13 +264,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td>Last lottery winner: <font color="ffffff"><?php echo $rowendedlottery['winner']; ?></td>
+				<td>Last lottery winner: <font color="ffffff"><?php echo $rowswinlast['username']; ?></td>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td>Next lottery will be at: <font color="ffffff"><?php echo gmdate("F j, Y / H:i:s", $rowendedlottery['end_date']+24*60*60); ?></font></td>
+				<td>Next lottery will be at: <font color="ffffff"><?php echo gmdate("F j, Y / H:i:s", $rowendedlottery['end_date']+7*24*60*60); ?></font></td>
 			</tr>
 			<?php
 			}
