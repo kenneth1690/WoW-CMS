@@ -187,7 +187,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			
 			if(mysqli_num_rows($checkfor)==0){
 				if(time()>($rowendedlottery['end_date']+7*24*60*60)){
-					$enddategen = time() + 7*24*60*60;
+					$enddategen = time() + 24*60*60;
 					$rand = rand(1,3);
 					if($rand==3){
 						$randprize = rand(2,3);
@@ -202,6 +202,10 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			
 			$checkagain = mysqli_query($conn, "SELECT * FROM lotteries WHERE status = 1 ORDER BY id DESC LIMIT 1");
 			if(mysqli_num_rows($checkagain)==1){
+				$sqllottery = "SELECT * FROM lotteries WHERE status = '1' ORDER BY id DESC LIMIT 1";
+				$resultlottery = mysqli_query($conn,$sqllottery);
+				$rowlottery = mysqli_fetch_array($resultlottery);
+				
 				$getstarteddate = gmdate("F j, Y / H:i:s", $rowlottery['start_date']);
 				$getendingdate = gmdate("F j, Y / H:i:s", $rowlottery['end_date']);
 				?>
