@@ -124,6 +124,20 @@ CREATE TABLE `logs_gm` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `lotteries`
+--
+
+CREATE TABLE `lotteries` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `category` int(3) NOT NULL COMMENT '1 - coins',
+  `prize` varchar(255) NOT NULL,
+  `winner` int(255) NOT NULL,
+  `status` int(3) NOT NULL DEFAULT '1' COMMENT '1 - active, 2 - finished'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `news`
 --
 
@@ -258,6 +272,12 @@ ALTER TABLE `logs_forum`
 --
 ALTER TABLE `logs_gm`
   ADD PRIMARY KEY (`logid`);
+  
+--
+-- Indexes for table `lotteries`
+--
+ALTER TABLE `lotteries`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `news`
@@ -300,37 +320,42 @@ ALTER TABLE `topics`
 -- AUTO_INCREMENT for table `bugtracker`
 --
 ALTER TABLE `bugtracker`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `changelogs`
 --
 ALTER TABLE `changelogs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `logs_acc`
 --
 ALTER TABLE `logs_acc`
-  MODIFY `logid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `logid` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `logs_bugs`
 --
 ALTER TABLE `logs_bugs`
-  MODIFY `logid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `logid` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `logs_forum`
 --
 ALTER TABLE `logs_forum`
-  MODIFY `logid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `logid` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `logs_gm`
 --
 ALTER TABLE `logs_gm`
-  MODIFY `logid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `logid` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `lotteries`
+--
+ALTER TABLE `lotteries`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `replies`
 --
