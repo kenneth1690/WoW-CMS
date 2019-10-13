@@ -158,23 +158,48 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 
 <div id="content-wrapper">
     <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 350px;">
-        1
+        <span>LOTTERY SUMMARY</span>
+		<table>
+            <tbody>
+			<tr>
+                <td>&nbsp;</td>
+            </tr>
+			<tr>
+                <td>&nbsp;</td>
+            </tr>
+			</tbody>
+		</table>
     </div>
 		<table id="customers">
 			<tr>
-				<th width="25%">Ending</th>
-				<th width="25%">Winner</th>
-				<th width="50%">Prize</th>
+				<th width="45%">Ending</th>
+				<th width="37%">Winner</th>
+				<th width="18%">Prize</th>
 			</tr>
 			<?php
-			$result = mysqli_query($conn,"SELECT * FROM `lottery` ORDER BY id DESC LIMIT 10");
+			$result = mysqli_query($conn,"SELECT * FROM `lotteries` ORDER BY id DESC LIMIT 10");
 				if($result->num_rows>0){
 					while($row = mysqli_fetch_array($result)){
+						$endingdate = gmdate("F j, Y / H:i:s", $row['end_date']);
 						?>
 						<tr>
-							<th></th>
-							<th></th>
-							<th></th>
+							<th><?php echo $endingdate; ?></th>
+							<?php
+							if(is_null($row['winner'])){
+								?>
+								<th>*No winner*</th>
+								<?php
+							}else{
+								$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+								$sqlwinner = "SELECT * FROM account WHERE id = '" . $row['winner'] . "'";
+								$resultwinner = mysqli_query($checkacp,$sqlwinner);
+								$rowwinner = mysqli_fetch_array($resultwinner);
+								?>
+								<th><?php echo $rowwinner['username']; ?></th>
+								<?php
+							}
+							?>
+							<th><?php echo $row['prize']; ?> Coins</th>
 						</tr>
 						<?php
 					}
