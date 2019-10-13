@@ -121,7 +121,65 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 
 
 <div id="content-wrapper">
-	
+	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+		<div id="wm-error-page">
+			<?php 
+					if(isset($_SESSION["loggedin"])) {
+						$nick = $_SESSION["loggedin"];
+						$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+					}
+					
+					$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+					$result = mysqli_query($checkacp,$sql);
+					$rows = mysqli_fetch_array($result);
+					
+					$idcheck = $rows['id'];
+					
+					$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+					$resultgm = mysqli_query($checkacp,$gm);
+					$rowsgm = mysqli_fetch_array($resultgm);
+					
+					$sqllottery = "SELECT * FROM lotteries WHERE status = '1' ORDER BY id DESC LIMIT 1";
+					$resultlottery = mysqli_query($conn,$sqllottery);
+					$rowlottery = mysqli_fetch_array($resultlottery);
+					
+					if(mysqli_num_rows($resultlottery)==1){
+						if($rows['inlottery']==1){
+							?>
+								<center>
+								<p><font size="6">Lottery mismatch</font></p>
+								<p>
+									<font size="5">You're already in lottery.</font>
+								</p> 
+								</center>
+							<?php
+							header("refresh:5;url=index.php");
+						}else{
+							?>
+								<center>
+								<p><font size="6">Joined to the lottery</font></p>
+								<p>
+									<font size="5">Congratulations, you have joined to the lottery.</font>
+								</p> 
+								</center>
+							<?php
+							header("refresh:5;url=index.php");
+							$joinlottery = mysqli_query($checkacp, "UPDATE account SET inlottery = 1 WHERE id = '".$idcheck."'");
+						}
+					}else{
+						?>
+								<center>
+								<p><font size="6">No lottery</font></p>
+								<p>
+									<font size="5">There's no active lottery actually.</font>
+								</p> 
+								</center>
+							<?php
+							header("refresh:5;url=index.php");
+					}
+			?>
+		</div>
+	</div>
 </div>
 
 
