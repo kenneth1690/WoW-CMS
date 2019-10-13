@@ -57,6 +57,43 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 <link rel="stylesheet" href="/css/ui.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/wm-contextmenu.css">
+<style>
+		#customers {
+			  border-collapse: collapse;
+			  width: 100%;
+			}
+
+			#customers td, #customers th {
+			  border: 1px solid #ddd;
+			  background: #0f0f0f none repeat-x left;
+			  color: #c1b575;
+				border-bottom: 1px solid #1e1e1e;
+				border-left: 1px solid transparent;
+				border-right: 1px solid transparent;
+			  padding: 10px;
+			  font-size: 15px;
+			}
+
+			#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+			#customers tr:hover {background-color: #ddd;}
+
+			#customers th {
+			  padding-top: 6.5px;
+			  padding-bottom: 6.5px;
+			  text-align: left;
+			  background-color: #131313;
+			  color: #505050;
+			  box-shadow: -2px 2px 2px transparent;
+			  border-top-right-radius: 0px;
+				border-top-left-radius: 0px;
+				border-left: 1px solid transparent;
+				border-right: 1px solid transparent;
+				border: 1px solid #1e1e1e;
+				font-size: 15px;
+				vertical-align: text-top;
+			}
+		</style>
 </head>
 <body>
 <div class="navigation-wrapper">
@@ -131,17 +168,17 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                 $action = htmlspecialchars($_GET['action']);
                 if($action == "news"){
                 ?>
-                <li><a href="/acp/listcontent.php?action=news" class="active"><i class="fas fa-newspaper"></i> NEWS</a></li>  
+                <li><a href="/acp/listcontent.php?action=changelogs" class="active"><i class="fas fa-newspaper"></i> NEWS</a></li>  
                 <li><a href="/acp/listcontent.php?action=changelogs"><i class="fas fa-exclamation-circle"></i> CHANGELOGS</a></li>
                 <?php
                 }elseif($action == "changelogs"){
                 ?>
-                <li><a href="/acp/listcontent.php?action=news"><i class="fas fa-newspaper"></i> NEWS</a></li>  
+                <li><a href="/acp/listcontent.php?action=changelogs"><i class="fas fa-newspaper"></i> NEWS</a></li>  
                 <li><a href="/acp/listcontent.php?action=changelogs" class="active"><i class="fas fa-exclamation-circle"></i> CHANGELOGS</a></li>
                 <?php
                 }else{
                 ?>
-                <li><a href="/acp/listcontent.php?action=news"><i class="fas fa-newspaper"></i> NEWS</a></li>  
+                <li><a href="/acp/listcontent.php?action=changelogs"><i class="fas fa-newspaper"></i> NEWS</a></li>  
                 <li><a href="/acp/listcontent.php?action=changelogs"><i class="fas fa-exclamation-circle"></i> CHANGELOGS</a></li>
                 <?php
                 }
@@ -170,29 +207,25 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 </div>
 
 <div class="content-wrapper">
-	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<?php
 			if(isset($_GET['action'])){
 				$action = htmlspecialchars($_GET['action']);
-			}else{
-				?>
-				<center>
-				<p>
-					<font size="6">No action choosed</font>
-				</p>
-				<p>
-					<font size="5">You have not selected an action.</font>
-				</p> 
-				</center>
-				<?php
 			}
-			
+
 			if($action == "news"){
+				?>
+				<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+					<div id="wm-error-page">
+				<?php
 				echo "
 									<form action='/acp/newcontent.php?action=newnews' method='post'>
 											<input type='submit' value='ADD NEW NEWS' class='wm-ui-btn'/>
 									</form>";
 									
+				?>
+				</div>
+				</div>
+				<?php
 				$newscon=mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 				if (mysqli_connect_errno())
 				{
@@ -203,35 +236,132 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				$result=mysqli_query($newscon,$sql);
 
 				?>
-				<span>NEWS IN DATABASE</span>
-				<table>
-				<tbody>
+				<table id="customers">
 				<tr>
-					<td>&nbsp;</td>
+					<th width="25%">News</th>
+					<th width="25%">Author</th>
+					<th width="25%">Date posted</th>
+					<th width="25%">Actions</th>
 				</tr>
 				<?php
-				while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-				{
-					$newdate = date("F j, Y", strtotime($row['date']));
-					$convdate = gmdate("F n, Y", $phpdate);
+				if (isset($_GET['page_no']) && $_GET['page_no']!="") {
+					$page_no = $_GET['page_no'];
+				}else{
+					$page_no = 1;
+				}
+
+				$total_records_per_page = 25;
+				$offset = ($page_no-1) * $total_records_per_page;
+				$previous_page = $page_no - 1;
+				$next_page = $page_no + 1;
+				$adjacents = "2"; 
+
+				$result_count = mysqli_query($cmsconn,"SELECT COUNT(*) As total_records FROM `news`");
+				$total_records = mysqli_fetch_array($result_count);
+				$total_records = $total_records['total_records'];
+				$total_no_of_pages = ceil($total_records / $total_records_per_page);
+				$second_last = $total_no_of_pages - 1; // total page minus 1
+
+				$result = mysqli_query($cmsconn,"SELECT * FROM `news` ORDER BY date DESC LIMIT $offset, $total_records_per_page");
+				if($result->num_rows>0){
+					while($row = mysqli_fetch_array($result)){
+						echo "<tr>
+						<th>News ID #".$row['id']."</th>
+						<th>".$row['author']."</th>
+						<th>".$row['date']."</th>
+						<th><a href='newsdetails.php?newsid=".$row['id']."'>Details</a> / <a href='editnews.php?newsid=".$row['id']."'>Edit</a> / <a href='delnews.php?newsid=".$row['id']."'>Delete</a></th>
+						</tr>";
+					}
+				}else{
 					?>
-						<tr>
-							<td><font color="white">News #<?php echo $row['id']; ?></font> [<a href="newsdetails.php?newsid=<?php echo $row['id']; ?>">Details</a> / <a href="editnews.php?newsid=<?php echo $row['id']; ?>">Edit</a> / <a href="delnews.php?newsid=<?php echo $row['id']; ?>">Delete</a>]</td>
-						</tr>
+					<tr>
+						<th colspan="4">No news</th>
+					</tr>
 					<?php
 				}
+				mysqli_close($cmsconn);
 				?>
-				</tbody>
 				</table>
+				<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+		<div id="wm-error-page">
+			<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
+			<?php // if($page_no > 1){ echo "<li><a href='?action=news&page_no=1'>First Page</a></li>"; } ?>
+			
+			<b><a <?php if($page_no > 1){ echo "href='?action=news&page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
+			   
+			<?php 
+			if ($total_no_of_pages <= 10){  	 
+				for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+					if ($counter == $page_no) {
+						echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+					}else{
+						echo "<b><a href='?action=news&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+					}
+				}
+			}elseif($total_no_of_pages > 10){
+				if($page_no <= 4) {			
+					for ($counter = 1; $counter < 8; $counter++){		 
+						if ($counter == $page_no) {
+							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+						}else{
+							echo "<b><a href='?action=news&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+						}
+					}
+					echo "<b><a>...</a></b>";
+					echo "<b><a href='?action=news&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+					echo "<b><a href='?action=news&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
+				}elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
+					echo "<b><a href='?action=news&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+					echo "<b><a href='?action=news&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+					echo "<b><a>...</a></b>";
+					for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {			
+						if ($counter == $page_no) {
+							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+						}else{
+							echo "<b><a href='?action=news&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+						}                  
+				   }
+				   echo "<b><a>...</a></b>";
+				   echo "<b><a href='?action=news&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+				   echo "<b><a href='?action=news&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
+				}else {
+					echo "<b><a href='?action=news&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+					echo "<b><a href='?action=news&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+					echo "<b><a>...</a></b>";
+
+					for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+						if ($counter == $page_no) {
+							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+						}else{
+							echo "<b><a href='?action=news&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+						}                   
+					}
+				}
+			}
+			?>
+    
+			<b><a <?php if($page_no < $total_no_of_pages) { echo "href='?action=news&page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
+			<?php
+			if($page_no < $total_no_of_pages){
+				echo "<b><a href='?action=news&page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
+			}
+			?>
+		</div>
+	</div>
 				<?php
-				
-				mysqli_close($newscon);
 			}elseif($action == "changelogs"){
+				?>
+				<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+					<div id="wm-error-page">
+				<?php
 				echo "
 									<form action='/acp/newcontent.php?action=newchangelog' method='post'>
 											<input type='submit' value='ADD NEW CHANGELOG' class='wm-ui-btn'/>
 									</form>";
-									
+				?>
+				</div>
+				</div>
+				<?php
 				$newscon=mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 				if (mysqli_connect_errno())
 				{
@@ -242,31 +372,123 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				$result=mysqli_query($newscon,$sql);
 
 				?>
-				<span>CHANGELOGS IN DATABASE</span>
-				<table>
-				<tbody>
+				<table id="customers">
 				<tr>
-					<td>&nbsp;</td>
+					<th width="25%">Changelog</th>
+					<th width="25%">Author</th>
+					<th width="25%">Date posted</th>
+					<th width="25%">Actions</th>
 				</tr>
 				<?php
-				while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-				{
-					$newdate = date("F j, Y", strtotime($row['date']));
-					$convdate = gmdate("F n, Y", $phpdate);
+				if (isset($_GET['page_no']) && $_GET['page_no']!="") {
+					$page_no = $_GET['page_no'];
+				}else{
+					$page_no = 1;
+				}
+
+				$total_records_per_page = 25;
+				$offset = ($page_no-1) * $total_records_per_page;
+				$previous_page = $page_no - 1;
+				$next_page = $page_no + 1;
+				$adjacents = "2"; 
+
+				$result_count = mysqli_query($cmsconn,"SELECT COUNT(*) As total_records FROM `changelogs`");
+				$total_records = mysqli_fetch_array($result_count);
+				$total_records = $total_records['total_records'];
+				$total_no_of_pages = ceil($total_records / $total_records_per_page);
+				$second_last = $total_no_of_pages - 1; // total page minus 1
+
+				$result = mysqli_query($cmsconn,"SELECT * FROM `changelogs` ORDER BY date DESC LIMIT $offset, $total_records_per_page");
+				if($result->num_rows>0){
+					while($row = mysqli_fetch_array($result)){
+						echo "<tr>
+						<th>Changelog ID #".$row['id']."</th>
+						<th>".$row['author']."</th>
+						<th>".$row['date']."</th>
+						<th><a href='changelogdetails.php?chgsid=".$row['id']."'>Details</a> / <a href='editchangelog.php?chgsid=".$row['id']."'>Edit</a> / <a href='delchangelog.php?chgsid=".$row['id']."'>Delete</a></th>
+						</tr>";
+					}
+				}else{
 					?>
-						<tr>
-							<td><font color="white">Changelog #<?php echo $row['id']; ?></font> [<a href="changelogdetails.php?chgsid=<?php echo $row['id']; ?>">Details</a> / <a href="editchangelog.php?chgsid=<?php echo $row['id']; ?>">Edit</a> / <a href="delchangelog.php?chgsid=<?php echo $row['id']; ?>">Delete</a>]</td>
-						</tr>
+					<tr>
+						<th colspan="4">No changelogs</th>
+					</tr>
 					<?php
 				}
+				mysqli_close($cmsconn);
 				?>
-				</tbody>
 				</table>
-				<?php
-				
-				mysqli_close($newscon);
+				<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+		<div id="wm-error-page">
+			<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
+			<?php // if($page_no > 1){ echo "<li><a href='?action=changelogs&page_no=1'>First Page</a></li>"; } ?>
+			
+			<b><a <?php if($page_no > 1){ echo "href='?action=changelogs&page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
+			   
+			<?php 
+			if ($total_no_of_pages <= 10){  	 
+				for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+					if ($counter == $page_no) {
+						echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+					}else{
+						echo "<b><a href='?action=changelogs&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+					}
+				}
+			}elseif($total_no_of_pages > 10){
+				if($page_no <= 4) {			
+					for ($counter = 1; $counter < 8; $counter++){		 
+						if ($counter == $page_no) {
+							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+						}else{
+							echo "<b><a href='?action=changelogs&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+						}
+					}
+					echo "<b><a>...</a></b>";
+					echo "<b><a href='?action=changelogs&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+					echo "<b><a href='?action=changelogs&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
+				}elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
+					echo "<b><a href='?action=changelogs&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+					echo "<b><a href='?action=changelogs&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+					echo "<b><a>...</a></b>";
+					for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {			
+						if ($counter == $page_no) {
+							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+						}else{
+							echo "<b><a href='?action=changelogs&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+						}                  
+				   }
+				   echo "<b><a>...</a></b>";
+				   echo "<b><a href='?action=changelogs&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+				   echo "<b><a href='?action=changelogs&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
+				}else {
+					echo "<b><a href='?action=changelogs&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+					echo "<b><a href='?action=changelogs&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+					echo "<b><a>...</a></b>";
+
+					for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+						if ($counter == $page_no) {
+							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+						}else{
+							echo "<b><a href='?action=changelogs&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+						}                   
+					}
+				}
+			}
+			?>
+    
+			<b><a <?php if($page_no < $total_no_of_pages) { echo "href='?action=changelogs&page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
+			<?php
+			if($page_no < $total_no_of_pages){
+				echo "<b><a href='?action=changelogs&page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
+			}
+			?>
+		</div>
+	</div>
+	<?php
 			}else{
 					?>
+					<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+					<div id="wm-error-page">
 					<center>
 					<p>
 						<font size="6">No action choosed</font>
@@ -275,10 +497,11 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<font size="5">You have not selected an action.</font>
 					</p> 
 					</center>
+					</div>
+					</div>
 					<?php
 			}
 			?>
-	</div>
 </div>
 
             <div class="clear"></div>
