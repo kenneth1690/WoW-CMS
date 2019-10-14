@@ -94,7 +94,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$resultgm = mysqli_query($checkacp,$gm);
 		$rowsgm = mysqli_fetch_array($resultgm);
 		
-		?><li><a href="/ucp/ucp.php"><i class="fas fa-user"></i> ACCOUNT PANEL</a></li>
+		?><li><a href="/ucp/ucp.php"><i class="fas fa-user"></i> ACCOUNT</a></li>
 		<li><a href="/ucp/characters.php"><i class="fas fa-users-cog"></i> CHARACTERS</a></li>
 		<li><a href="/ucp/donate.php"><i class="fas fa-dollar-sign"></i> DONATE</a></li>
 		<li><a href="/ucp/store.php"><i class="fas fa-shopping-cart"></i> STORE</a></li>
@@ -102,6 +102,19 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		<li><a href="/ucp/support.php"><i class="fas fa-life-ring"></i> SUPPORT</a></li>
 		<li><a href="/ucp/lottery.php" class="active"><i class="fas fa-ticket-alt"></i> LOTTERY</a></li>
 		<li><a href="/ucp/settings.php"><i class="fas fa-cog"></i> SETTINGS</a></li>
+		<?php
+		$howmuchnotis = mysqli_query($conn, "SELECT * FROM notifications WHERE user = '".$idcheck."' AND readed = 0");
+		$rowsnotis = mysqli_fetch_array($howmuchnotis);
+		if(mysqli_num_rows($howmuchnotis)>0){
+			?>
+			<li><a href="/ucp/notifications.php"><i class="fas fa-bell"></i> <?php echo mysqli_num_rows($howmuchnotis); ?></a></li>
+			<?php
+		}else{
+			?>
+			<li><a href="/ucp/notifications.php"><i class="fas fa-bell"></i> 0</a></li>
+			<?php
+		}
+		?>
 		</ul>
 		<ul>
 		<?php

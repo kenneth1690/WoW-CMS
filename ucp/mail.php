@@ -82,7 +82,7 @@ while($row = mysqli_fetch_array($qr3)){
 
 <div id="page-navigation" class="wm-ui-generic-frame wm-ui-bottom-border">
 	<ul>
-    	    		<li><a href="/ucp/ucp.php" class="active"><i class="fas fa-user"></i> ACCOUNT PANEL</a></li>
+    	    		<li><a href="/ucp/ucp.php" class="active"><i class="fas fa-user"></i> ACCOUNT</a></li>
             </ul>
     <ul>
         <li><?php
