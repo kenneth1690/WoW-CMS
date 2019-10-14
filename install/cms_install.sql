@@ -156,6 +156,20 @@ CREATE TABLE `news` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `title` varchar(64) NOT NULL,
+  `notification` varchar(255) NOT NULL,
+  `readed` int(3) NOT NULL DEFAULT '0',
+  `user` int(33) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `replies`
 --
 
@@ -288,6 +302,12 @@ ALTER TABLE `news`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `replies`
 --
 ALTER TABLE `replies`
@@ -357,6 +377,11 @@ ALTER TABLE `lotteries`
 -- AUTO_INCREMENT for table `news`
 --
 ALTER TABLE `news`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `replies`

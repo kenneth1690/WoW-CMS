@@ -127,7 +127,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$esttime = round($datediff / (60 * 60 * 24));
 		
 		
-		?><li><a href="/ucp/ucp.php" class="active"><i class="fas fa-user"></i> ACCOUNT PANEL</a></li>
+		?><li><a href="/ucp/ucp.php" class="active"><i class="fas fa-user"></i> ACCOUNT</a></li>
 		<li><a href="/ucp/characters.php"><i class="fas fa-users-cog"></i> CHARACTERS</a></li>
 		<li><a href="/ucp/donate.php"><i class="fas fa-dollar-sign"></i> DONATE</a></li>
 		<li><a href="/ucp/store.php"><i class="fas fa-shopping-cart"></i> STORE</a></li>
@@ -135,6 +135,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		<li><a href="/ucp/support.php"><i class="fas fa-life-ring"></i> SUPPORT</a></li>
 		<li><a href="/ucp/lottery.php"><i class="fas fa-ticket-alt"></i> LOTTERY</a></li>
 		<li><a href="/ucp/settings.php"><i class="fas fa-cog"></i> SETTINGS</a></li>
+		<li><a href="/ucp/notifications.php"><i class="fas fa-bell"></i> </a></li>
 		</ul>
 		<ul>
 		<?php
