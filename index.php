@@ -38,13 +38,24 @@ function getplayercount() {
 	if(mysqli_num_rows($queryplayers) > 0) {
 		if(mysqli_num_rows($queryplayers) == 1000){
 			?>
-			<span style="color: red;">
+			<span style="color: orange;">
 			<?php
 			echo mysqli_num_rows($queryplayers);
 			?>
 			</span>
 			<?php
-		}else if(mysqli_num_rows($queryplayers) >= 750){
+		}elseif(mysqli_num_rows($queryplayers) > 1000){
+			?>
+			<span style="color: orange;">
+			<div class="tooltip">
+			<?php
+			echo mysqli_num_rows($queryplayers);
+			?>
+			<span class="tooltiptext">Queue: <?php echo $queryplayers-1000; ?></span>
+			</div>
+			</span>
+			<?php
+		}elseif(mysqli_num_rows($queryplayers) >= 750){
 			?>
 			<span style="color: orange;">
 			<?php
