@@ -203,8 +203,9 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$rowsauthor = mysqli_fetch_array($resultauthor);
 		
 		$idcheck = $rowsauth['id'];
+		$idgmcheck = $row['author_id'];
 		
-		$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+		$gm= "SELECT * FROM account_access WHERE id = '" . $idgmcheck . "'";
 		$resultgm = mysqli_query($checkauth,$gm);
 		$rowsgm = mysqli_fetch_array($resultgm);
 		
@@ -238,10 +239,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					}elseif($rowsgm['gmlevel']==4){
 						?>
 						<font color="9000b8">Owner</font><br>
-						<?php
-					}else{
-						?>
-						<font color="ffffff">Player</font><br>
 						<?php
 					}
 					
@@ -343,8 +340,9 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				$avatar = $rows['avatar'];
 				$ipcheck = $rows['last_ip'];
 				$idcheck = $rows['id'];
+				$idgmcheck = $row['author_id'];
 				
-				$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+				$gm= "SELECT * FROM account_access WHERE id = '" . $idgmcheck . "'";
 				$resultgm = mysqli_query($checkacp,$gm);
 				$rowsgm = mysqli_fetch_array($resultgm);
 				?>
@@ -365,10 +363,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					}elseif($rowsgm['gmlevel']==4){
 						?>
 						<font color="9000b8">Owner</font><br>
-						<?php
-					}else{
-						?>
-						<font color="ffffff">Player</font><br>
 						<?php
 					}
 					

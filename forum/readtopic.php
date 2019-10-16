@@ -179,8 +179,9 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 		$rowsauthor = mysqli_fetch_array($resultauthor);
 		
 		$idcheck = $rowsauth['id'];
+		$idgmcheck = $row['author_id'];
 		
-		$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+		$gm= "SELECT * FROM account_access WHERE id = '" . $idgmcheck . "'";
 		$resultgm = mysqli_query($checkauth,$gm);
 		$rowsgm = mysqli_fetch_array($resultgm);
 		
@@ -214,10 +215,6 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 					}elseif($rowsgm['gmlevel']==4){
 						?>
 						<font color="9000b8">Owner</font><br>
-						<?php
-					}else{
-						?>
-						<font color="ffffff">Player</font><br>
 						<?php
 					}
 					
@@ -319,8 +316,9 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 				$avatar = $rows['avatar'];
 				$ipcheck = $rows['last_ip'];
 				$idcheck = $rows['id'];
+				$idgmcheck = $row['author_id'];
 				
-				$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+				$gm= "SELECT * FROM account_access WHERE id = '" . $idgmcheck . "'";
 				$resultgm = mysqli_query($checkacp,$gm);
 				$rowsgm = mysqli_fetch_array($resultgm);
 				?>
@@ -341,10 +339,6 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 					}elseif($rowsgm['gmlevel']==4){
 						?>
 						<font color="9000b8">Owner</font><br>
-						<?php
-					}else{
-						?>
-						<font color="ffffff">Player</font><br>
 						<?php
 					}
 					
