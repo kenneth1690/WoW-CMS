@@ -181,7 +181,9 @@ CREATE TABLE `replies` (
   `author` varchar(16) NOT NULL,
   `author_id` int(11) NOT NULL,
   `comment` mediumtext NOT NULL,
-  `date_posted` varchar(16) NOT NULL
+  `date_posted` varchar(16) NOT NULL,
+  `edited_by` varchar(255) DEFAULT NULL,
+  `edited_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -240,7 +242,9 @@ CREATE TABLE `topics` (
   `views` int(5) UNSIGNED NOT NULL,
   `replies` int(3) UNSIGNED NOT NULL,
   `locked` int(3) NOT NULL DEFAULT '0',
-  `pinned` int(3) NOT NULL DEFAULT '0'
+  `pinned` int(3) NOT NULL DEFAULT '0',
+  `edited_by` varchar(255) DEFAULT NULL,
+  `edited_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

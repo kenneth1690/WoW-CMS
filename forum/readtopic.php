@@ -263,7 +263,15 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 					?>
 					<br>Posts: <font color="ffffff"><?php echo $rowsauthor['posts']; ?></font>
 					</center></th>
-		<th><span style="float:right;">Posted date: <?php echo $row['date_posted']; ?></span><br><?php echo $row['content']; ?></th></tr></table>
+		<th><span style="float:right; text-align: right;">Posted date: <?php echo $row['date_posted']; ?>
+				<?php
+				if(!is_null($row['edited_by']) && !is_null($row['edited_date'])){
+					?>
+					<br>Edited <?php echo $row['edited_date']; ?> by <?php echo $row['edited_by']; ?>
+					<?php
+				}
+				?>
+				</span><br><?php echo $row['content']; ?></th></tr></table>
 		<?php
 		mysqli_close($checkauth);
 		
@@ -385,7 +393,15 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 					?><font color="f57b01">Senior</font><?php
 				}
 				?><br>Posts: <font color="ffffff"><?php echo $rowsauthor['posts']; ?></font>
-				</center></th><th><span style="float:right;">Posted date: <?php echo $row['date_posted']; ?></span><br><?php echo $row['comment']; ?></th></tr>
+				</center></th><th><span style="float:right; text-align: right;">Posted date: <?php echo $row['date_posted']; ?>
+				<?php
+				if(!is_null($row['edited_by']) && !is_null($row['edited_date'])){
+					?>
+					<br>Edited <?php echo $row['edited_date']; ?> by <?php echo $row['edited_by']; ?>
+					<?php
+				}
+				?>
+				</span><br><?php echo $row['comment']; ?></th></tr>
 				<?php
 			}
 			?>
