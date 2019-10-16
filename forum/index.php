@@ -141,6 +141,21 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 		$select = mysqli_query($conn, "SELECT * FROM categories");
 		
+		if(mysqli_num_rows($select)==0){
+			?>
+			<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+				<div id="wm-error-page">
+					<center>
+					<p><font size="6">No categories</font></p>
+					<p>
+						<font size="5">There's no categories created.</font>
+					</p> 
+					</center>
+				</div>
+			</div>
+			<?php
+		}
+
 		while ($row = mysqli_fetch_assoc($select)) {
 			?>
 			<table id="categories">
