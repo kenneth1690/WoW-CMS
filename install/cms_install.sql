@@ -124,6 +124,20 @@ CREATE TABLE `logs_gm` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `logs_tics`
+--
+
+CREATE TABLE `logs_tics` (
+  `logid` int(11) NOT NULL,
+  `logger` varchar(33) NOT NULL,
+  `logger_id` int(33) NOT NULL,
+  `logdetails` mediumtext NOT NULL,
+  `logdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `lotteries`
 --
 
@@ -236,6 +250,7 @@ CREATE TABLE `tickets` (
   `author` varchar(16) NOT NULL,
   `author_id` int(11) NOT NULL,
   `date_posted` varchar(65) NOT NULL,
+  `readed` int(3) NOT NULL DEFAULT '1',
   `status` int(3) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -321,6 +336,12 @@ ALTER TABLE `logs_forum`
 -- Indexes for table `logs_gm`
 --
 ALTER TABLE `logs_gm`
+  ADD PRIMARY KEY (`logid`);
+  
+--
+-- Indexes for table `logs_gm`
+--
+ALTER TABLE `logs_tics`
   ADD PRIMARY KEY (`logid`);
   
 --
@@ -413,6 +434,11 @@ ALTER TABLE `logs_forum`
 -- AUTO_INCREMENT for table `logs_gm`
 --
 ALTER TABLE `logs_gm`
+  MODIFY `logid` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `logs_gm`
+--
+ALTER TABLE `logs_tics`
   MODIFY `logid` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `lotteries`

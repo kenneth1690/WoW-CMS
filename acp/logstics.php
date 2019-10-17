@@ -37,7 +37,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$resultgm = mysqli_query($checkacp,$gm);
 		$rowsgm = mysqli_fetch_array($resultgm);
 		
-		if(!$rowsgm || $rowsgm['gmlevel']==0 || $rowsgm['gmlevel']==1){
+		if(!$rowsgm || $rowsgm['gmlevel']==0 || $rowsgm['gmlevel']==1 || $rowsgm['gmlevel']==2){
 			header("location: ../index.php");
 			exit;
 		}
@@ -57,6 +57,43 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 <link rel="stylesheet" href="/css/ui.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/wm-contextmenu.css">
+<style>
+		#customers {
+			  border-collapse: collapse;
+			  width: 100%;
+			}
+
+			#customers td, #customers th {
+			  border: 1px solid #ddd;
+			  background: #0f0f0f none repeat-x left;
+			  color: #c1b575;
+				border-bottom: 1px solid #1e1e1e;
+				border-left: 1px solid transparent;
+				border-right: 1px solid transparent;
+			  padding: 10px;
+			  font-size: 15px;
+			}
+
+			#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+			#customers tr:hover {background-color: #ddd;}
+
+			#customers th {
+			  padding-top: 6.5px;
+			  padding-bottom: 6.5px;
+			  text-align: left;
+			  background-color: #131313;
+			  color: #505050;
+			  box-shadow: -2px 2px 2px transparent;
+			  border-top-right-radius: 0px;
+				border-top-left-radius: 0px;
+				border-left: 1px solid transparent;
+				border-right: 1px solid transparent;
+				border: 1px solid #1e1e1e;
+				font-size: 15px;
+				vertical-align: text-top;
+			}
+		</style>
 </head>
 <body>
 <div class="navigation-wrapper">
@@ -154,117 +191,117 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 </ul>
 </div>
 
-<div id="content-wrapper">
-    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 250px;">
-        <span>INTRODUCTION</span>
-		<table>
-            <tbody>
+<div class="content-wrapper">
+		<table id="customers">
 			<tr>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td>Hello <?php
-				if($rows['posts']>=0 && $rows['posts']<50){
-					?>
-					<font color="ffffff"><?php echo $rows['username']; ?></font>
-					<?php
-				}elseif($rows['posts']>=50 && $rows['posts']<100){
-					?>
-					<font color="#1df701"><?php echo $rows['username']; ?></font>
-					<?php
-				}elseif($rows['posts']>=100 && $rows['posts']<250){
-					?>
-					<font color="006dd7"><?php echo $rows['username']; ?></font>
-					<?php
-				}elseif($rows['posts']>=250 && $rows['posts']<500){
-					?>
-					<font color="9e34e7"><?php echo $rows['username']; ?></font>
-					<?php
-				}elseif($rows['posts']>=500){
-					?>
-					<font color="f57b01"><?php echo $rows['username']; ?></font>
-					<?php
-				}?>,</td>
-            </tr>
-            <tr>
-                <td>for now, your GM Level is <?php echo $rowsgm['gmlevel']; ?> what means that you can 
-                <?php 
-                if($rowsgm['gmlevel']>2){
-                    ?>
-                    view all Head Admin & Administrator logs like Donations, Bugtracker, Tickets, Administrative, Forum and Accounts.
-                    <?php
-                }elseif($rowsgm['gmlevel']>1){
-                    ?>
-                    view only Administrator logs like Forum and Accounts.
-                    <?php
-                }
-                ?>
-                </td>
-            </tr>
-			</tbody>
+				<th width="50%">Log details</th>
+				<th width="20%">User logged</th>
+				<th width="15%">Log date</th>
+			</tr>
+			<?php
+			if (isset($_GET['page_no']) && $_GET['page_no']!="") {
+				$page_no = $_GET['page_no'];
+			}else{
+				$page_no = 1;
+			}
+
+			$total_records_per_page = 100;
+			$offset = ($page_no-1) * $total_records_per_page;
+			$previous_page = $page_no - 1;
+			$next_page = $page_no + 1;
+			$adjacents = "2"; 
+
+			$result_count = mysqli_query($cmsconn,"SELECT COUNT(*) As total_records FROM `logs_tics`");
+			$total_records = mysqli_fetch_array($result_count);
+			$total_records = $total_records['total_records'];
+			$total_no_of_pages = ceil($total_records / $total_records_per_page);
+			$second_last = $total_no_of_pages - 1; // total page minus 1
+
+			$result = mysqli_query($cmsconn,"SELECT * FROM `logs_tics` ORDER BY logdate DESC LIMIT $offset, $total_records_per_page");
+			if($result->num_rows>0){
+				while($row = mysqli_fetch_array($result)){
+					echo "<tr>
+					<th>".$row['logdetails']."</th>
+					<th>".$row['logger']." (ID: ".$row['logger_id'].")</th>
+					<th>".$row['logdate']."</th>
+					</tr>";
+				}
+			}else{
+				?>
+				<tr>
+					<th colspan="3">No logs</th>
+				</tr>
+				<?php
+			}
+			mysqli_close($cmsconn);
+			?>
 		</table>
-    </div>
-    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 250px;">
-        <?php
-        if($rowsgm && $rowsgm['gmlevel']>2){ 
-        ?>
-            <span>LOGS / HEAD ADMIN</span>
-            <table>
-                <tbody>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-                <?php
-                if($rowsgm && $rowsgm['gmlevel']>2){ 
-                    ?>
-                    <tr>
-                    <td><a href="logsdonor.php"><font color="white">Donation Logs</font></a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="logsbugs.php"><font color="white">Bugtracker Logs</font></a></td>
-                    </tr>
-					<tr>
-                        <td><a href="logstics.php"><font color="white">Tickets Logs</font></a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="logsgm.php"><font color="white">Administrative Logs</font></a></td>
-                    </tr>
-                    <?php
-                }
-                ?>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-                </tbody>
-            </table>
-        <?php
-        }
-        if($rowsgm && $rowsgm['gmlevel']>1){
-        ?>
-            <span>LOGS / ADMINISTRATOR</span>
-            <table>
-                <tbody>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-                <?php
-                if($rowsgm && $rowsgm['gmlevel']>1){ 
-                    ?>
-                    <tr>
-                    <td><a href="logsforum.php"><font color="white">Forum Logs</font></a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="logsacc.php"><font color="white">Account Logs</font></a></td>
-                    </tr>
-                    <?php
-                }
-                ?>
-                </tbody>
-            </table>
-        <?php
-        }
-        ?>
-    </div>
+	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+		<div id="wm-error-page">
+			<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
+			<?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } ?>
+			
+			<b><a <?php if($page_no > 1){ echo "href='?page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
+			   
+			<?php 
+			if ($total_no_of_pages <= 10){  	 
+				for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+					if ($counter == $page_no) {
+						echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+					}else{
+						echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+					}
+				}
+			}elseif($total_no_of_pages > 10){
+				if($page_no <= 4) {			
+					for ($counter = 1; $counter < 8; $counter++){		 
+						if ($counter == $page_no) {
+							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+						}else{
+							echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+						}
+					}
+					echo "<b><a>...</a></b>";
+					echo "<b><a href='?page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+					echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
+				}elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
+					echo "<b><a href='?page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+					echo "<b><a href='?page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+					echo "<b><a>...</a></b>";
+					for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {			
+						if ($counter == $page_no) {
+							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+						}else{
+							echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+						}                  
+				   }
+				   echo "<b><a>...</a></b>";
+				   echo "<b><a href='?page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+				   echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
+				}else {
+					echo "<b><a href='?page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+					echo "<b><a href='?page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+					echo "<b><a>...</a></b>";
+
+					for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+						if ($counter == $page_no) {
+							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+						}else{
+							echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+						}                   
+					}
+				}
+			}
+			?>
+    
+			<b><a <?php if($page_no < $total_no_of_pages) { echo "href='?page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
+			<?php
+			if($page_no < $total_no_of_pages){
+				echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
+			}
+			?>
+		</div>
+	</div>
 </div>
 
             <div class="clear"></div>

@@ -41,7 +41,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 <style>
 		#customers {
 			  border-collapse: collapse;
-			  width: 50%;
+			  width: 100%;
 			}
 
 			#customers td, #customers th {
@@ -136,8 +136,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		<li><a href="/ucp/donate.php"><i class="fas fa-dollar-sign"></i> DONATE</a></li>
 		<li><a href="/ucp/store.php"><i class="fas fa-shopping-cart"></i> STORE</a></li>
 		<li><a href="/ucp/trade.php"><i class="fas fa-sync-alt"></i> TRADE</a></li>
-		<li><a href="/ucp/support.php"><i class="fas fa-life-ring"></i> SUPPORT</a></li>
-		<li><a href="/ucp/lottery.php" class="active"><i class="fas fa-ticket-alt"></i> LOTTERY</a></li>
+		<li><a href="/ucp/support.php" class="active"><i class="fas fa-life-ring"></i> SUPPORT</a></li>
+		<li><a href="/ucp/lottery.php"><i class="fas fa-ticket-alt"></i> LOTTERY</a></li>
 		<li><a href="/ucp/settings.php"><i class="fas fa-cog"></i> SETTINGS</a></li>
 		<?php
 		$howmuchnotis = mysqli_query($conn, "SELECT * FROM notifications WHERE user = '".$idcheck."' AND readed = 0");
@@ -170,62 +170,285 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 </div>
 
 <div id="content-wrapper">
-    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 380px;">
-        <span>SUPPORT PANEL</span>
-		<table>
-            <tbody>
-			<tr>
-                <td>&nbsp;</td>
-            </tr>
-			</tbody>
-		</table>
-    </div>
-	<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 50px;">
-	<center>Your tickets</center>
-	</div>
+    <?php
+		if(isset($_GET['action'])){
+            $action = htmlspecialchars($_GET['action']);
+        }else{
+            ?>
+            <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+				<div id="wm-error-page">
+					<form action="support.php?action=newticket" method="POST">
+						<input type='submit' value='CREATE TICKET' class='wm-ui-btn'/>
+					</form>
+				</div>
+			</div>
 		<table id="customers">
 			<tr>
-				<th width="10%">ID</th>
-				<th width="60%">Title</th>
-				<th width="30%">Status</th>
+				<th width="10%">ID #</th>
+				<th width="35%">Title</th>
+				<th width="20%">Date</th>
+				<th width="20%">Status (?)</th>
+				<th width="15%">Details</th>
 			</tr>
 			<?php
-			$result = mysqli_query($conn,"SELECT * FROM `lotteries` ORDER BY id DESC LIMIT 10");
-				if($result->num_rows>0){
-					while($row = mysqli_fetch_array($result)){
-						$endingdate = gmdate("F j, Y / H:i:s", $row['end_date']);
-						?>
-						<tr>
-							<th><?php echo $endingdate; ?></th>
-							<?php
-							if(is_null($row['winner'])){
-								?>
-								<th>*Not ended*</th>
-								<?php
-							}else{
-								$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
-								$sqlwinner = "SELECT * FROM account WHERE id = '" . $row['winner'] . "'";
-								$resultwinner = mysqli_query($checkacp,$sqlwinner);
-								$rowwinner = mysqli_fetch_array($resultwinner);
-								?>
-								<th><?php echo $rowwinner['username']; ?></th>
-								<?php
-							}
-							?>
-							<th><?php echo $row['prize']; ?> Coins</th>
-						</tr>
-						<?php
-					}
-				}else{
+			$con = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+
+			if (isset($_GET['page_no']) && $_GET['page_no']!="") {
+				$page_no = $_GET['page_no'];
+			}else{
+				$page_no = 1;
+			}
+
+			$total_records_per_page = 10;
+			$offset = ($page_no-1) * $total_records_per_page;
+			$previous_page = $page_no - 1;
+			$next_page = $page_no + 1;
+			$adjacents = "2"; 
+
+			$result_count = mysqli_query($con,"SELECT COUNT(*) As total_records FROM `tickets`");
+			$total_records = mysqli_fetch_array($result_count);
+			$total_records = $total_records['total_records'];
+			$total_no_of_pages = ceil($total_records / $total_records_per_page);
+			$second_last = $total_no_of_pages - 1; // total page minus 1
+
+			$result = mysqli_query($con,"SELECT * FROM `tickets` WHERE author_id='$idcheck' ORDER BY id DESC, status=0 DESC, date_posted DESC LIMIT $offset, $total_records_per_page");
+			if($result->num_rows>0){
+				while($row = mysqli_fetch_array($result)){
 					?>
 					<tr>
-						<th colspan="3">No lotteries</th>
+					<th><?php echo $row['id']; ?></th>
+					<th><?php echo $row['title']; ?></th>
+					<th><?php echo $row['date_posted']; ?></th>
+					<th><?php
+					if($row['readed']==0){
+						?>
+						<font color="006dd7">New answer!</font>
+						<?php
+					}else{
+						if($row['status']==1){
+							?>
+							<font color="f57b01">Closed</font>
+							<?php
+						}elseif($row['status']==0){
+							?>
+							<font color="1df701">Opened</font>
+							<?php
+						}
+					}
+					?></th>
+					<th><a href='viewticket.php?ticid=<?php echo $row['id']; ?>'>View</a> / 
+					<?php
+					if($row['status']==0){
+						?>
+						<a href='ticketstatus.php?ticid=<?php echo $row['id']; ?>'>Close</a>
+						<?php
+					}else{
+						?>
+						<a href='ticketstatus.php.php?ticid=<?php echo $row['id']; ?>'>Open</a>
+						<?php
+					}
+					?>
+					</th>
 					</tr>
 					<?php
 				}
-				mysqli_close($cmsconn);
+			}else{
+				?>
+				<tr>
+					<th colspan="5">You have no tickets created.</th>
+				</tr>
+				<?php
+			}
+			mysqli_close($con);
 			?>
 		</table>
+	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+		<div id="wm-error-page">
+			<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
+			<?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } ?>
+			
+			<b><a <?php if($page_no > 1){ echo "href='?page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
+			   
+			<?php 
+			if ($total_no_of_pages <= 10){  	 
+				for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+					if ($counter == $page_no) {
+						echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+					}else{
+						echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+					}
+				}
+			}elseif($total_no_of_pages > 10){
+				if($page_no <= 4) {			
+					for ($counter = 1; $counter < 8; $counter++){		 
+						if ($counter == $page_no) {
+							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+						}else{
+							echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+						}
+					}
+					echo "<b><a>...</a></b>";
+					echo "<b><a href='?page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+					echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
+				}elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
+					echo "<b><a href='?page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+					echo "<b><a href='?page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+					echo "<b><a>...</a></b>";
+					for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {			
+						if ($counter == $page_no) {
+							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+						}else{
+							echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+						}                  
+				   }
+				   echo "<b><a>...</a></b>";
+				   echo "<b><a href='?page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+				   echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
+				}else {
+					echo "<b><a href='?page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+					echo "<b><a href='?page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+					echo "<b><a>...</a></b>";
+
+					for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+						if ($counter == $page_no) {
+							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+						}else{
+							echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+						}                   
+					}
+				}
+			}
+			?>
+    
+			<b><a <?php if($page_no < $total_no_of_pages) { echo "href='?page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
+			<?php
+			if($page_no < $total_no_of_pages){
+				echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
+			}
+			?>
+		</div>
+	</div>
+            <?php
+        }
+                    
+        if($action == "newticket"){
+			?>
+			<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+				<div id="wm-error-page">
+					<?php 
+						session_start();
+							$getscid = $_GET['scid'];
+							$select = mysqli_query($con, "SELECT * FROM `subcategories` WHERE `subcat_id`='$getscid'");
+							$row = mysqli_fetch_assoc($select);
+							
+							if(isset($_SESSION["loggedin"])) {
+								$nick = $_SESSION["loggedin"];
+								$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+							}
+							
+							$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+							$result = mysqli_query($checkacp,$sql);
+							$rows = mysqli_fetch_array($result);
+							
+							$idcheck = $rows['id'];
+							
+							$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+							$resultgm = mysqli_query($checkacp,$gm);
+							$rowsgm = mysqli_fetch_array($resultgm);
+							
+							?>
+							<form action="support.php?action=confirmticket" method='POST'>
+								<p>Title: </p>
+								<input type='text' id='problem' name='problem' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
+								<p>Description (HTML supported): </p>
+								<textarea id='description' name='description' rows='14' cols='80' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
+								<input type='submit' value='CREATE TICKET' class='wm-ui-btn'/>
+							</form>
+				</div>
+			</div>
+			<?php
+		}elseif($action == "confirmticket"){
+			session_start();
+					
+					if(isset($_SESSION["loggedin"])) {
+						$nick = $_SESSION["loggedin"];
+						$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+						$cmsconn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+					}
+					
+					$problem = $_POST['problem'];
+					$description = $_POST['description'];
+					
+					$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+					$result = mysqli_query($checkacp,$sql);
+					$rows = mysqli_fetch_array($result);
+					
+					$idcheck = $rows['id'];
+					
+					$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+					$resultgm = mysqli_query($checkacp,$gm);
+					$rowsgm = mysqli_fetch_array($resultgm);
+					
+					if(empty($problem) || empty($description)){
+						header("refresh:5;url=index.php");
+						?>
+						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+						<div id="wm-error-page">
+						<center>
+						<p><font size="6">Error when adding</font></p>
+						<p>
+							<font size="5">The 'problem' and 'description' fields can not be empty.</font>
+						</p> 
+						</center>
+						</div>
+						</div>
+						<?php
+						header("refresh:5;url=index.php");
+					}else{
+						$cmssql= "INSERT INTO tickets (`title`, `author`, `author_id`, `date_posted`) VALUES ('$problem', '$nick', '".$rows['id']."', NOW())";
+						$resultcms = mysqli_query($cmsconn,$cmssql);
+						
+						$getticid = mysqli_insert_id($cmsconn);
+						
+						$cmssql2= "INSERT INTO ticket_answers (`ticket_id`, `answer`, `author`, `author_id`, `date_posted`) VALUES ('$getticid', '$description', '$nick', '".$rows['id']."', NOW())";
+						$resultcms2 = mysqli_query($cmsconn,$cmssql2);
+						
+						$insertlog = mysqli_query($cmsconn, "INSERT INTO logs_tics (`logger`, `logger_id`, `logdetails`, `logdate`) 
+									  VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', 'TICKET: User `".$nick."` created ticket titled `".$problem."`', NOW());");
+						header("refresh:5;url=index.php");
+						?>
+						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+						<div id="wm-error-page">
+						<center>
+						<p><font size="6">Ticket created</font></p>
+						<p>
+							<font size="5">New ticket has been created.</font>
+						</p> 
+						</center>
+						</div>
+						</div>
+						<?php
+					}
+					
+					mysqli_close($checkacp);
+					mysqli_close($cmsconnn);
+		}elseif(isset($_GET['action'])){
+			?>
+			<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+			<div id="wm-error-page">
+			<center>
+				<p>
+					<font size="6">No action choosed</font>
+				</p>
+				<p>
+					<font size="5">You have not selected an action.</font>
+				</p> 
+			</center>
+			</div>
+			</div>
+			<?php
+		}
+		?>
 </div>
 
             <div class="clear"></div>
