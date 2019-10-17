@@ -98,11 +98,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					?>
     	    		<li><a href="/forum/" class="active">Forum</a></li>
 					<li>></li>
-					<li><a href="<?php echo "/forum/topics/".$_GET['cid']."/".$_GET['scid'].""; ?>" class="active"><?php echo $row2['category_title']; ?></a></li>
-            		<li>></li>
-					<li><a href="<?php echo "/forum/topics/".$_GET['cid']."/".$_GET['scid'].""; ?>" class="active"><?php echo $row['subcategory_title']; ?></a></li>
-					<li>></li>
-					<li><a href="#" class="active">New Topic</a></li>
+					<li><a href="#" class="active">Edit Post</a></li>
             </ul>
     <ul>
         <li><?php
@@ -117,8 +113,62 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
 			<?php 
-					$getscid = $_GET['scid'];
-					$select = mysqli_query($con, "SELECT * FROM `subcategories` WHERE `subcat_id`='$getscid'");
+			if($_GET['tid']){
+					$gettid = $_GET['tid'];
+					$select = mysqli_query($con, "SELECT * FROM `topics` WHERE `topic_id`='$gettid'");
+					$row = mysqli_fetch_assoc($select);
+					
+					if(isset($_SESSION["loggedin"])) {
+						$nick = $_SESSION["loggedin"];
+						$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+					}
+					
+					$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+					$result = mysqli_query($checkacp,$sql);
+					$rows = mysqli_fetch_array($result);
+					
+					$idcheck = $rows['id'];
+					
+					$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+					$resultgm = mysqli_query($checkacp,$gm);
+					$rowsgm = mysqli_fetch_array($resultgm);
+					if(mysqli_num_rows($select)>0){
+						if(isset($_SESSION['loggedin'])) {
+							if($idcheck==$row['author_id'] || $rowsgm['gmlevel']>0){
+									echo "<form action='/forum/editconfpost.php?tid=".$_GET['tid']."' method='POST'>
+										  <p>Title: </p>
+										  <input type='text' id='topic' name='topic' value='".$row['title']."' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
+										  <p>Content (HTML supported): </p>
+										  <textarea id='content' name='content' value='".$row['content']."' rows='14' cols='80' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
+										  <input type='submit' value='EDIT TOPIC' class='wm-ui-btn'/></form>";
+							}else{
+									?>
+									<center>
+									<p>
+										<font size="6">Cannot be edited</font>
+									</p>
+									<p>
+										<font size="5">This topic is not yours.</font>
+									</p> 
+									</center>
+									<?php
+							}
+						}
+					}else{
+							?>
+									<center>
+									<p>
+										<font size="6">Something is wrong</font>
+									</p>
+									<p>
+										<font size="5">Content with that ID is not existing.</font>
+									</p> 
+									</center>
+									<?php
+					}
+			}elseif($_GET['pid']){
+					$getpid = $_GET['pid'];
+					$select = mysqli_query($con, "SELECT * FROM `replies` WHERE `reply_id`='$getpid'");
 					$row = mysqli_fetch_assoc($select);
 					
 					if(isset($_SESSION["loggedin"])) {
@@ -136,31 +186,51 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					$resultgm = mysqli_query($checkacp,$gm);
 					$rowsgm = mysqli_fetch_array($resultgm);
 					
-					if (isset($_SESSION['loggedin'])) {
-						if($row['special']>0){
-							if($rowsgm['gmlevel']>0){
-								echo "<form action='/forum/addnewtopic.php?cid=".$_GET['cid']."&scid=".$_GET['scid']."'
-								  method='POST'>
-								  <p>Title: </p>
-								  <input type='text' id='topic' name='topic' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
-								  <p>Content (HTML supported): </p>
-								  <textarea id='content' name='content' rows='14' cols='80' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
-								  <input type='submit' value='CREATE' class='wm-ui-btn'/></form>";
-								echo "Category only for GM's, but you still have permission to create topic.";
+					if(mysqli_num_rows($select)>0){
+						if(isset($_SESSION['loggedin'])) {
+							if($idcheck==$row['author_id'] || $rowsgm['gmlevel']>0){
+									echo "<form action='/forum/editconfpost.php?pid=".$_GET['pid']."' method='POST'>
+										  <p>Content (HTML supported): </p>
+										  <textarea id='content' name='content' value='".$row['comment']."' rows='14' cols='80' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
+										  <input type='submit' value='EDIT POST' class='wm-ui-btn'/></form>";
 							}else{
-								echo "Category only for GM's, you can not create topic.";
+									?>
+									<center>
+									<p>
+										<font size="6">Cannot be edited</font>
+									</p>
+									<p>
+										<font size="5">This content is not yours.</font>
+									</p> 
+									</center>
+									<?php
 							}
-						}else{
-							echo "<form action='/forum/addnewtopic.php?cid=".$_GET['cid']."&scid=".$_GET['scid']."'
-								  method='POST'>
-								  <p>Title: </p>
-								  <input type='text' id='topic' name='topic' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
-								  <p>Content (HTML supported): </p>
-								  <textarea id='content' name='content' rows='14' cols='80' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
-								  <input type='submit' value='CREATE' class='wm-ui-btn'/></form>";
 						}
+					}else{
+							?>
+									<center>
+									<p>
+										<font size="6">Something is wrong</font>
+									</p>
+									<p>
+										<font size="5">Content with that ID is not existing.</font>
+									</p> 
+									</center>
+									<?php
 					}
-
+			}else{
+				?>
+					<center>
+					<p>
+						<font size="6">No action choosed</font>
+					</p>
+					<p>
+						<font size="5">You have not selected an action.</font>
+					</p> 
+					</center>
+				<?php header("refresh:5;url=index.php"); ?>
+				<?php
+			}
 			?>
 		</div>
 	</div>
