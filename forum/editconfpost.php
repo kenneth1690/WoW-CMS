@@ -112,7 +112,22 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 <div class="content-wrapper">
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
-			<?php 
+			<?php
+			$topic = addslashes($_POST['topic']);
+			$content = nl2br(addslashes($_POST['content']));
+			$comment = nl2br(addslashes($_POST['comment']));
+			
+			if(isset($_SESSION["loggedin"])) {
+					$nick = $_SESSION["loggedin"];
+					$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+				}
+			
+			$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+			$result = mysqli_query($checkacp,$sql);
+			$rows = mysqli_fetch_array($result);
+				
+			$idcheck = $rows['id'];
+
 			if($_GET['tid']){
 					$gettid = $_GET['tid'];
 					$select = mysqli_query($con, "SELECT * FROM `topics` WHERE `topic_id`='$gettid'");
@@ -135,12 +150,18 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					if(mysqli_num_rows($select)>0){
 						if(isset($_SESSION['loggedin'])) {
 							if($idcheck==$row['author_id'] || $rowsgm['gmlevel']>0){
-									echo "<form action='/forum/editconfpost.php?tid=".$_GET['tid']."' method='POST'>
-										  <p>Title: </p>
-										  <input type='text' id='topic' name='topic' value='".$row['title']."' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
-										  <p>Content (HTML supported): </p>
-										  <textarea id='content' name='content' value='".$row['content']."' rows='14' cols='80' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
-										  <input type='submit' value='EDIT TOPIC' class='wm-ui-btn'/></form>";
+								$insert = mysqli_query($con, "UPDATE topics SET title='$topic', content='$content', edited_by='$nick', edited_date=NOW() WHERE topic_id='$gettid'");
+									?>
+									<center>
+									<p>
+										<font size="6">Successfully edited</font>
+									</p>
+									<p>
+										<font size="5">You have successfully edited that topic.</font>
+									</p> 
+									</center>
+									<?php	  
+								header("refresh:5;url=index.php");
 							}else{
 									?>
 									<center>
@@ -189,10 +210,18 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					if(mysqli_num_rows($select)>0){
 						if(isset($_SESSION['loggedin'])) {
 							if($idcheck==$row['author_id'] || $rowsgm['gmlevel']>0){
-									echo "<form action='/forum/editconfpost.php?pid=".$_GET['pid']."' method='POST'>
-										  <p>Content (HTML supported): </p>
-										  <textarea id='comment' name='comment' value='".$row['comment']."' rows='14' cols='80' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
-										  <input type='submit' value='EDIT POST' class='wm-ui-btn'/></form>";
+								$insert = mysqli_query($con, "UPDATE replies SET comment='$comment', edited_by='$nick', edited_date=NOW() WHERE reply_id='$getpid'");
+									?>
+									<center>
+									<p>
+										<font size="6">Successfully edited</font>
+									</p>
+									<p>
+										<font size="5">You have successfully edited that post.</font>
+									</p> 
+									</center>
+									<?php	  
+								header("refresh:5;url=index.php");
 							}else{
 									?>
 									<center>
