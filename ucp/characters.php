@@ -291,6 +291,9 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										<td>&nbsp;</td>
 									</tr>
 									<tr>
+										<td>Character ID: <font color="white"><?php echo $rowschar['guid']; ?></font></td>
+									</tr>
+									<tr>
 										<td>Character name: <font color="white"><?php echo $rowschar['name']; ?></font></td>
 									</tr>
 									<tr>
