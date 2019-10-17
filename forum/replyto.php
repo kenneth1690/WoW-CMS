@@ -89,6 +89,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 #categories tr:hover {background-color: #ddd;}
 
 #categories th {
+	word-break: break-all;
   padding-top: 6.5px;
   padding-bottom: 6.5px;
   text-align: left;
@@ -209,6 +210,10 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$resultgm = mysqli_query($checkauth,$gm);
 		$rowsgm = mysqli_fetch_array($resultgm);
 		
+		$gmmy= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+		$resultgmmy = mysqli_query($checkauth,$gmmy);
+		$rowsgmmy = mysqli_fetch_array($resultgmmy);
+		
 		$countreplies = mysqli_query($conn, "SELECT * FROM replies WHERE category_id = $getcid AND subcategory_id = $getscid AND topic_id = $gettid");
 		?>
 		<table id='categories'><tr><th colspan='2'><?php
@@ -287,7 +292,23 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					?>
 					<br>Posts: <font color="ffffff"><?php echo $rowsauthor['posts']; ?></font>
 					</center></th>
-		<th><span style="float:right;">Posted date: <?php echo $row['date_posted']; ?></span><br><?php echo $row['content']; ?></th></tr></table>
+		<th><span style="float:right; text-align: right;">
+				<?php
+				if($idcheck==$row['author_id'] || $rowsgmmy['gmlevel']>0){
+					?>
+					<a href="/forum/editpost.php?tid=<?php echo $_GET['tid']; ?>">Edit</a> / 
+					<?php
+				}
+				?>
+				Posted date: <?php echo $row['date_posted']; ?>
+				<?php
+				if(!is_null($row['edited_by']) && !is_null($row['edited_date'])){
+					?>
+					 / Edited <?php echo $row['edited_date']; ?> by <?php echo $row['edited_by']; ?>
+					<?php
+				}
+				?>
+				</span><br><br><?php echo $row['content']; ?></th></tr></table>
 		<?php
 		mysqli_close($checkauth);
 		
@@ -329,6 +350,10 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				
 				$test = $row['author'];
 				
+				$sqlauth= "SELECT * FROM account WHERE username = '" . $nick . "'";
+				$resultauth = mysqli_query($checkacp,$sqlauth);
+				$rowsauth = mysqli_fetch_array($resultauth);
+				
 				$sql= "SELECT * FROM account WHERE username = '" . $test . "'";
 				$result = mysqli_query($checkacp,$sql);
 				$rows = mysqli_fetch_array($result);
@@ -339,8 +364,12 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					
 				$avatar = $rows['avatar'];
 				$ipcheck = $rows['last_ip'];
-				$idcheck = $rows['id'];
+				$idcheck = $rowsauth['id'];
 				$idgmcheck = $row['author_id'];
+				
+				$gmmy= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+				$resultgmmy = mysqli_query($checkacp,$gmmy);
+				$rowsgmmy = mysqli_fetch_array($resultgmmy);
 				
 				$gm= "SELECT * FROM account_access WHERE id = '" . $idgmcheck . "'";
 				$resultgm = mysqli_query($checkacp,$gm);
@@ -409,7 +438,24 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					?><font color="f57b01">Senior</font><?php
 				}
 				?><br>Posts: <font color="ffffff"><?php echo $rowsauthor['posts']; ?></font>
-				</center></th><th><span style="float:right;">Posted date: <?php echo $row['date_posted']; ?></span><br><?php echo $row['comment']; ?></th></tr>
+				</center></th>
+				<th><span style="float:right; text-align: right;">
+				<?php
+				if($idcheck==$row['author_id'] || $rowsgmmy>0){
+					?>
+					<a href="/forum/editpost.php?pid=<?php echo $row['reply_id']; ?>">Edit</a> / 
+					<?php
+				}
+				?>
+				Posted date: <?php echo $row['date_posted']; ?>
+				<?php
+				if(!is_null($row['edited_by']) && !is_null($row['edited_date'])){
+					?>
+					/ Edited <?php echo $row['edited_date']; ?> by <?php echo $row['edited_by']; ?>
+					<?php
+				}
+				?>
+				</span><br><?php echo $row['comment']; ?></th></tr>
 				<?php
 			}
 			?>
