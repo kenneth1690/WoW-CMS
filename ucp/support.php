@@ -220,7 +220,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					<th><?php echo $row['title']; ?></th>
 					<th><?php echo $row['date_posted']; ?></th>
 					<th><?php
-					if($row['readed']==0){
+					if($row['readed']==0 && $row['status']==0){
 						?>
 						<font color="006dd7">New answer!</font>
 						<?php
@@ -244,7 +244,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php
 					}else{
 						?>
-						<a href='ticketstatus.php.php?ticid=<?php echo $row['id']; ?>'>Open</a>
+						<a href='ticketstatus.php?ticid=<?php echo $row['id']; ?>'>Open</a>
 						<?php
 					}
 					?>
