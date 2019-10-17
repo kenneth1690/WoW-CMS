@@ -33,11 +33,48 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 <meta name="Description" content="Private Server Community.">
 <meta name="Keywords" content="<?php echo $sitename; ?>, WoW, World of Warcraft, Warcraft, Private Server, Private WoW Server, WoW Server, Private WoW Server, wow private server, wow server, wotlk server, cataclysm private server, wow cata server, best free private server, largest private server, wotlk private server, blizzlike server, mists of pandaria, mop, cataclysm, cata, anti-cheat, sentinel anti-cheat, warden">
 <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
-<title><?php echo $sitename; ?> | Lottery</title>
+<title><?php echo $sitename; ?> | Support</title>
 <link rel="stylesheet" href="/css/global.css">
 <link rel="stylesheet" href="/css/ui.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/wm-contextmenu.css">
+<style>
+		#customers {
+			  border-collapse: collapse;
+			  width: 50%;
+			}
+
+			#customers td, #customers th {
+			  border: 1px solid #ddd;
+			  background: #0f0f0f none repeat-x left;
+			  color: #c1b575;
+				border-bottom: 1px solid #1e1e1e;
+				border-left: 1px solid transparent;
+				border-right: 1px solid transparent;
+			  padding: 10px;
+			  font-size: 15px;
+			}
+
+			#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+			#customers tr:hover {background-color: #ddd;}
+
+			#customers th {
+			  padding-top: 6.5px;
+			  padding-bottom: 6.5px;
+			  text-align: left;
+			  background-color: #131313;
+			  color: #505050;
+			  box-shadow: -2px 2px 2px transparent;
+			  border-top-right-radius: 0px;
+				border-top-left-radius: 0px;
+				border-left: 1px solid transparent;
+				border-right: 1px solid transparent;
+				border: 1px solid #1e1e1e;
+				font-size: 15px;
+				vertical-align: text-top;
+			}
+		</style>
 </head>
 <body>
 <div class="navigation-wrapper">
@@ -132,69 +169,64 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
     </ul>
 </div>
 
-
 <div id="content-wrapper">
-	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-		<div id="wm-error-page">
-			<?php 
-					if(isset($_SESSION["loggedin"])) {
-						$nick = $_SESSION["loggedin"];
-						$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
-					}
-					
-					$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
-					$result = mysqli_query($checkacp,$sql);
-					$rows = mysqli_fetch_array($result);
-					
-					$idcheck = $rows['id'];
-					
-					$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
-					$resultgm = mysqli_query($checkacp,$gm);
-					$rowsgm = mysqli_fetch_array($resultgm);
-					
-					$sqllottery = "SELECT * FROM lotteries WHERE status = '1' ORDER BY id DESC LIMIT 1";
-					$resultlottery = mysqli_query($conn,$sqllottery);
-					$rowlottery = mysqli_fetch_array($resultlottery);
-					
-					if(mysqli_num_rows($resultlottery)==1){
-						if($rows['inlottery']==1){
-							?>
-								<center>
-								<p><font size="6">Lottery mismatch</font></p>
-								<p>
-									<font size="5">You're already in lottery.</font>
-								</p> 
-								</center>
-							<?php
-							header("refresh:5;url=index.php");
-						}else{
-							?>
-								<center>
-								<p><font size="6">Joined to the lottery</font></p>
-								<p>
-									<font size="5">Congratulations, you have joined to the lottery.</font>
-								</p> 
-								</center>
-							<?php
-							header("refresh:5;url=index.php");
-							$joinlottery = mysqli_query($checkacp, "UPDATE account SET inlottery = 1 WHERE id = '".$idcheck."'");
-						}
-					}else{
-						?>
-								<center>
-								<p><font size="6">No lottery</font></p>
-								<p>
-									<font size="5">There's no active lottery actually.</font>
-								</p> 
-								</center>
-							<?php
-							header("refresh:5;url=index.php");
-					}
-			?>
-		</div>
+    <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 380px;">
+        <span>SUPPORT PANEL</span>
+		<table>
+            <tbody>
+			<tr>
+                <td>&nbsp;</td>
+            </tr>
+			</tbody>
+		</table>
+    </div>
+	<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 50px;">
+	<center>Your tickets</center>
 	</div>
+		<table id="customers">
+			<tr>
+				<th width="10%">ID</th>
+				<th width="60%">Title</th>
+				<th width="30%">Status</th>
+			</tr>
+			<?php
+			$result = mysqli_query($conn,"SELECT * FROM `lotteries` ORDER BY id DESC LIMIT 10");
+				if($result->num_rows>0){
+					while($row = mysqli_fetch_array($result)){
+						$endingdate = gmdate("F j, Y / H:i:s", $row['end_date']);
+						?>
+						<tr>
+							<th><?php echo $endingdate; ?></th>
+							<?php
+							if(is_null($row['winner'])){
+								?>
+								<th>*Not ended*</th>
+								<?php
+							}else{
+								$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+								$sqlwinner = "SELECT * FROM account WHERE id = '" . $row['winner'] . "'";
+								$resultwinner = mysqli_query($checkacp,$sqlwinner);
+								$rowwinner = mysqli_fetch_array($resultwinner);
+								?>
+								<th><?php echo $rowwinner['username']; ?></th>
+								<?php
+							}
+							?>
+							<th><?php echo $row['prize']; ?> Coins</th>
+						</tr>
+						<?php
+					}
+				}else{
+					?>
+					<tr>
+						<th colspan="3">No lotteries</th>
+					</tr>
+					<?php
+				}
+				mysqli_close($cmsconn);
+			?>
+		</table>
 </div>
-
 
             <div class="clear"></div>
         </div>
