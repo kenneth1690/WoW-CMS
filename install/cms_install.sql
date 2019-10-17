@@ -227,6 +227,36 @@ CREATE TABLE `subcategories` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tickets`
+--
+
+CREATE TABLE `tickets` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `title` varchar(65) NOT NULL,
+  `author` varchar(16) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `date_posted` varchar(65) NOT NULL,
+  `status` int(3) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ticket_answers`
+--
+
+CREATE TABLE `ticket_answers` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `ticket_id` int(11) NOT NULL,
+  `answer` mediumtext NOT NULL,
+  `author` varchar(16) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `date_posted` varchar(65) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `topics`
 --
 
@@ -330,6 +360,18 @@ ALTER TABLE `subcategories`
   ADD KEY `parent_id` (`parent_id`);
 
 --
+-- Indexes for table `tickets`
+--
+ALTER TABLE `tickets`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ticket_answers`
+--
+ALTER TABLE `ticket_answers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `topics`
 --
 ALTER TABLE `topics`
@@ -392,6 +434,16 @@ ALTER TABLE `notifications`
 --
 ALTER TABLE `replies`
   MODIFY `reply_id` int(3) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tickets`
+--
+ALTER TABLE `tickets`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ticket_answers`
+--
+ALTER TABLE `ticket_answers`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `topics`
 --
