@@ -98,7 +98,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
     <div class="center">
         <iframe width="100%" height="100%" src="/images/bg3.jpg" frameborder="0" scrolling="no" allowfullscreen=""></iframe>
     </div>
-    <div id="wm-theme-navigation"><a href="javascript:;" data-background="1"></a><a href="javascript:;" data-background="0"></a></div>
     <div class="footer"></div>
     <div class="rightmost-frame"></div>
 	<div class="frame-corners bl"></div>
