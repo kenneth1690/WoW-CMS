@@ -112,11 +112,12 @@
 		$resultgm = mysqli_query($checkacp,$gm);
 		$rowsgm = mysqli_fetch_array($resultgm);
 		
-		?><li><a href="/acp/acp.php"><i class="fas fa-user-secret"></i> ADMIN PANEL</a></li>
+		?><li><a href="/acp/acp.php"><i class="fas fa-user-secret"></i> ADMIN</a></li>
             <?php
 		    if($rowsgm && $rowsgm['gmlevel']>0){ 
 				?>
 				<li><a href="/acp/manageaccs.php" class="active"><i class="fas fa-user-friends"></i> ACCOUNTS</a></li>
+				<li><a href="/acp/support.php"><i class="fas fa-life-ring"></i> SUPPORT</a></li>
 				<?php
                 if($rowsgm && $rowsgm['gmlevel']>1){ 
                 ?>
@@ -133,7 +134,7 @@
 			    ?>
 				</ul>
 				<ul>
-			    <li><a href="/ucp/ucp.php"><i class="fas fa-user"></i> ACCOUNT PANEL</a></li>
+			    <li><a href="/ucp/ucp.php"><i class="fas fa-user"></i> ACCOUNT</a></li>
 			    <?php
 		    }
 		mysqli_close($checkacp);

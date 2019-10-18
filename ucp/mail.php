@@ -27,7 +27,7 @@ while($row = mysqli_fetch_array($qr3)){
 <meta name="Description" content="Private Server Community.">
 <meta name="Keywords" content="<?php echo $sitename; ?>, WoW, World of Warcraft, Warcraft, Private Server, Private WoW Server, WoW Server, Private WoW Server, wow private server, wow server, wotlk server, cataclysm private server, wow cata server, best free private server, largest private server, wotlk private server, blizzlike server, mists of pandaria, mop, cataclysm, cata, anti-cheat, sentinel anti-cheat, warden">
 <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
-<title><?php echo $sitename; ?> | Email</title>
+<title><?php echo $sitename; ?> | Account Panel</title>
 <link rel="stylesheet" href="/css/global.css">
 <link rel="stylesheet" href="/css/ui.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
