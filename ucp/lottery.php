@@ -190,6 +190,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					$endlottery = mysqli_query($conn, "UPDATE lotteries SET winner = '".$rowswin['id']."', status = '2' WHERE status = '1'");
 					$giveprize = mysqli_query($checkacp, "UPDATE account SET coins = coins+".$rowlottery['prize']." WHERE id = '".$rowswin['id']."'");
 					$setinlottery = mysqli_query($checkacp, "UPDATE account SET inlottery = 0 WHERE inlottery = 1");
+					$sendnoti = mysqli_query($conn, "INSERT INTO notifications (`title`, `notification`, `user`) VALUES ('Lottery Winner', 'Hey, ".$rowswin['username']."! You won the latest lottery in which the prize was ".$rowlottery['prize']." coins. Congrats!', '".$rowswin['id']."')");
 				}
 			}
 			
