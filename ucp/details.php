@@ -33,7 +33,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 <meta name="Description" content="Private Server Community.">
 <meta name="Keywords" content="<?php echo $sitename; ?>, WoW, World of Warcraft, Warcraft, Private Server, Private WoW Server, WoW Server, Private WoW Server, wow private server, wow server, wotlk server, cataclysm private server, wow cata server, best free private server, largest private server, wotlk private server, blizzlike server, mists of pandaria, mop, cataclysm, cata, anti-cheat, sentinel anti-cheat, warden">
 <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
-<title><?php echo $sitename; ?> | Account Panel</title>
+<title><?php echo $sitename; ?> | Settings</title>
 <link rel="stylesheet" href="/css/global.css">
 <link rel="stylesheet" href="/css/ui.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
@@ -78,9 +78,53 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 
 <div id="page-navigation" class="wm-ui-generic-frame wm-ui-bottom-border">
 <ul>
-	<li><a href="/ucp/ucp.php" class="active"><i class="fas fa-user"></i> ACCOUNT</a></li>
-</ul>
-    <ul>
+	<?php
+		if(isset($_SESSION["loggedin"])) {
+			$nick = $_SESSION["loggedin"];
+			$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+		}
+		$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+		$result = mysqli_query($checkacp,$sql);
+		$rows = mysqli_fetch_array($result);
+		
+		$idcheck = $rows['id'];
+		$ipcheck = $rows['last_ip'];
+		
+		$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+		$resultgm = mysqli_query($checkacp,$gm);
+		$rowsgm = mysqli_fetch_array($resultgm);
+		
+		?><li><a href="/ucp/ucp.php"><i class="fas fa-user"></i> ACCOUNT</a></li>
+		<li><a href="/ucp/characters.php"><i class="fas fa-users-cog"></i> CHARACTERS</a></li>
+		<li><a href="/ucp/donate.php"><i class="fas fa-dollar-sign"></i> DONATE</a></li>
+		<li><a href="/ucp/store.php"><i class="fas fa-shopping-cart"></i> STORE</a></li>
+		<li><a href="/ucp/trade.php"><i class="fas fa-sync-alt"></i> TRADE</a></li>
+		<li><a href="/ucp/support.php"><i class="fas fa-life-ring"></i> SUPPORT</a></li>
+		<li><a href="/ucp/lottery.php"><i class="fas fa-ticket-alt"></i> LOTTERY</a></li>
+		<li><a href="/ucp/settings.php" class="active"><i class="fas fa-cog"></i> SETTINGS</a></li>
+		<?php
+		$howmuchnotis = mysqli_query($conn, "SELECT * FROM notifications WHERE user = '".$idcheck."' AND readed = 0");
+		$rowsnotis = mysqli_fetch_array($howmuchnotis);
+		if(mysqli_num_rows($howmuchnotis)>0){
+			?>
+			<li><a href="/ucp/notifications.php"><i class="fas fa-bell"></i> <?php echo mysqli_num_rows($howmuchnotis); ?></a></li>
+			<?php
+		}else{
+			?>
+			<li><a href="/ucp/notifications.php"><i class="fas fa-bell"></i> 0</a></li>
+			<?php
+		}
+		?>
+		</ul>
+		<ul>
+		<?php
+		if($rowsgm && $rowsgm['gmlevel']>0){ 
+			?>
+			<li><a href="/acp/acp.php"><i class="fas fa-user-secret"></i> ADMIN</a></li>
+			<?php
+		}
+		mysqli_close($checkacp);
+		?>
         <li><?php
 		$dt = new DateTime("now", new DateTimeZone('Europe/Warsaw'));
 		echo $dt->format('H:i');

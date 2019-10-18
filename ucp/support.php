@@ -157,7 +157,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		<?php
 		if($rowsgm && $rowsgm['gmlevel']>0){ 
 			?>
-			<li><a href="/acp/acp.php"><i class="fas fa-user-secret"></i> ADMIN PANEL</a></li>
+			<li><a href="/acp/acp.php"><i class="fas fa-user-secret"></i> ADMIN</a></li>
 			<?php
 		}
 		mysqli_close($checkacp);
