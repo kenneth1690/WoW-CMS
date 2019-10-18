@@ -170,7 +170,7 @@ function handlePress(evt){
     	</form>
 	</div>
     <?php
-    }
+	}
     if($action == "confirm"){
         ?>
         <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border">
@@ -242,8 +242,9 @@ function handlePress(evt){
 								   $headers = "From: ".$sitename;
 
 								   $insertlog = mysqli_query($conn, "INSERT INTO logs_acc (`logger`, `logger_id`, `logdetails`, `logdate`) 
-								   VALUES ('".$username."', '".$user3['id']."', 'ACCOUNT: Created Account: `".$username."`', NOW());");
-								   mysqli_close($regconn);
+										VALUES ('".$username."', '".$user3['id']."', 'ACCOUNT: Created Account: `".$username."`', NOW());");
+								   $sendnoti = mysqli_query($conn, "INSERT INTO notifications (`title`, `notification`, `user`) VALUES ('Account Created', 'Hey, ".$username."! You finally created your account, thanks and have fun!', '".$user3['id']."')");
+									mysqli_close($regconn);
 									?><span class="wm-ui-form-identifier">Account '<?php echo $username ?>' has been successfully created.<br><br>Now you can join to the WoW server.</span><?php
 									header( "refresh:5;url=index.php" );
 								} 

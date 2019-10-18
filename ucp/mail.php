@@ -202,6 +202,7 @@ while($row = mysqli_fetch_array($qr3)){
                         }else{
                             $mail = $user['email'];
                             mysqli_query($authconn, "UPDATE account SET mailactivated='1' WHERE email='".$mail."'");
+							$sendnoti = mysqli_query($con, "INSERT INTO notifications (`title`, `notification`, `user`) VALUES ('Email Verified', 'Hey, ".$nick."! You successfully verified your email address. Pogchamp!', '".$user['id']."')");
 							$insertlog = mysqli_query($con, "INSERT INTO logs_acc (`logger`, `logger_id`, `logdetails`, `logdate`) 
 								  VALUES ('".$_SESSION['loggedin']."', '".$user['id']."', 'ACCOUNT: User `".$nick."` verified email (Mail: ".$mail.")', NOW());");
 							
