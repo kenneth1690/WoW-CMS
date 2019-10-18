@@ -322,44 +322,32 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 							<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 								<div id="wm-error-page">
 									<?php
-											if (isset($_SESSION['loggedin'])) {
-												$select = mysqli_query($conn, "SELECT * FROM tickets WHERE id = $ticid");
-												$row = mysqli_fetch_assoc($select);
-												
-												$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
-												
-												$nick = $_SESSION["loggedin"];
-												
-												$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
-												$result = mysqli_query($checkacp,$sql);
-												$rows = mysqli_fetch_array($result);
-												
-												$idcheck = $rows['id'];
-												
-												$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
-												$resultgm = mysqli_query($checkacp,$gm);
-												$rowsgm = mysqli_fetch_array($resultgm);
-
-												$getticid = $_GET['ticid'];
-
-												if($row['status']=='0'){
-													echo "<a href='/ucp/ticketanswer.php?ticid=".$getticid."'>
-																<input type='submit' value='ANSWER' class='wm-ui-btn'/>
-															</a>";
-												}elseif($row['status']=='1'){
-													if($rowsgm['gmlevel']>0){
-														echo "<a href='/ucp/ticketanswer.php?ticid=".$getticid."'>
-																<input type='submit' value='ANSWER' class='wm-ui-btn'/>
-															</a>";
-														echo "The ticket is locked, but you still have permission to answer.";
-													}else{
-														echo "Ticket is locked, you can not answer.";
-													}
-												}
-												
-												mysqli_close($checkacp);
+									if (isset($_SESSION['loggedin'])) {
+										$select = mysqli_query($conn, "SELECT * FROM tickets WHERE id = $ticid");
+										$row = mysqli_fetch_assoc($select);
+										
+										$getticid = $_GET['ticid'];
+										
+										if($row['status']=='0'){
+											echo "<div class='content'><form action='/ucp/addanswer.php?ticid=".$getticid."' method='POST'>
+													  <p>Answer: </p>
+													  <textarea cols='80' rows='14' id='comment' name='comment' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br />
+													  <br><input type='submit' value='MAKE ANSWER' class='wm-ui-btn'/>
+													  </form></div>";
+										}elseif($row['status']=='1'){
+											if($rowsgm['gmlevel']>0){
+												echo "<div class='content'><form action='/ucp/addanswer.php?ticid=".$getticid."' method='POST'>
+														  <p>Answer: </p>
+														  <textarea cols='80' rows='14' id='comment' name='comment' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br />
+														  <br><input type='submit' value='MAKE ANSWER' class='wm-ui-btn'/>
+														  </form></div>";
+												echo "Ticket is locked, but you still have permission to answer.";
+											}else{
+												echo "Ticket is locked, you can not answer.";
 											}
-										?>
+										}
+									}
+									?>
 								</div>
 							</div>
 							<?php
