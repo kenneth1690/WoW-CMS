@@ -115,7 +115,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 	
 <div id="page-navigation" class="wm-ui-generic-frame wm-ui-bottom-border">
 	<ul>
-    	    		li><a href="/"><i class="fas fa-newspaper"></i> NEWS</a></li>
+    	    		<li><a href="/"><i class="fas fa-newspaper"></i> NEWS</a></li>
             		<!--<li><a href="/stream" class="">STREAM</a></li>-->
             		<!--<li><a href="/devlog" class="">DEVLOG</a></li>-->
             		<li><a href="/changelog.php"><i class="fas fa-exclamation-circle"></i> CHANGELOG</a></li>
