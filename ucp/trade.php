@@ -444,13 +444,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 								$next_page = $page_no + 1;
 								$adjacents = "2"; 
 
-								$result_count = mysqli_query($cmsconn,"SELECT COUNT(*) As total_records FROM trades WHERE class='$getcharid'");
+								$result_count = mysqli_query($cmsconn,"SELECT COUNT(*) As total_records FROM trades WHERE class='$getcharid' AND selled='0'");
 								$total_records = mysqli_fetch_array($result_count);
 								$total_records = $total_records['total_records'];
 								$total_no_of_pages = ceil($total_records / $total_records_per_page);
 								$second_last = $total_no_of_pages - 1; // total page minus 1
 
-								$result = mysqli_query($cmsconn,"SELECT * FROM trades WHERE class='$getcharid' ORDER BY id DESC LIMIT $offset, $total_records_per_page");
+								$result = mysqli_query($cmsconn,"SELECT * FROM trades WHERE class='$getcharid' AND selled='0' ORDER BY id DESC LIMIT $offset, $total_records_per_page");
 								if(mysqli_num_rows($result)>0){
 									while($row = mysqli_fetch_array($result)){
 										$checkchar = mysqli_connect($db_host, $db_username, $db_password, $chars_db_name, $db_port);
