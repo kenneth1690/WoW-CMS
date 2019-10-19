@@ -38,6 +38,45 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 <link rel="stylesheet" href="/css/ui.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/wm-contextmenu.css">
+<style>
+#categories {
+  border-collapse: collapse;
+  width: 738px;
+}
+
+#categories td, #categories th {
+  border: 1px solid #ddd;
+  background: #0f0f0f none repeat-x left;
+  color: #c1b575;
+    border-bottom: 1px solid #1e1e1e;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+  padding: 10px;
+  font-size: 15px;
+}
+
+#categories tr:nth-child(even){background-color: #f2f2f2;}
+
+#categories tr:hover {background-color: #ddd;}
+
+#categories th {
+	word-break: break-all;
+  padding-top: 6.5px;
+  padding-bottom: 6.5px;
+  text-align: left;
+  background-color: #131313;
+  color: #505050;
+  box-shadow: -2px 2px 2px transparent;
+  border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+	border-left: 1px solid transparent;
+	border-right: 1px solid transparent;
+    border: 1px solid #1e1e1e;
+	font-size: 15px;
+	vertical-align: text-top;
+}
+
+</style>
 </head>
 <body>
 <div class="navigation-wrapper">
@@ -331,17 +370,54 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 									</tr>
 								</tbody></table>
 							</div>
-							<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 350px; width: 736px;">
-								<span>AVAILABLE TRADES</span>
-								<table>
-									<tbody><tr>
-										<td>&nbsp;</td>
-									</tr>
-									<tr>
-										<td>First please select an interesting you class.</td>
-									</tr>
-								</tbody></table>
+							<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 50px; width: 736px;">
+							<center>Trades for
+							<?php
+							if($acid==1){
+								?>
+								<font color="C79C6E">Warrior</font> <img src="/uploads/account/warrior.gif">
+								<?php
+							}elseif($acid==2){
+								?>
+								<font color="F58CBA">Paladin</font> <img src="/uploads/account/paladin.gif">
+								<?php
+							}elseif($acid==3){
+								?>
+								<font color="ABD473">Hunter</font> <img src="/uploads/account/hunter.gif">
+								<?php
+							}elseif($acid==4){
+								?>
+								<font color="FFF569">Rogue</font> <img src="/uploads/account/rogue.gif">
+								<?php
+							}elseif($acid==5){
+								?>
+								<font color="FFFFFF">Priest</font> <img src="/uploads/account/priest.gif">
+								<?php
+							}elseif($acid==6){
+								?>
+								<font color="C41F3B">Death Knight</font> <img src="/uploads/account/deathknight.gif">
+								<?php
+							}elseif($acid==7){
+								?>
+								<font color="0070DE">Shaman</font> <img src="/uploads/account/shaman.gif">
+								<?php
+							}elseif($acid==8){
+								?>
+								<font color="40C7EB">Mage</font> <img src="/uploads/account/mage.gif">
+								<?php
+							}elseif($acid==9){
+								?>
+								<font color="8787ED">Warlock</font> <img src="/uploads/account/warlock.gif">
+								<?php
+							}elseif($acid==11){
+								?>
+								<font color="FF7D0A">Druid</font> <img src="/uploads/account/druid.gif">
+								<?php
+							}
+							?>
+							</center>
 							</div>
+								
 							<?php
 						}else{
 						?>
