@@ -251,6 +251,8 @@ CREATE TABLE `tickets` (
   `author_id` int(11) NOT NULL,
   `date_posted` varchar(65) NOT NULL,
   `readed` int(3) NOT NULL DEFAULT '1',
+  `readed_by_gm` int(3) NOT NULL DEFAULT '0',
+  `assigned_to` int(11) DEFAULT NULL,
   `status` int(3) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

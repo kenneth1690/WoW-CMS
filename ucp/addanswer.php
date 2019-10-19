@@ -50,7 +50,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					$insert = mysqli_query($con, "INSERT INTO ticket_answers (`ticket_id`, `answer`, `author`, `author_id`, `date_posted`)
 												  VALUES ('".$getticid."', '".$comment."', '".$_SESSION['loggedin']."', '".$idcheck."', NOW());");
 											
-					$insert2 = mysqli_query($con, "UPDATE `tickets` SET `readed`='0' WHERE `ticket_id`='$getticid'");
+					$insert2 = mysqli_query($con, "UPDATE `tickets` SET `readed`='1', `readed_by_gm`='0' WHERE `ticket_id`='$getticid'");
 
 					$_SESSION['last_submit'] = time();
 					
