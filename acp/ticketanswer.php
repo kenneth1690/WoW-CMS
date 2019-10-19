@@ -351,14 +351,14 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										$getticid = $_GET['ticid'];
 										
 										if($row['status']=='0'){
-											echo "<div class='content'><form action='/ucp/addanswer.php?ticid=".$getticid."' method='POST'>
+											echo "<div class='content'><form action='/acp/addanswer.php?ticid=".$getticid."' method='POST'>
 													  <p>Answer: </p>
 													  <textarea cols='80' rows='14' id='comment' name='comment' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br />
 													  <br><input type='submit' value='MAKE ANSWER' class='wm-ui-btn'/>
 													  </form></div>";
 										}elseif($row['status']=='1'){
 											if($rowsgm['gmlevel']>0){
-												echo "<div class='content'><form action='/ucp/addanswer.php?ticid=".$getticid."' method='POST'>
+												echo "<div class='content'><form action='/acp/addanswer.php?ticid=".$getticid."' method='POST'>
 														  <p>Answer: </p>
 														  <textarea cols='80' rows='14' id='comment' name='comment' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br />
 														  <br><input type='submit' value='MAKE ANSWER' class='wm-ui-btn'/>
