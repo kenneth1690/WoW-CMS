@@ -315,47 +315,47 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										<?php
 										if($rowschar['race']==1){
 											?>
-											Human
+											Human <img src="/uploads/account/human.gif">
 											<?php
 										}elseif($rowschar['race']==2){
 											?>
-											Orc
+											Orc <img src="/uploads/account/orc.gif">
 											<?php
 										}elseif($rowschar['race']==3){
 											?>
-											Dwarf
+											Dwarf <img src="/uploads/account/dwarf.gif">
 											<?php
 										}elseif($rowschar['race']==4){
 											?>
-											Night Elf
+											Night Elf <img src="/uploads/account/nightelf.gif">
 											<?php
 										}elseif($rowschar['race']==5){
 											?>
-											Undead
+											Undead <img src="/uploads/account/undead.gif">
 											<?php
 										}elseif($rowschar['race']==6){
 											?>
-											Tauren
+											Tauren <img src="/uploads/account/tauren.gif">
 											<?php
 										}elseif($rowschar['race']==7){
 											?>
-											Gnome
+											Gnome <img src="/uploads/account/gnome.gif">
 											<?php
 										}elseif($rowschar['race']==8){
 											?>
-											Troll
+											Troll <img src="/uploads/account/troll.gif">
 											<?php
 										}elseif($rowschar['race']==10){
 											?>
-											Blood Elf
+											Blood Elf <img src="/uploads/account/bloodelf.gif">
 											<?php
 										}elseif($rowschar['race']==11){
 											?>
-											Draenei
+											Draenei <img src="/uploads/account/draenei.gif">
 											<?php
 										}else{
 											?>
-											Unknown
+											Unknown <img src="/uploads/account/unknown.gif">
 											<?php
 										}
 										?>
@@ -406,7 +406,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 											<?php
 										}else{
 											?>
-											Unknown
+											Unknown <img src="/uploads/account/unknown.gif">
 											<?php
 										}
 										?>
@@ -417,11 +417,11 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										<?php
 										if($rowschar['gender']==1){
 											?>
-											<font color="pink">Female</font>
+											<font color="pink">Female</font> <img src="/uploads/account/female.gif">
 											<?php
 										}else{
 											?>
-											<font color="lightblue">Male</font>
+											<font color="lightblue">Male</font> <img src="/uploads/account/male.gif">
 											<?php
 										}
 										?>
