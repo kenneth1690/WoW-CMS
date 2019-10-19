@@ -294,6 +294,24 @@ CREATE TABLE `topics` (
   `edited_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `trades`
+--
+
+CREATE TABLE `trades` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `seller` varchar(64) NOT NULL,
+  `seller_id` int(11) NOT NULL,
+  `charid` int(11) NOT NULL,
+  `class` int(11) NOT NULL,
+  `race` int(11) NOT NULL,
+  `price` int(255) NOT NULL,
+  `selled` int(11) NOT NULL DEFAULT '0',
+  `buyer_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
@@ -402,6 +420,12 @@ ALTER TABLE `topics`
   ADD KEY `category_id` (`category_id`),
   ADD KEY `subcategory_id` (`subcategory_id`),
   ADD KEY `subcategory_id_2` (`subcategory_id`);
+  
+--
+-- Indexes for table `trades`
+--
+ALTER TABLE `trades`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -477,6 +501,11 @@ ALTER TABLE `ticket_answers`
 --
 ALTER TABLE `topics`
   MODIFY `topic_id` int(3) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `trades`
+--
+ALTER TABLE `trades`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --

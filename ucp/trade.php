@@ -417,8 +417,9 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 							?>
 							</center>
 							</div>
-								
 							<?php
+							
+							?>
 						}else{
 						?>
 							<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
