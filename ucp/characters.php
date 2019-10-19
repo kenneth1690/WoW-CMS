@@ -187,7 +187,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					if($ownerchar['account']==$rows['id']){
 						if(mysqli_num_rows($checkac)>0){
 							?>
-							<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 350px;">
+							<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 450px;">
 								<span>CHARACTERS LIST</span>
 								<table>
 									<tbody><tr>
@@ -268,7 +268,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 									?>
 								</tbody></table>
 							</div>
-							<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 350px;">
+							<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 450px;">
 								<?php
 								$checkchar2 = mysqli_connect($db_host, $db_username, $db_password, $chars_db_name, $db_port);
 								$sql12 = "SELECT * FROM characters WHERE guid = '" . $acid. "'";
@@ -485,6 +485,38 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										</div>
 										</td>
 									</tr>
+									<?php
+									$charid = $_GET['id'];
+									$connt = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+									$checktrade = mysqli_query($connt, "SELECT * FROM trades WHERE selled='0' AND charid=$charid ORDER BY id DESC LIMIT 1");
+									if(mysqli_num_rows($checktrade)>0){
+									?>
+									<tr>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>
+										<a href='/ucp/managechar.php?action=cancel&charid=<?php echo $_GET['id']; ?>'>
+											<input type='submit' value='CANCEL TRADE' class='wm-ui-btn'/>
+										</a>
+										</td>
+									</tr>
+									<?php
+									}else{
+									?>
+									<tr>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>
+										<a href='/ucp/managechar.php?action=sell&charid=<?php echo $_GET['id']; ?>'>
+											<input type='submit' value='PUT ON TRADE' class='wm-ui-btn'/>
+										</a>
+										</td>
+									</tr>
+									<?php
+									}
+									?>
 								</tbody></table>
 							</div>
 							<?php
@@ -540,7 +572,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				}
 			}else{
 				?>
-				<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 350px;">
+				<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 450px;">
 					<span>CHARACTERS LIST</span>
 					<table>
 						<tbody><tr>
@@ -624,7 +656,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						?>
 					</tbody></table>
 				</div>
-				<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 350px;">
+				<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 450px;">
 					<span>CHARACTER DETAILS</span>
 					<table>
 						<tbody><tr>

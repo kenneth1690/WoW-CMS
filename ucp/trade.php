@@ -222,6 +222,12 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					$result1 = mysqli_query($checkauth,$sql1);
 					$rows = mysqli_fetch_array($result1);
 					
+					$cmsconn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+					$checkselled = mysqli_query($cmsconn, "SELECT * FROM trades WHERE selled='1'");
+					if(mysqli_num_rows($checkselled)>0){
+						$deleteselled = mysqli_query($cmsconn, "DELETE FROM trades WHERE selled='1'");
+					}
+					
 					$idcheck = $rows['id'];
 						if($acid==1 || $acid==2 || $acid==3 || $acid==4 || $acid==5 || $acid==6 || $acid==7 || $acid==8 || $acid==9 || $acid==11){
 							?>
