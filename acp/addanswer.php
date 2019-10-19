@@ -69,6 +69,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 
 					$checkassigned = mysqli_query($conn, "SELECT * FROM tickets WHERE id=$getticid");
 					$rowsassign = mysqli_fetch_array($checkassigned);
+					$sendnoti = mysqli_query($conn, "INSERT INTO notifications (`title`, `notification`, `user`) VALUES ('Ticket Update', 'Hey, ".$rowsassign['author']."! One of the administration members responded to your ticket!', '".$rowsassign['author_id']."')");
 					if(is_null($rowsassign['assigned_to'])){
 						$setassigned = mysqli_query($conn, "UPDATE tickets SET assigned_to=$idcheck WHERE id=$getticid");
 					}

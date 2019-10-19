@@ -302,6 +302,12 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										mysqli_query($checkacp, "UPDATE account SET coins=coins+'$price' WHERE id='$seller'");
 										mysqli_query($checkchar, "UPDATE characters SET account='$idcheck' WHERE guid='$charid'");
 										mysqli_query($conn, "UPDATE trades SET selled='1', buyer_id='$idcheck' WHERE charid='".$charid."'");
+										
+										$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+										$notires = mysqli_query($checkacp, "SELECT * FROM account WHERE id = '" . $seller . "'");
+										$rowsnots = mysqli_fetch_array($notires);
+										
+										$sendnoti = mysqli_query($conn, "INSERT INTO notifications (`title`, `notification`, `user`) VALUES ('Character Selled', 'Hey, ".$rowsnots['username']."! Your character has been successfully bought by a player! Congrats!', '".$rowsnots['id']."')");
 										?>
 										<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 										<div id="wm-error-page">
