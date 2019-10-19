@@ -417,9 +417,382 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 							?>
 							</center>
 							</div>
+							<table id="categories">
+								<tr>
+									<th width="5%"><center>Class</center></th>
+									<th width="5%"><center>Race</center></th>
+									<th width="20%">Character</th>
+									<th width="5%"><center>Faction</center></th>
+									<th width="5%"><center>Level</center></th>
+									<th width="10%">Price</th>
+									<th width="5%"><center>Buy</center></th>
+								</tr>
+								<?php
+								if (isset($_GET['page_no']) && $_GET['page_no']!="") {
+									$page_no = $_GET['page_no'];
+								}else{
+									$page_no = 1;
+								}
+								
+								$getcharid = $_GET['class'];
+								
+								$cmsconn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+
+								$total_records_per_page = 10;
+								$offset = ($page_no-1) * $total_records_per_page;
+								$previous_page = $page_no - 1;
+								$next_page = $page_no + 1;
+								$adjacents = "2"; 
+
+								$result_count = mysqli_query($cmsconn,"SELECT COUNT(*) As total_records FROM trades WHERE class='$getcharid'");
+								$total_records = mysqli_fetch_array($result_count);
+								$total_records = $total_records['total_records'];
+								$total_no_of_pages = ceil($total_records / $total_records_per_page);
+								$second_last = $total_no_of_pages - 1; // total page minus 1
+
+								$result = mysqli_query($cmsconn,"SELECT * FROM trades WHERE class='$getcharid' ORDER BY id DESC LIMIT $offset, $total_records_per_page");
+								if(mysqli_num_rows($result)>0){
+									while($row = mysqli_fetch_array($result)){
+										$checkchar = mysqli_connect($db_host, $db_username, $db_password, $chars_db_name, $db_port);
+										$resultchardetails = mysqli_query($checkchar,"SELECT * FROM characters WHERE guid = '" . $row['charid'] . "'");
+										$rowchardetails = mysqli_fetch_array($resultchardetails);
+										?>
+										<tr>
+										<th><center>
+										<?php
+										if($rowchardetails['class']==1){
+											?>
+											<img src="/uploads/account/warrior.gif">
+											<?php
+										}elseif($rowchardetails['class']==2){
+											?>
+											<img src="/uploads/account/paladin.gif">
+											<?php
+										}elseif($rowchardetails['class']==3){
+											?>
+											<img src="/uploads/account/hunter.gif">
+											<?php
+										}elseif($rowchardetails['class']==4){
+											?>
+											<img src="/uploads/account/rogue.gif">
+											<?php
+										}elseif($rowchardetails['class']==5){
+											?>
+											<img src="/uploads/account/priest.gif">
+											<?php
+										}elseif($rowchardetails['class']==6){
+											?>
+											<img src="/uploads/account/deathknight.gif">
+											<?php
+										}elseif($rowchardetails['class']==7){
+											?>
+											<img src="/uploads/account/shaman.gif">
+											<?php
+										}elseif($rowchardetails['class']==8){
+											?>
+											<img src="/uploads/account/mage.gif">
+											<?php
+										}elseif($rowchardetails['class']==9){
+											?>
+											<img src="/uploads/account/warlock.gif">
+											<?php
+										}elseif($rowchardetails['class']==11){
+											?>
+											<img src="/uploads/account/druid.gif">
+											<?php
+										}else{
+											?>
+											<img src="/uploads/account/unknown.gif">
+											<?php
+										}
+										?>
+										</center></th>
+										<th><center>
+										<?php
+										if($rowschar['rowchardetails']==1){
+											?>
+											<img src="/uploads/account/human.gif">
+											<?php
+										}elseif($rowchardetails['race']==2){
+											?>
+											<img src="/uploads/account/orc.gif">
+											<?php
+										}elseif($rowchardetails['race']==3){
+											?>
+											<img src="/uploads/account/dwarf.gif">
+											<?php
+										}elseif($rowchardetails['race']==4){
+											?>
+											<img src="/uploads/account/nightelf.gif">
+											<?php
+										}elseif($rowchardetails['race']==5){
+											?>
+											<img src="/uploads/account/undead.gif">
+											<?php
+										}elseif($rowchardetails['race']==6){
+											?>
+											<img src="/uploads/account/tauren.gif">
+											<?php
+										}elseif($rowchardetails['race']==7){
+											?>
+											<img src="/uploads/account/gnome.gif">
+											<?php
+										}elseif($rowchardetails['race']==8){
+											?>
+											<img src="/uploads/account/troll.gif">
+											<?php
+										}elseif($rowchardetails['race']==10){
+											?>
+											<img src="/uploads/account/bloodelf.gif">
+											<?php
+										}elseif($rowchardetails['race']==11){
+											?>
+											<img src="/uploads/account/draenei.gif">
+											<?php
+										}else{
+											?>
+											<img src="/uploads/account/unknown.gif">
+											<?php
+										}
+										?>
+										</center></th>
+										<?php
+											$days = intval(intval($rowchardetails['totaltime']) / (3600*24));
+											$hours = (intval($rowchardetails['totaltime']) / 3600) % 24;
+											$minutes = (intval($rowchardetails['totaltime']) / 60) % 60;
+											
+											$money = $rowchardetails['money'];
+											$gold = intval($money/10000);
+											$money = intval($money%10000);
+											$silver = intval($money/100);
+											$copper = intval($money%100);
+										?>
+										<th><div class="tooltip" style="font-weight: normal;"><font color="white"><?php echo $rowchardetails['name']; ?></font> <font color="1df701">(?)</font>
+											<span class="tooltiptext"><font color="FFE4B5">CHARACTER DETAILS</font><br><br>
+											<font color="606060">Class: 
+											<font color="white">
+										<?php
+										if($rowchardetails['class']==1){
+											?>
+											<font color="C79C6E">Warrior</font> <img src="/uploads/account/warrior.gif">
+											<?php
+										}elseif($rowchardetails['class']==2){
+											?>
+											<font color="F58CBA">Paladin</font> <img src="/uploads/account/paladin.gif">
+											<?php
+										}elseif($rowchardetails['class']==3){
+											?>
+											<font color="ABD473">Hunter</font> <img src="/uploads/account/hunter.gif">
+											<?php
+										}elseif($rowchardetails['class']==4){
+											?>
+											<font color="FFF569">Rogue</font> <img src="/uploads/account/rogue.gif">
+											<?php
+										}elseif($rowchardetails['class']==5){
+											?>
+											<font color="FFFFFF">Priest</font> <img src="/uploads/account/priest.gif">
+											<?php
+										}elseif($rowchardetails['class']==6){
+											?>
+											<font color="C41F3B">Death Knight</font> <img src="/uploads/account/deathknight.gif">
+											<?php
+										}elseif($rowchardetails['class']==7){
+											?>
+											<font color="0070DE">Shaman</font> <img src="/uploads/account/shaman.gif">
+											<?php
+										}elseif($rowchardetails['class']==8){
+											?>
+											<font color="40C7EB">Mage</font> <img src="/uploads/account/mage.gif">
+											<?php
+										}elseif($rowchardetails['class']==9){
+											?>
+											<font color="8787ED">Warlock</font> <img src="/uploads/account/warlock.gif">
+											<?php
+										}elseif($rowchardetails['class']==11){
+											?>
+											<font color="FF7D0A">Druid</font> <img src="/uploads/account/druid.gif">
+											<?php
+										}else{
+											?>
+											Unknown <img src="/uploads/account/unknown.gif">
+											<?php
+										}
+										?>
+										</font>
+											<br>Race: 
+											<font color="white">
+										<?php
+										if($rowchardetails['race']==1){
+											?>
+											Human <img src="/uploads/account/human.gif">
+											<?php
+										}elseif($rowchardetails['race']==2){
+											?>
+											Orc <img src="/uploads/account/orc.gif">
+											<?php
+										}elseif($rowchardetails['race']==3){
+											?>
+											Dwarf <img src="/uploads/account/dwarf.gif">
+											<?php
+										}elseif($rowchardetails['race']==4){
+											?>
+											Night Elf <img src="/uploads/account/nightelf.gif">
+											<?php
+										}elseif($rowchardetails['race']==5){
+											?>
+											Undead <img src="/uploads/account/undead.gif">
+											<?php
+										}elseif($rowchardetails['race']==6){
+											?>
+											Tauren <img src="/uploads/account/tauren.gif">
+											<?php
+										}elseif($rowchardetails['race']==7){
+											?>
+											Gnome <img src="/uploads/account/gnome.gif">
+											<?php
+										}elseif($rowchardetails['race']==8){
+											?>
+											Troll <img src="/uploads/account/troll.gif">
+											<?php
+										}elseif($rowchardetails['race']==10){
+											?>
+											Blood Elf <img src="/uploads/account/bloodelf.gif">
+											<?php
+										}elseif($rowchardetails['race']==11){
+											?>
+											Draenei <img src="/uploads/account/draenei.gif">
+											<?php
+										}else{
+											?>
+											Unknown <img src="/uploads/account/unknown.gif">
+											<?php
+										}
+										?>
+										</font>(
+										<font color="white">
+										<?php
+										if($rowchardetails['gender']==1){
+											?>
+											<font color="pink">Female</font> <img src="/uploads/account/female.gif">
+											<?php
+										}else{
+											?>
+											<font color="lightblue">Male</font> <img src="/uploads/account/male.gif">
+											<?php
+										}
+										?>
+										</font>
+										)<br>Faction: 
+										<?php
+										if($rowchardetails['race']==1 || $rowchardetails['race']==3 || $rowchardetails['race']==4 || $rowchardetails['race']==7 || $rowchardetails['race']==11){
+											?>
+											<font color="blue">Alliance</font> <img src="/uploads/account/alliance.png">
+											<?php
+										}else{
+											?>
+											<font color="red">Horde</font> <img src="/uploads/account/horde.png">
+											<?php
+										}
+										?>
+										<br>Level & XP: <font color="white"><?php echo $rowchardetails['level']; ?> (<?php echo $rowchardetails['xp']; ?> XP)</font><br>Money: <img src="/uploads/account/gold.png"> <font color="white"><?php echo $gold; ?></font> / <img src="/uploads/account/silver.png"> <font color="white"><?php echo $silver; ?></font> / <img src="/uploads/account/copper.png"> <font color="white"><?php echo $copper; ?></font><br>Total playtime: <font color="white">Days: <?php echo $days; ?></font> / <font color="white">Hours: <?php echo $hours; ?></font> / <font color="white">Minutes: <?php echo $minutes; ?></font></font>
+											</span>
+										</div></th>
+										<th><center>
+										<?php
+										if($rowchardetails['race']==1 || $rowchardetails['race']==3 || $rowchardetails['race']==4 || $rowchardetails['race']==7 || $rowchardetails['race']==11){
+											?>
+											<img src="/uploads/account/alliance.png">
+											<?php
+										}else{
+											?>
+											<img src="/uploads/account/horde.png">
+											<?php
+										}
+										?>
+										</center></th>
+										<th><center><?php echo $rowchardetails['level']; ?></center></th>
+										<th><?php echo $row['price']; ?> coins</th>
+										<th><center>test</center></th>
+										</tr>
+										<?php
+									}
+								}else{
+									?>
+									<tr>
+										<th colspan="7">No trades</th>
+									</tr>
+									<?php
+								}
+								mysqli_close($conn);
+								?>
+							</table>
+						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="width: 736px; height: 80px;">
+							<div id="wm-error-page">
+								<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
+								<?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } ?>
+								
+								<b><a <?php if($page_no > 1){ echo "href='?page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
+								   
+								<?php 
+								if ($total_no_of_pages <= 10){  	 
+									for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+										if ($counter == $page_no) {
+											echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+										}else{
+											echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+										}
+									}
+								}elseif($total_no_of_pages > 10){
+									if($page_no <= 4) {			
+										for ($counter = 1; $counter < 8; $counter++){		 
+											if ($counter == $page_no) {
+												echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+											}else{
+												echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+											}
+										}
+										echo "<b><a>...</a></b>";
+										echo "<b><a href='?page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+										echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
+									}elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
+										echo "<b><a href='?page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+										echo "<b><a href='?page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+										echo "<b><a>...</a></b>";
+										for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {			
+											if ($counter == $page_no) {
+												echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+											}else{
+												echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+											}                  
+									   }
+									   echo "<b><a>...</a></b>";
+									   echo "<b><a href='?page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+									   echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
+									}else {
+										echo "<b><a href='?page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+										echo "<b><a href='?page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+										echo "<b><a>...</a></b>";
+
+										for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+											if ($counter == $page_no) {
+												echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+											}else{
+												echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+											}                   
+										}
+									}
+								}
+								?>
+						
+								<b><a <?php if($page_no < $total_no_of_pages) { echo "href='?page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
+								<?php
+								if($page_no < $total_no_of_pages){
+									echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
+								}
+								?>
+							</div>
+						</div>
 							<?php
-							
-							
 						}else{
 						?>
 							<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
