@@ -133,10 +133,10 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$rowsgm = mysqli_fetch_array($resultgm);
 		
 		?><li><a href="/ucp/ucp.php"><i class="fas fa-user"></i> ACCOUNT</a></li>
-		<li><a href="/ucp/characters.php" class="active"><i class="fas fa-users-cog"></i> CHARACTERS</a></li>
+		<li><a href="/ucp/characters.php"><i class="fas fa-users-cog"></i> CHARACTERS</a></li>
 		<li><a href="/ucp/donate.php"><i class="fas fa-dollar-sign"></i> DONATE</a></li>
 		<li><a href="/ucp/store.php"><i class="fas fa-shopping-cart"></i> STORE</a></li>
-		<li><a href="/ucp/trade.php"><i class="fas fa-sync-alt"></i> TRADE</a></li>
+		<li><a href="/ucp/trade.php" class="active"><i class="fas fa-sync-alt"></i> TRADE</a></li>
 		<li><a href="/ucp/support.php"><i class="fas fa-life-ring"></i> SUPPORT</a></li>
 		<li><a href="/ucp/lottery.php"><i class="fas fa-ticket-alt"></i> LOTTERY</a></li>
 		<li><a href="/ucp/settings.php"><i class="fas fa-cog"></i> SETTINGS</a></li>
@@ -189,7 +189,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				$action = htmlspecialchars($_GET['action']);
 			}
 
-			if($action == "sell"){
+			if($action == "buy"){
 				if(isset($charid)){
 					$checkchar = mysqli_connect($db_host, $db_username, $db_password, $chars_db_name, $db_port);
 					$resultchar = mysqli_query($checkchar, "SELECT * FROM characters WHERE guid = '" . $charid. "'");
@@ -197,18 +197,17 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					
 					$checkexists = mysqli_query($checkchar, "SELECT * FROM characters WHERE guid = '" . $charid. "'");
 					if(mysqli_num_rows($checkexists)>0){
-						if($idcheck==$rowschar['account']){
+						if($idcheck!=$rowschar['account']){
 							$checkselled = mysqli_query($conn, "SELECT * FROM trades WHERE selled='1' AND charid = '" . $charid. "' ORDER BY id DESC LIMIT 1");
 							if(mysqli_num_rows($checkselled)==0){
 								?>
 								<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		                            <div id="wm-error-page">
-                                    <form action='/ucp/managechar.php?action=confirmsell&charid=<?php echo $_GET['charid']; ?>' method='POST'>
-                                        <p>Sell price (coins): </p>
-                                        <input type='text' id='sellprice' name='sellprice' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
-                                        <br /><br>
-                                        <input type='submit' value='PUT ON TRADE' class='wm-ui-btn'/>
-                                    </form>
+                                    <a href='/ucp/buycharacter.php?action=confirmbuy&charid=<?php echo $_GET['charid']; ?>'>
+                                        <p>Are you sure you want to buy this character?</p>
+                                        <br />
+                                        <input type='submit' value="I'M SURE" class='wm-ui-btn'/>
+                                    </a>
                                     </div>
                                     </div>
 									<?php
@@ -235,10 +234,10 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 							<div id="wm-error-page">
 							<center>
 								<p>
-									<font size="6">Selling failed</font>
+									<font size="6">Buying failed</font>
 								</p>
 								<p>
-									<font size="5">You're not owner of this character.</font>
+									<font size="5">You're owner of this character.</font>
 								</p> 
 							</center>
 							</div>
@@ -280,7 +279,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					<?php
 					header("refresh:5;url=ucp.php");
 				}
-			}elseif($action == "cancel"){
+			}elseif($action == "confirmbuy"){
 				if(isset($charid)){
 					$checkchar = mysqli_connect($db_host, $db_username, $db_password, $chars_db_name, $db_port);
 					$resultchar = mysqli_query($checkchar, "SELECT * FROM characters WHERE guid = '" . $charid. "'");
@@ -288,151 +287,80 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					
 					$checkexists = mysqli_query($checkchar, "SELECT * FROM characters WHERE guid = '" . $charid. "'");
 					if(mysqli_num_rows($checkexists)>0){
-						if($idcheck==$rowschar['account']){
+						if($idcheck!=$rowschar['account']){
 							$checkselled = mysqli_query($conn, "SELECT * FROM trades WHERE selled='1' AND charid = '" . $charid. "' ORDER BY id DESC LIMIT 1");
+							$checkforsell = mysqli_query($conn, "SELECT * FROM trades WHERE charid = '" . $charid. "'");
 							if(mysqli_num_rows($checkselled)==0){
-								mysqli_query($conn, "DELETE FROM trades WHERE charid='" . $charid. "'");
-								?>
-								<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-								<div id="wm-error-page">
-								<center>
-									<p>
-										<font size="6">Canceled trade</font>
-									</p>
-									<p>
-										<font size="5">You successfully canceled character trade.</font>
-									</p> 
-								</center>
-								</div>
-								</div>
-								<?php
-								header("refresh:5;url=ucp.php");
-							}else{
-								?>
-								<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-								<div id="wm-error-page">
-								<center>
-									<p>
-										<font size="6">Please wait</font>
-									</p>
-									<p>
-										<font size="5">This character has recently been sold.</font>
-									</p> 
-								</center>
-								</div>
-								</div>
-								<?php
-								header("refresh:5;url=ucp.php");
-							}
-						}else{
-							?>
-							<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-							<div id="wm-error-page">
-							<center>
-								<p>
-									<font size="6">Canceling failed</font>
-								</p>
-								<p>
-									<font size="5">You're not owner of this character.</font>
-								</p> 
-							</center>
-							</div>
-							</div>
-							<?php
-							header("refresh:5;url=ucp.php");
-						}
-					}else{
-						?>
-						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-						<div id="wm-error-page">
-						<center>
-							<p>
-								<font size="6">Invalid character</font>
-							</p>
-							<p>
-								<font size="5">Character with that ID not exists.</font>
-							</p> 
-						</center>
-						</div>
-						</div>
-						<?php
-						header("refresh:5;url=ucp.php");
-					}
-				}else{
-					?>
-					<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-					<div id="wm-error-page">
-					<center>
-						<p>
-							<font size="6">Invalid action</font>
-						</p>
-						<p>
-							<font size="5">You have not selected any actions.</font>
-						</p> 
-					</center>
-					</div>
-					</div>
-					<?php
-					header("refresh:5;url=ucp.php");
-				}
-			}elseif($action == "confirmsell"){
-				if(isset($charid)){
-					$checkchar = mysqli_connect($db_host, $db_username, $db_password, $chars_db_name, $db_port);
-					$resultchar = mysqli_query($checkchar, "SELECT * FROM characters WHERE guid = '" . $charid. "'");
-					$rowschar = mysqli_fetch_array($resultchar);
-					
-					$checkexists = mysqli_query($checkchar, "SELECT * FROM characters WHERE guid = '" . $charid. "'");
-					if(mysqli_num_rows($checkexists)>0){
-						if($idcheck==$rowschar['account']){
-							$checkselled = mysqli_query($conn, "SELECT * FROM trades WHERE selled='1' AND charid = '" . $charid. "' ORDER BY id DESC LIMIT 1");
-							if(mysqli_num_rows($checkselled)==0){
-								if($_POST['sellprice']<1 || empty($_POST['sellprice'])){
-									?>
-									<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-									<div id="wm-error-page">
-									<center>
-										<p>
-											<font size="6">Selling failed</font>
-										</p>
-										<p>
-											<font size="5">Price is not correct.</font>
-										</p> 
-									</center>
-									</div>
-									</div>
-									<?php
-									header("refresh:5;url=ucp.php");
+								if(mysqli_num_rows($checkforsell)!=0){
+									$traderes = mysqli_query($conn, "SELECT * FROM trades WHERE charid = '" . $charid. "'");
+									$rowtrade = mysqli_fetch_array($traderes);
+									$seller = $rowtrade['seller_id'];
+									$price = $rowtrade['price'];
+									if($rows['coins']>=$rowtrade['price']){
+										$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+										mysqli_query($checkacp, "UPDATE account SET coins=coins-'$price' WHERE id='$idcheck'");
+										mysqli_query($checkacp, "UPDATE account SET coins=coins+'$price' WHERE id='$seller'");
+										mysqli_query($checkchar, "UPDATE characters SET account='$idcheck' WHERE guid='$charid'");
+										mysqli_query($conn, "UPDATE trades SET selled='1', buyer_id='$idcheck' WHERE charid='".$charid."'");
+										?>
+										<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+										<div id="wm-error-page">
+										<center>
+											<p>
+												<font size="6">Action confirmed</font>
+											</p>
+											<p>
+												<font size="5">You successfully bought this character.</font>
+											</p> 
+										</center>
+										</div>
+										</div>
+										<?php
+										header("refresh:5;url=ucp.php");
+									}else{
+										?>
+										<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+										<div id="wm-error-page">
+										<center>
+											<p>
+												<font size="6">Buying failed</font>
+											</p>
+											<p>
+												<font size="5">You have not enough coins.</font>
+											</p> 
+										</center>
+										</div>
+										</div>
+										<?php
+										header("refresh:5;url=ucp.php");
+									}
 								}else{
-									$class = $rowschar['class'];
-									$race = $rowschar['race'];
-									$price = $_POST['sellprice'];
-									mysqli_query($conn, "INSERT INTO trades (`seller`, `seller_id`, `charid`, `class`, `race`, `price`) VALUES ('$nick', '$idcheck', '$charid', '$class', '$race', '$price')");
-									?>
-									<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-									<div id="wm-error-page">
-									<center>
-										<p>
-											<font size="6">Action confirmed</font>
-										</p>
-										<p>
-											<font size="5">You successfully put your character on trade.</font>
-										</p> 
-									</center>
-									</div>
-									</div>
-									<?php
-									header("refresh:5;url=ucp.php");
-								}
+										?>
+										<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+										<div id="wm-error-page">
+										<center>
+											<p>
+												<font size="6">Buying failed</font>
+											</p>
+											<p>
+												<font size="5">This character is not for buy.</font>
+											</p> 
+										</center>
+										</div>
+										</div>
+										<?php
+										header("refresh:5;url=ucp.php");
+									}
 							}else{
 								?>
 								<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 								<div id="wm-error-page">
 								<center>
 									<p>
-										<font size="6">Selling failed</font>
+										<font size="6">Buying failed</font>
 									</p>
 									<p>
-										<font size="5">This character is currently on trade.</font>
+										<font size="5">This character is not for buy.</font>
 									</p> 
 								</center>
 								</div>
@@ -446,10 +374,10 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 							<div id="wm-error-page">
 							<center>
 								<p>
-									<font size="6">Selling failed</font>
+									<font size="6">Buying failed</font>
 								</p>
 								<p>
-									<font size="5">You're not owner of this character.</font>
+									<font size="5">You're owner of this character.</font>
 								</p> 
 							</center>
 							</div>
