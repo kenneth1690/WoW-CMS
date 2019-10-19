@@ -255,7 +255,11 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<i>Nobody</i>
 						<?php
 					}else{
-						
+						$idassigned = $row['assigned_to'];
+						$authcon = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+						$resultassign = mysqli_query($authcon,"SELECT * FROM account WHERE id = '" . $idassigned . "'");
+						$rowassign = mysqli_fetch_array($resultassign);
+						echo $rowassign['username'];
 					}
 					?>
 					</th>
