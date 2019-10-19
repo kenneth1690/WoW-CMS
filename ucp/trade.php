@@ -225,7 +225,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					$idcheck = $rows['id'];
 						if($acid==1 || $acid==2 || $acid==3 || $acid==4 || $acid==5 || $acid==6 || $acid==7 || $acid==8 || $acid==9 || $acid==11){
 							?>
-							<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 350px; width: 250px;">
+							<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 483px; width: 250px;">
 								<span>AVAILABLE CLASSES</span>
 								<table>
 									<tbody><tr>
@@ -712,7 +712,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										</center></th>
 										<th><center><?php echo $rowchardetails['level']; ?></center></th>
 										<th><?php echo $row['price']; ?> coins</th>
-										<th><center>test</center></th>
+										<th><center><a href="/ucp/buycharacter.php?action=buy&charid=<?php echo $row['charid']; ?>"><i class="fas fa-shopping-cart"></i></a></center></th>
 										</tr>
 										<?php
 									}
@@ -729,9 +729,9 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="width: 736px; height: 80px;">
 							<div id="wm-error-page">
 								<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
-								<?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } ?>
+								<?php // if($page_no > 1){ echo "<li><a href='?action=showtrades&class=$getcharid&page_no=1'>First Page</a></li>"; } ?>
 								
-								<b><a <?php if($page_no > 1){ echo "href='?page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
+								<b><a <?php if($page_no > 1){ echo "href='?action=showtrades&class=$getcharid&page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
 								   
 								<?php 
 								if ($total_no_of_pages <= 10){  	 
@@ -739,7 +739,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										if ($counter == $page_no) {
 											echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
 										}else{
-											echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+											echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
 										}
 									}
 								}elseif($total_no_of_pages > 10){
@@ -748,46 +748,46 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 											if ($counter == $page_no) {
 												echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
 											}else{
-												echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+												echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
 											}
 										}
 										echo "<b><a>...</a></b>";
-										echo "<b><a href='?page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
-										echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
+										echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+										echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
 									}elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
-										echo "<b><a href='?page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
-										echo "<b><a href='?page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+										echo "<b><a href='?action=showtrades&class=$getcharid&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+										echo "<b><a href='?action=showtrades&class=$getcharid&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
 										echo "<b><a>...</a></b>";
 										for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {			
 											if ($counter == $page_no) {
 												echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
 											}else{
-												echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+												echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
 											}                  
 									   }
 									   echo "<b><a>...</a></b>";
-									   echo "<b><a href='?page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
-									   echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
+									   echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+									   echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
 									}else {
-										echo "<b><a href='?page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
-										echo "<b><a href='?page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+										echo "<b><a href='?action=showtrades&class=$getcharid&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+										echo "<b><a href='?action=showtrades&class=$getcharid&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
 										echo "<b><a>...</a></b>";
 
 										for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
 											if ($counter == $page_no) {
 												echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
 											}else{
-												echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+												echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
 											}                   
 										}
 									}
 								}
 								?>
 						
-								<b><a <?php if($page_no < $total_no_of_pages) { echo "href='?page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
+								<b><a <?php if($page_no < $total_no_of_pages) { echo "href='?action=showtrades&class=$getcharid&page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
 								<?php
 								if($page_no < $total_no_of_pages){
-									echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
+									echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
 								}
 								?>
 							</div>
