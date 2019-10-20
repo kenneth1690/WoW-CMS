@@ -207,7 +207,7 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 					<?php
 					if($rowsgm['gmlevel']==1){
 						?>
-						<font color="00ba0d">Moderator</font><br>
+						<font color="00ba0d">Gamemaster</font><br>
 						<?php
 					}elseif($rowsgm['gmlevel']==2){
 						?>
@@ -216,10 +216,6 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 					}elseif($rowsgm['gmlevel']==3){
 						?>
 						<font color="c70000">Head Admin</font><br>
-						<?php
-					}elseif($rowsgm['gmlevel']==4){
-						?>
-						<font color="9000b8">Owner</font><br>
 						<?php
 					}
 					
@@ -355,7 +351,7 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 				<?php
 					if($rowsgm['gmlevel']==1){
 						?>
-						<font color="00ba0d">Moderator</font><br>
+						<font color="00ba0d">Gamemaster</font><br>
 						<?php
 					}elseif($rowsgm['gmlevel']==2){
 						?>
@@ -364,10 +360,6 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 					}elseif($rowsgm['gmlevel']==3){
 						?>
 						<font color="c70000">Head Admin</font><br>
-						<?php
-					}elseif($rowsgm['gmlevel']==4){
-						?>
-						<font color="9000b8">Owner</font><br>
 						<?php
 					}
 					
