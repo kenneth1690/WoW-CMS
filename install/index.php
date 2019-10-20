@@ -290,7 +290,7 @@
 					}else{
 						$passfinal = sha1(strtoupper($_POST['acclogin']).':'.strtoupper($_POST['accrepass']));
 						mysqli_query($linkauth, "INSERT INTO `account` (`id`, `username`, `sha_pass_hash`, `email`) VALUES ('1', '".$_POST['acclogin']."', '".$passfinal."', '".$_POST['accmail']."' )");
-						mysqli_query($linkauth, "INSERT INTO `account_access` (`id`, `gmlevel`, `RealmID`) VALUES ('1', '4', '-1' )");
+						mysqli_query($linkauth, "INSERT INTO `account_access` (`id`, `gmlevel`, `RealmID`) VALUES ('1', '3', '-1' )");
 					}
 					?>
 					<b>Website successfully installed!</b><br><br>Congratulations! Your WoW-CMS has been successfully installed! Now you can easily go to the home page, but before you do it, I recommend removing the 'install' folder from the site directory!<br><br>
