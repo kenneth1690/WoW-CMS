@@ -203,7 +203,7 @@
 							}
 							if($rowsgm['gmlevel']==1){
 								?>
-								<font color="00ba0d">*Gamemaster*</font>
+								<font color="00ba0d">*Game Master*</font>
 								<?php
 							}elseif($rowsgm['gmlevel']==2){
 								?>

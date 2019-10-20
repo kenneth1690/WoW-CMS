@@ -208,7 +208,7 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 					<?php
 					if($rowsgm['gmlevel']==1){
 						?>
-						<font color="00ba0d">Gamemaster</font><br>
+						<font color="00ba0d">Game Master</font><br>
 						<?php
 					}elseif($rowsgm['gmlevel']==2){
 						?>
@@ -352,7 +352,7 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 				<?php
 					if($rowsgm['gmlevel']==1){
 						?>
-						<font color="00ba0d">Gamemaster</font><br>
+						<font color="00ba0d">Game Master</font><br>
 						<?php
 					}elseif($rowsgm['gmlevel']==2){
 						?>
