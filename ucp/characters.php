@@ -204,43 +204,43 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 											<?php
 										if($charr['class']==1){
 											?>
-											<font color="C79C6E"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/warrior.gif">
+											<font color="C79C6E"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/warrior.gif">
 											<?php
 										}elseif($charr['class']==2){
 											?>
-											<font color="F58CBA"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/paladin.gif">
+											<font color="F58CBA"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/paladin.gif">
 											<?php
 										}elseif($charr['class']==3){
 											?>
-											<font color="ABD473"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/hunter.gif">
+											<font color="ABD473"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/hunter.gif">
 											<?php
 										}elseif($charr['class']==4){
 											?>
-											<font color="FFF569"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/rogue.gif">
+											<font color="FFF569"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/rogue.gif">
 											<?php
 										}elseif($charr['class']==5){
 											?>
-											<font color="FFFFFF"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/priest.gif">
+											<font color="FFFFFF"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/priest.gif">
 											<?php
 										}elseif($charr['class']==6){
 											?>
-											<font color="C41F3B"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/deathknight.gif">
+											<font color="C41F3B"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/deathknight.gif">
 											<?php
 										}elseif($charr['class']==7){
 											?>
-											<font color="0070DE"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/shaman.gif">
+											<font color="0070DE"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/shaman.gif">
 											<?php
 										}elseif($charr['class']==8){
 											?>
-											<font color="40C7EB"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/mage.gif">
+											<font color="40C7EB"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/mage.gif">
 											<?php
 										}elseif($charr['class']==9){
 											?>
-											<font color="8787ED"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/warlock.gif">
+											<font color="8787ED"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/warlock.gif">
 											<?php
 										}elseif($charr['class']==11){
 											?>
-											<font color="FF7D0A"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/druid.gif">
+											<font color="FF7D0A"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/druid.gif">
 											<?php
 										}else{
 											?>
@@ -291,16 +291,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										<td>&nbsp;</td>
 									</tr>
 									<tr>
-										<td>Character ID: <font color="white"><?php echo $rowschar['guid']; ?></font></td>
-									</tr>
-									<tr>
-										<td>Character name: <font color="white"><?php echo $rowschar['name']; ?></font></td>
+										<td>Name: <font color="white"><?php echo $rowschar['name']; ?></font> (ID: <font color="white"><?php echo $rowschar['guid']; ?></font>)</td>
 									</tr>
 									<tr>
 										<td>&nbsp;</td>
 									</tr>
 									<tr>
-										<td>Level & XP: <font color="white"><?php echo $rowschar['level']; ?> (<?php echo $rowschar['xp']; ?> XP)</font>
+										<td>Level & XP: <font color="white"><?php echo $rowschar['level']; ?></font> (<font color="white"><?php echo $rowschar['xp']; ?> XP</font>)
 										</td>
 									</tr>
 									<tr>
@@ -315,43 +312,153 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										<?php
 										if($rowschar['race']==1){
 											?>
-											Human <img src="/uploads/account/human.gif">
+											Human 
+											<?php
+											if($rowschar['gender']==1){
+												?>
+												<img src="/uploads/account/races/fhuman.gif">
+												<?php
+											}else{
+												?>
+												<img src="/uploads/account/races/human.gif">
+												<?php
+											}
+											?>
 											<?php
 										}elseif($rowschar['race']==2){
 											?>
-											Orc <img src="/uploads/account/orc.gif">
+											Orc 
+											<?php
+											if($rowschar['gender']==1){
+												?>
+												<img src="/uploads/account/races/forc.gif">
+												<?php
+											}else{
+												?>
+												<img src="/uploads/account/races/orc.gif">
+												<?php
+											}
+											?>
 											<?php
 										}elseif($rowschar['race']==3){
 											?>
-											Dwarf <img src="/uploads/account/dwarf.gif">
+											Dwarf 
+											<?php
+											if($rowschar['gender']==1){
+												?>
+												<img src="/uploads/account/races/fdwarf.gif">
+												<?php
+											}else{
+												?>
+												<img src="/uploads/account/races/dwarf.gif">
+												<?php
+											}
+											?>
 											<?php
 										}elseif($rowschar['race']==4){
 											?>
-											Night Elf <img src="/uploads/account/nightelf.gif">
+											Night Elf 
+											<?php
+											if($rowschar['gender']==1){
+												?>
+												<img src="/uploads/account/races/fnightelf.gif">
+												<?php
+											}else{
+												?>
+												<img src="/uploads/account/races/nightelf.gif">
+												<?php
+											}
+											?>
 											<?php
 										}elseif($rowschar['race']==5){
 											?>
-											Undead <img src="/uploads/account/undead.gif">
+											Undead 
+											<?php
+											if($rowschar['gender']==1){
+												?>
+												<img src="/uploads/account/races/fundead.gif">
+												<?php
+											}else{
+												?>
+												<img src="/uploads/account/races/undead.gif">
+												<?php
+											}
+											?>
 											<?php
 										}elseif($rowschar['race']==6){
 											?>
-											Tauren <img src="/uploads/account/tauren.gif">
+											Tauren 
+											<?php
+											if($rowschar['gender']==1){
+												?>
+												<img src="/uploads/account/races/ftauren.gif">
+												<?php
+											}else{
+												?>
+												<img src="/uploads/account/races/tauren.gif">
+												<?php
+											}
+											?>
 											<?php
 										}elseif($rowschar['race']==7){
 											?>
-											Gnome <img src="/uploads/account/gnome.gif">
+											Gnome 
+											<?php
+											if($rowschar['gender']==1){
+												?>
+												<img src="/uploads/account/races/fgnome.gif">
+												<?php
+											}else{
+												?>
+												<img src="/uploads/account/races/gnome.gif">
+												<?php
+											}
+											?>
 											<?php
 										}elseif($rowschar['race']==8){
 											?>
-											Troll <img src="/uploads/account/troll.gif">
+											Troll 
+											<?php
+											if($rowschar['gender']==1){
+												?>
+												<img src="/uploads/account/races/ftroll.gif">
+												<?php
+											}else{
+												?>
+												<img src="/uploads/account/races/troll.gif">
+												<?php
+											}
+											?>
 											<?php
 										}elseif($rowschar['race']==10){
 											?>
-											Blood Elf <img src="/uploads/account/bloodelf.gif">
+											Blood Elf 
+											<?php
+											if($rowschar['gender']==1){
+												?>
+												<img src="/uploads/account/races/fbloodelf.gif">
+												<?php
+											}else{
+												?>
+												<img src="/uploads/account/races/bloodelf.gif">
+												<?php
+											}
+											?>
 											<?php
 										}elseif($rowschar['race']==11){
 											?>
-											Draenei <img src="/uploads/account/draenei.gif">
+											Draenei 
+											<?php
+											if($rowschar['gender']==1){
+												?>
+												<img src="/uploads/account/races/fdraenei.gif">
+												<?php
+											}else{
+												?>
+												<img src="/uploads/account/races/draenei.gif">
+												<?php
+											}
+											?>
 											<?php
 										}else{
 											?>
@@ -366,43 +473,43 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										<?php
 										if($rowschar['class']==1){
 											?>
-											<font color="C79C6E">Warrior</font> <img src="/uploads/account/warrior.gif">
+											<font color="C79C6E">Warrior</font> <img src="/uploads/account/classes/warrior.gif">
 											<?php
 										}elseif($rowschar['class']==2){
 											?>
-											<font color="F58CBA">Paladin</font> <img src="/uploads/account/paladin.gif">
+											<font color="F58CBA">Paladin</font> <img src="/uploads/account/classes/paladin.gif">
 											<?php
 										}elseif($rowschar['class']==3){
 											?>
-											<font color="ABD473">Hunter</font> <img src="/uploads/account/hunter.gif">
+											<font color="ABD473">Hunter</font> <img src="/uploads/account/classes/hunter.gif">
 											<?php
 										}elseif($rowschar['class']==4){
 											?>
-											<font color="FFF569">Rogue</font> <img src="/uploads/account/rogue.gif">
+											<font color="FFF569">Rogue</font> <img src="/uploads/account/classes/rogue.gif">
 											<?php
 										}elseif($rowschar['class']==5){
 											?>
-											<font color="FFFFFF">Priest</font> <img src="/uploads/account/priest.gif">
+											<font color="FFFFFF">Priest</font> <img src="/uploads/account/classes/priest.gif">
 											<?php
 										}elseif($rowschar['class']==6){
 											?>
-											<font color="C41F3B">Death Knight</font> <img src="/uploads/account/deathknight.gif">
+											<font color="C41F3B">Death Knight</font> <img src="/uploads/account/classes/deathknight.gif">
 											<?php
 										}elseif($rowschar['class']==7){
 											?>
-											<font color="0070DE">Shaman</font> <img src="/uploads/account/shaman.gif">
+											<font color="0070DE">Shaman</font> <img src="/uploads/account/classes/shaman.gif">
 											<?php
 										}elseif($rowschar['class']==8){
 											?>
-											<font color="40C7EB">Mage</font> <img src="/uploads/account/mage.gif">
+											<font color="40C7EB">Mage</font> <img src="/uploads/account/classes/mage.gif">
 											<?php
 										}elseif($rowschar['class']==9){
 											?>
-											<font color="8787ED">Warlock</font> <img src="/uploads/account/warlock.gif">
+											<font color="8787ED">Warlock</font> <img src="/uploads/account/classes/warlock.gif">
 											<?php
 										}elseif($rowschar['class']==11){
 											?>
-											<font color="FF7D0A">Druid</font> <img src="/uploads/account/druid.gif">
+											<font color="FF7D0A">Druid</font> <img src="/uploads/account/classes/druid.gif">
 											<?php
 										}else{
 											?>
@@ -496,6 +603,9 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 									</tr>
 									<tr>
 										<td>
+										<a href='/armory/character.php?charid=<?php echo $_GET['id']; ?>'>
+											<input type='submit' value='ARMORY' class='wm-ui-btn'/>
+										</a>
 										<a href='/ucp/managechar.php?action=cancel&charid=<?php echo $_GET['id']; ?>'>
 											<input type='submit' value='CANCEL TRADE' class='wm-ui-btn'/>
 										</a>
@@ -509,6 +619,9 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 									</tr>
 									<tr>
 										<td>
+										<a href='/armory/character.php?charid=<?php echo $_GET['id']; ?>'>
+											<input type='submit' value='ARMORY' class='wm-ui-btn'/>
+										</a>
 										<a href='/ucp/managechar.php?action=sell&charid=<?php echo $_GET['id']; ?>'>
 											<input type='submit' value='PUT ON TRADE' class='wm-ui-btn'/>
 										</a>
@@ -596,43 +709,43 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 								<td><?php
 										if($charr['class']==1){
 											?>
-											<font color="C79C6E"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/warrior.gif">
+											<font color="C79C6E"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/warrior.gif">
 											<?php
 										}elseif($charr['class']==2){
 											?>
-											<font color="F58CBA"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/paladin.gif">
+											<font color="F58CBA"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/paladin.gif">
 											<?php
 										}elseif($charr['class']==3){
 											?>
-											<font color="ABD473"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/hunter.gif">
+											<font color="ABD473"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/hunter.gif">
 											<?php
 										}elseif($charr['class']==4){
 											?>
-											<font color="FFF569"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/rogue.gif">
+											<font color="FFF569"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/rogue.gif">
 											<?php
 										}elseif($charr['class']==5){
 											?>
-											<font color="FFFFFF"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/priest.gif">
+											<font color="FFFFFF"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/priest.gif">
 											<?php
 										}elseif($charr['class']==6){
 											?>
-											<font color="C41F3B"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/deathknight.gif">
+											<font color="C41F3B"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/deathknight.gif">
 											<?php
 										}elseif($charr['class']==7){
 											?>
-											<font color="0070DE"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/shaman.gif">
+											<font color="0070DE"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/shaman.gif">
 											<?php
 										}elseif($charr['class']==8){
 											?>
-											<font color="40C7EB"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/mage.gif">
+											<font color="40C7EB"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/mage.gif">
 											<?php
 										}elseif($charr['class']==9){
 											?>
-											<font color="8787ED"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/warlock.gif">
+											<font color="8787ED"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/warlock.gif">
 											<?php
 										}elseif($charr['class']==11){
 											?>
-											<font color="FF7D0A"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/druid.gif">
+											<font color="FF7D0A"><?php echo $charr['name']; ?> </font> <img src="/uploads/account/classes/druid.gif">
 											<?php
 										}else{
 											?>
