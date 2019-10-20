@@ -60,6 +60,7 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
     border-right: 1px solid transparent;
   padding: 10px;
   font-size: 15px;
+  font-weight: normal;
 }
 
 #categories tr:nth-child(even){background-color: #f2f2f2;}
@@ -203,7 +204,7 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 						<img src="/uploads/pin.png">
 						<?php
 					}
-					?>Browsing topic: <?php echo $row['title']; ?> / All Replies (<?php echo mysqli_num_rows($countreplies); ?>)</th></tr><tr><th width='25%'><center>
+					?><b>Browsing topic: <?php echo $row['title']; ?> / All Replies (<?php echo mysqli_num_rows($countreplies); ?>)</b></th></tr><tr><th width='25%'><center>
 					<?php
 					if($rowsgm['gmlevel']==1){
 						?>
@@ -290,7 +291,7 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 		if (mysqli_num_rows($selectreps) != 0) {
 			?><br>
 			<table id='categories'>
-			<th colspan='2'>Replies:</th></tr>
+			<th colspan='2'><b>Replies:</b></th></tr>
 			<?php
 			if (isset($_GET['page_no']) && $_GET['page_no']!="") {
 				$page_no = $_GET['page_no'];
