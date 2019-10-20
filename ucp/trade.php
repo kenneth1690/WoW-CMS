@@ -633,7 +633,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 											$silver = intval($money/100);
 											$copper = intval($money%100);
 										?>
-										<th><div class="tooltip" style="font-weight: normal;"><font color="white"><?php echo $rowchardetails['name']; ?></font> <font color="1df701">(?)</font>
+										<th><div class="tooltip" style="font-weight: normal;"><a href='/armory/character.php?charid=<?php echo $rowchardetails['guid']; ?>'><font color="white"><?php echo $rowchardetails['name']; ?></font> <font color="1df701">(?)</font></a>
 											<span class="tooltiptext"><font color="FFE4B5">CHARACTER DETAILS</font><br>
 											<br><font color="606060">Name: <font color="white"><?php echo $rowchardetails['name']; ?></font> (ID: <font color="white"><?php echo $rowchardetails['guid']; ?></font>)
 											<br>Level & XP: <font color="white"><?php echo $rowchardetails['level']; ?></font> (<font color="white"><?php echo $rowchardetails['xp']; ?> XP</font>)
