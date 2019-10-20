@@ -53,6 +53,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
     border-right: 1px solid transparent;
   padding: 10px;
   font-size: 15px;
+  font-weight: normal;
 }
 
 #categories tr:nth-child(even){background-color: #f2f2f2;}
@@ -205,7 +206,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						if (mysqli_num_rows($selectans) != 0) {
 							?>
 							<table id='categories'>
-							<th colspan='2'>Answers:</th></tr>
+							<th colspan='2'><b>Answers:</b></th></tr>
 							<?php
 							if (isset($_GET['page_no']) && $_GET['page_no']!="") {
 								$page_no = $_GET['page_no'];

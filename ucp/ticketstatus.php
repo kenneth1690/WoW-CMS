@@ -38,43 +38,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 <link rel="stylesheet" href="/css/ui.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/wm-contextmenu.css">
-<style>
-		#customers {
-			  border-collapse: collapse;
-			  width: 100%;
-			}
-
-			#customers td, #customers th {
-			  border: 1px solid #ddd;
-			  background: #0f0f0f none repeat-x left;
-			  color: #c1b575;
-				border-bottom: 1px solid #1e1e1e;
-				border-left: 1px solid transparent;
-				border-right: 1px solid transparent;
-			  padding: 10px;
-			  font-size: 15px;
-			}
-
-			#customers tr:nth-child(even){background-color: #f2f2f2;}
-
-			#customers tr:hover {background-color: #ddd;}
-
-			#customers th {
-			  padding-top: 6.5px;
-			  padding-bottom: 6.5px;
-			  text-align: left;
-			  background-color: #131313;
-			  color: #505050;
-			  box-shadow: -2px 2px 2px transparent;
-			  border-top-right-radius: 0px;
-				border-top-left-radius: 0px;
-				border-left: 1px solid transparent;
-				border-right: 1px solid transparent;
-				border: 1px solid #1e1e1e;
-				font-size: 15px;
-				vertical-align: text-top;
-			}
-		</style>
 </head>
 <body>
 <div class="navigation-wrapper">
