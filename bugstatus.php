@@ -37,7 +37,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		$resultgm = mysqli_query($checkacp,$gm);
 		$rowsgm = mysqli_fetch_array($resultgm);
 		
-		if(!$rowsgm || $rowsgm['gmlevel']==0){
+		if(!$rowsgm || $rowsgm['gmlevel']<2){
 			header("location: ../index.php");
 			exit;
 		}
