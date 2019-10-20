@@ -188,7 +188,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                 <?php 
                 if($rowsgm['gmlevel']==1){
 					?>
-					<font color="00ba0d">Moderator</font>
+					<font color="00ba0d">Gamemaster</font>
 					<?php
 				}elseif($rowsgm['gmlevel']==2){
 					?>
@@ -197,14 +197,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				}elseif($rowsgm['gmlevel']==3){
 					?>
 					<font color="c70000">Head Admin</font>
-					<?php
-				}elseif($rowsgm['gmlevel']==4){
-					?>
-					<font color="9000b8">Owner</font>
-					<?php
-				}else{
-					?>
-					<font color="ffffff">Player (You shouldn't be here)</font>
 					<?php
 				}
 				?>

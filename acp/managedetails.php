@@ -203,7 +203,7 @@
 							}
 							if($rowsgm['gmlevel']==1){
 								?>
-								<font color="00ba0d">*Moderator*</font>
+								<font color="00ba0d">*Gamemaster*</font>
 								<?php
 							}elseif($rowsgm['gmlevel']==2){
 								?>
@@ -212,14 +212,6 @@
 							}elseif($rowsgm['gmlevel']==3){
 								?>
 								<font color="c70000">*Head Admin*</font>
-								<?php
-							}elseif($rowsgm['gmlevel']==4){
-								?>
-								<font color="9000b8">*Owner*</font>
-								<?php
-							}else{
-								?>
-								<font color="ffffff">*Player*</font>
 								<?php
 							}
 							?>
@@ -236,7 +228,7 @@
 						</tr>
 						<tr>
 							<td>
-								<p>GM Level (1-4, empty for none): </p>
+								<p>GM Level (1-3, empty for none): </p>
 								<input type='text' id='gmlevel' name='gmlevel' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rowsgm['gmlevel']; ?>'/><br /><br>
 							</td>
 						</tr>

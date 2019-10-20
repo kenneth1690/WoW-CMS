@@ -190,7 +190,7 @@
 								$nickbanned = $rowa['username'];
 								
                                 if(mysqli_num_rows($checkgm)>0){
-                                    if($rowsgm['gmlevel']==4){
+                                    if($rowsgm['gmlevel']==3){
                                         $mutedate = time();
                                         $mutedays = $_POST['mutedays'];
                                         $mutereason = $_POST['mutereason'];
@@ -335,7 +335,7 @@
                         }else{
                             $checkgm = mysqli_query($conn, 'SELECT * FROM account_access WHERE id="'.$acid.'"');
                             if(mysqli_num_rows($checkgm)>0){
-                                if($rowsgm['gmlevel']==4){
+                                if($rowsgm['gmlevel']==3){
                                     ?>
                                     <div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		                            <div id="wm-error-page">

@@ -171,7 +171,7 @@
 					</div>
 						<?php
 						header("refresh:5;url=acp.php");
-					}elseif(!empty($_POST['gmlevel']) && $_POST['gmlevel']>4){
+					}elseif(!empty($_POST['gmlevel']) && $_POST['gmlevel']>3){
 						?>
 						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 						<div id="wm-error-page">
@@ -180,7 +180,7 @@
 								<font size="6">Invalid GM Level</font>
 							</p>
 							<p>
-								<font size="5">Field `GM Level` cannot be more than 4.</font>
+								<font size="5">Field `GM Level` cannot be more than 3.</font>
 							</p> 
 						</center>
 						</div>
