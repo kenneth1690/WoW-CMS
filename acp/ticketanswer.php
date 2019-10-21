@@ -244,7 +244,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 							$next_page = $page_no + 1;
 							$adjacents = "2"; 
 
-							$result_count = mysqli_query($cmsconn,"SELECT COUNT(*) As total_records FROM `ticket_answers`");
+							$result_count = mysqli_query($cmsconn,"SELECT COUNT(*) As total_records FROM `ticket_answers` WHERE ticket_id = $ticid");
 							$total_records = mysqli_fetch_array($result_count);
 							$total_records = $total_records['total_records'];
 							$total_no_of_pages = ceil($total_records / $total_records_per_page);
@@ -371,7 +371,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 							</div>
 							<?php
 							$select2 = mysqli_query($conn, "SELECT * FROM ticket_answers WHERE ticket_id = $ticid");
-							if (mysqli_num_rows($selectans) > 6) {
+							
 							?>
 							<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 								<div id="wm-error-page">
@@ -440,7 +440,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 								</div>
 							</div>
 							<?php
-							}
+							
 						}
 
                 }else{
