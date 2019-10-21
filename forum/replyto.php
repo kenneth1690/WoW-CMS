@@ -486,7 +486,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 	</div>
 	<?php
 	$select2 = mysqli_query($con, "SELECT * FROM replies WHERE category_id = $getcid AND subcategory_id = $getscid AND topic_id = $gettid");
-	if (mysqli_num_rows($selectreps) > 6) {
+	
 	?>
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
@@ -555,7 +555,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		</div>
 	</div>
 	<?php
-	}
+	
 	?>
 </div>
 <div class="clear"></div>
