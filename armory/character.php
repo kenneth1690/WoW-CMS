@@ -447,7 +447,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[0]!=0){ // Head /0
 							?>
-							<a href="#" rel="item=<?php echo $seteq[0]?>">Head</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[0]?>" rel="item=<?php echo $seteq[0]?>">Head</a>
 							<?php
 						}else{
 							?>
@@ -459,7 +459,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[2]!=0){ // Neck /2
 							?>
-							<a href="#" rel="item=<?php echo $seteq[2]?>">Neck</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[2]?>" rel="item=<?php echo $seteq[2]?>">Neck</a>
 							<?php
 						}else{
 							?>
@@ -471,7 +471,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[4]!=0){ // Shoulder /4
 							?>
-							<a href="#" rel="item=<?php echo $seteq[4]?>">Shoulder</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[4]?>" rel="item=<?php echo $seteq[4]?>">Shoulder</a>
 							<?php
 						}else{
 							?>
@@ -483,7 +483,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[28]!=0){ // Back /28
 							?>
-							<a href="#" rel="item=<?php echo $seteq[28]?>">Back</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[28]?>" rel="item=<?php echo $seteq[28]?>">Back</a>
 							<?php
 						}else{
 							?>
@@ -495,7 +495,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[8]!=0){ // Chest /8
 							?>
-							<a href="#" rel="item=<?php echo $seteq[8]?>">Chest</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[8]?>" rel="item=<?php echo $seteq[8]?>">Chest</a>
 							<?php
 						}else{
 							?>
@@ -507,7 +507,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[6]!=0){ // Shirt /6
 							?>
-							<a href="#" rel="item=<?php echo $seteq[6]?>">Shirt</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[6]?>" rel="item=<?php echo $seteq[6]?>">Shirt</a>
 							<?php
 						}else{
 							?>
@@ -520,7 +520,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[16]!=0){ // Wrist /16
 							?>
-							<a href="#" rel="item=<?php echo $seteq[16]?>">Wrist</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[16]?>" rel="item=<?php echo $seteq[16]?>">Wrist</a>
 							<?php
 						}else{
 							?>
@@ -533,7 +533,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[18]!=0){ // Hands /18
 							?>
-							<a href="#" rel="item=<?php echo $seteq[18]?>">Hands</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[18]?>" rel="item=<?php echo $seteq[18]?>">Hands</a>
 							<?php
 						}else{
 							?>
@@ -545,7 +545,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[10]!=0){ // Waist /10
 							?>
-							<a href="#" rel="item=<?php echo $seteq[10]?>">Waist</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[10]?>" rel="item=<?php echo $seteq[10]?>">Waist</a>
 							<?php
 						}else{
 							?>
@@ -557,7 +557,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[12]!=0){ // Legs /12
 							?>
-							<a href="#" rel="item=<?php echo $seteq[12]?>">Legs</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[12]?>" rel="item=<?php echo $seteq[12]?>">Legs</a>
 							<?php
 						}else{
 							?>
@@ -569,7 +569,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[14]!=0){ // Feet /14
 							?>
-							<a href="#" rel="item=<?php echo $seteq[14]?>">Feet</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[14]?>" rel="item=<?php echo $seteq[14]?>">Feet</a>
 							<?php
 						}else{
 							?>
@@ -581,7 +581,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[20]!=0){ // 1st Finger /20
 							?>
-							<a href="#" rel="item=<?php echo $seteq[20]?>">1st Finger</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[20]?>" rel="item=<?php echo $seteq[20]?>">1st Finger</a>
 							<?php
 						}else{
 							?>
@@ -593,7 +593,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[22]!=0){ // 2nd Finger /22
 							?>
-							<a href="#" rel="item=<?php echo $seteq[22]?>">2nd Finger</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[22]?>" rel="item=<?php echo $seteq[22]?>">2nd Finger</a>
 							<?php
 						}else{
 							?>
@@ -605,7 +605,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[24]!=0){ // 1st Trinket /24
 							?>
-							<a href="#" rel="item=<?php echo $seteq[24]?>">1st Trinket</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[24]?>" rel="item=<?php echo $seteq[24]?>">1st Trinket</a>
 							<?php
 						}else{
 							?>
@@ -617,7 +617,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[26]!=0){ // 2nd Trinket /26
 							?>
-							<a href="#" rel="item=<?php echo $seteq[26]?>">2nd Trinket</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[26]?>" rel="item=<?php echo $seteq[26]?>">2nd Trinket</a>
 							<?php
 						}else{
 							?>
@@ -630,7 +630,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[30]!=0){ // 1st Hand /30
 							?>
-							<a href="#" rel="item=<?php echo $seteq[30]?>">1st Hand</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[30]?>" rel="item=<?php echo $seteq[30]?>">1st Hand</a>
 							<?php
 						}else{
 							?>
@@ -642,7 +642,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[32]!=0){ // 2nd Hand /32
 							?>
-							<a href="#" rel="item=<?php echo $seteq[32]?>">2nd Hand</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[32]?>" rel="item=<?php echo $seteq[32]?>">2nd Hand</a>
 							<?php
 						}else{
 							?>
@@ -654,7 +654,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<?php 
 						if($seteq[34]!=0){ // Other /34
 							?>
-							<a href="#" rel="item=<?php echo $seteq[34]?>">Other</a>
+							<a href="https://wotlkdb.com/?item=<?php echo $seteq[34]?>" rel="item=<?php echo $seteq[34]?>">Other</a>
 							<?php
 						}else{
 							?>
@@ -668,22 +668,22 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						if($seteq[38]!=0 || $seteq[40]!=0 || $seteq[42]!=0 || $seteq[44]!=0){
 							if($seteq[38]!=0){ // Bag /38
 								?>
-								<br><a href="#" rel="item=<?php echo $seteq[38]?>">Bag</a>
+								<br><a href="https://wotlkdb.com/?item=<?php echo $seteq[38]?>" rel="item=<?php echo $seteq[38]?>">Bag</a>
 								<?php
 							}
 							if($seteq[40]!=0){ // Bag /40
 								?>
-								<br><a href="#" rel="item=<?php echo $seteq[40]?>">Bag</a>
+								<br><a href="https://wotlkdb.com/?item=<?php echo $seteq[40]?>" rel="item=<?php echo $seteq[40]?>">Bag</a>
 								<?php
 							}
 							if($seteq[42]!=0){ // Bag /42
 								?>
-								<br><a href="#" rel="item=<?php echo $seteq[42]?>">Bag</a>
+								<br><a href="https://wotlkdb.com/?item=<?php echo $seteq[42]?>" rel="item=<?php echo $seteq[42]?>">Bag</a>
 								<?php
 							}
 							if($seteq[44]!=0){ // Bag /44
 								?>
-								<br><a href="#" rel="item=<?php echo $seteq[44]?>">Bag</a>
+								<br><a href="https://wotlkdb.com/?item=<?php echo $seteq[44]?>" rel="item=<?php echo $seteq[44]?>">Bag</a>
 								<?php
 							}
 						}else{
