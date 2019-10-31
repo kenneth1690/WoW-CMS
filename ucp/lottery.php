@@ -141,6 +141,19 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		<li><a href="/ucp/lottery.php" class="active"><i class="fas fa-ticket-alt"></i> LOTTERY</a></li>
 		<li><a href="/ucp/settings.php"><i class="fas fa-cog"></i> SETTINGS</a></li>
 		<?php
+		$howmuchmess = mysqli_query($conn, "SELECT * FROM messages WHERE status = 0 AND (author_id = '".$idcheck."' OR assigned_to = '".$idcheck."')");
+		$rowsmess = mysqli_fetch_array($howmuchmess);
+		if(mysqli_num_rows($howmuchmess)>0){
+			?>
+			<li><a href="/ucp/messages.php"><i class="fas fa-envelope"></i> <?php echo mysqli_num_rows($howmuchmess); ?></a></li>
+			<?php
+		}else{
+			?>
+			<li><a href="/ucp/messages.php"><i class="fas fa-envelope"></i> 0</a></li>
+			<?php
+		}
+		?>
+		<?php
 		$howmuchnotis = mysqli_query($conn, "SELECT * FROM notifications WHERE user = '".$idcheck."' AND readed = 0");
 		$rowsnotis = mysqli_fetch_array($howmuchnotis);
 		if(mysqli_num_rows($howmuchnotis)>0){

@@ -154,6 +154,39 @@ CREATE TABLE `lotteries` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `messages`
+--
+
+CREATE TABLE `messages` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `title` varchar(65) NOT NULL,
+  `author` varchar(16) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `date_posted` varchar(65) NOT NULL,
+  `readed` int(3) NOT NULL DEFAULT '0',
+  `readed_by_author` int(3) NOT NULL DEFAULT '1',
+  `assigned_to` int(11) DEFAULT NULL,
+  `status` int(3) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `messages_answers`
+--
+
+CREATE TABLE `messages_answers` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `mess_id` int(11) NOT NULL,
+  `answer` mediumtext NOT NULL,
+  `author` varchar(16) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `date_posted` varchar(65) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `news`
 --
 
@@ -371,6 +404,18 @@ ALTER TABLE `lotteries`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `messages_answers`
+--
+ALTER TABLE `messages_answers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `news`
 --
 ALTER TABLE `news`
@@ -470,6 +515,16 @@ ALTER TABLE `logs_tics`
 -- AUTO_INCREMENT for table `lotteries`
 --
 ALTER TABLE `lotteries`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tickets`
+--
+ALTER TABLE `messages`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ticket_answers`
+--
+ALTER TABLE `messages_answers`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `news`

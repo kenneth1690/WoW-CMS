@@ -165,7 +165,7 @@
 						$cmsconn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 					}
 					
-					$editchgcontentcheck = $_GET['editcontent'];
+					$editchgcontentcheck = nl2br(addslashes($_GET['editcontent']));
 					$chgsidcheck = $_POST['chgsid'];
 					
 					$cmssql= "SELECT * FROM changelogs WHERE id='$chgsidcheck'";

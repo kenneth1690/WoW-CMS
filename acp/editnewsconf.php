@@ -160,8 +160,8 @@
 						$cmsconn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 					}
 					
-					$edittitlecheck = $_GET['edittitle'];
-					$editcontentcheck = $_GET['editcontent'];
+					$edittitlecheck = nl2br(addslashes($_GET['edittitle']));
+					$editcontentcheck = nl2br(addslashes($_GET['editcontent']));
 					$newsidcheck = $_POST['newsid'];
 					
 					$cmssql= "SELECT * FROM news WHERE id='$newsidcheck'";

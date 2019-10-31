@@ -163,8 +163,8 @@ while($row = mysqli_fetch_array($qr3)){
 						$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
 						$cmsconn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 					}
-					$title = $_POST['title'];
-					$content = $_POST['content'];
+					$title = addslashes($_POST['title']);
+					$content = nl2br(addslashes($_POST['content']));
 					
 					$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
 					$result = mysqli_query($checkacp,$sql);

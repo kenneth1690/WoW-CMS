@@ -111,6 +111,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
             		$conn = mysqli_connect($db_host, $db_username, $db_password, $chars_db_name, $db_port);
             		$nick = $_SESSION["loggedin"];
 					$checkchar = mysqli_query($conn, 'SELECT * FROM characters WHERE guid="'.$charid.'"');
+					$checkchar2 = mysqli_connect($db_host, $db_username, $db_password, $chars_db_name, $db_port);
                 	if(mysqli_num_rows($checkchar)>0){
 						$reschar = mysqli_query($conn, 'SELECT * FROM characters WHERE guid="'.$charid.'"');
 						$rowschar = mysqli_fetch_array($reschar);
@@ -437,8 +438,71 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										</div>
 										</td>
 									</tr>
-								</tbody></table><br><br>
-								<span>CHARACTER GUILD</span>
+									<tr>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td><span>OTHER DETAILS</span></td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>Achievement Points: </td>
+									</tr>
+									<tr>
+										<td>Honor Points: </td>
+									</tr>
+									<tr>
+										<td>Talents: </td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>PvP Kills: </td>
+									</tr>
+									<tr>
+										<td>Specialization: </td>
+									</tr>
+									<tr>
+										<td>Professions: </td>
+									</tr>
+								</tbody></table><br>
+								<?php
+										if(mysqli_num_rows($resultguild)>0){
+											$sql14 = "SELECT * FROM guild_member WHERE guid = '" . $charid. "'";
+											$ifguild = mysqli_query($checkchar2,$sql14);
+											$checkguild = mysqli_fetch_array($ifguild);
+											
+											$guildidthen = $checkguild['guildid'];
+											$sql15 = "SELECT * FROM guild WHERE guildid = '" . $guildidthen. "'";
+											$ifshowguild = mysqli_query($checkchar2,$sql15);
+											$showguild = mysqli_fetch_array($ifshowguild);
+											
+											$getrank = $checkguild['rank'];
+											$sql16 = "SELECT * FROM guild_rank WHERE guildid = '" . $guildidthen. "' AND rid = '" . $getrank . "'";
+											$showrank = mysqli_query($checkchar2,$sql16);
+											$rrank = mysqli_fetch_array($showrank);
+											?>
+											<span>CHARACTER'S GUILD</span>
+											<br><br>
+											Name: <font color="white"><?php echo $showguild['name']; ?></font><br>
+											Rank: <font color="white"><?php echo $rrank['rname']; ?> 
+											<?php
+											if($rowschar['guid']==$showguild['leaderguid']){
+												?>
+												<font color="1df701">*Leader*</font>
+												<?php
+											}
+											?></font>
+											<br><br>
+											<a href='/armory/guild.php?gid=<?php echo $showguild['guildid']; ?>'>
+												<input type='submit' value='GUILD DETAILS' class='wm-ui-btn'/>
+											</a>
+											<?php
+										}
+										?>
 						</div>
 						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: auto;">
 						<span>CHARACTER EQUIPMENT</span><br>
@@ -515,7 +579,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 							<?php
 						}
 						?>
-						<br>Tabard: TODO
 						<br>Wrist: 
 						<?php 
 						if($seteq[16]!=0){ // Wrist /16
