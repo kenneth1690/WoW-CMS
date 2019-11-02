@@ -2,6 +2,10 @@
 
 Advanced World of Warcraft: Wrath of the Lich King (Trinity Core 3.3.5a) CMS with features like: Forums, Account &amp; Admin Systems, News &amp; Changelogs &amp; Bugtracker, Account Settings, Server Status.
 
+# Annotation
+
+This CMS repository was originally created in 09.2019 and removed by me on 10.2019, because it is a very developed project and I think that cannot be free. I changed my mind and you have it here with each release. Have fun!
+
 # Build Status
 | master | latest | license | quality | language |
 | :------------: | :------------: | :------------: | :------------: | :------------: |
