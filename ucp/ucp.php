@@ -278,7 +278,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
             <tr>
                 <td>Avatar:<br><img src="/uploads/avatars/<?php echo $rows['avatar']; ?>" width="100px" height="100px"><br>
 				<form action="avatar.php" method="post" enctype="multipart/form-data">
-					<input type="file" id="fileToUpload" style="width: 248px; height: 36px; -webkit-box-sizing: border-box; font: normal 13px FuturaEF-Book; color: #505050; background: #060606 none; border: 1px solid #1e1e1e; padding: 7px; outline: 0; border-radius: 3px;" name="fileToUpload">
+					<input type="file" name="fileToUpload" id="fileToUpload" class="wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border">
 					<input type="submit" value="Upload Image" name="submit">
 				</form>	
 			</td>
