@@ -118,15 +118,17 @@ label {
 }
 
 .wm-ui-input-generic {
-	background-color:#060606;
-	width:216px;
-	height:29px;
-	color:#c1b575;
-	font-size:14px;
-	padding-left:5px;
-	padding-top:4px;
-	outline:none;
-	font-family:"FuturaEF-Book";
+	width: 248px;
+	height: 36px;
+	-webkit-box-sizing: border-box;
+	font: normal 13px FuturaEF-Book;
+    color: #505050;
+    background: #060606 none !important;
+    border: 1px solid #1e1e1e;
+    padding-left: 5px;
+	padding-top: 4px;
+    outline: 0;
+    border-radius: 3px;
 }
 
 .test {
