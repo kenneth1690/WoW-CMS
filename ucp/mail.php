@@ -177,60 +177,71 @@ while($row = mysqli_fetch_array($qr3)){
 				</center>
                 <?php
 				header( "refresh:5;url=index.php" );
-                die();
-            }
-
-            if(isset($_GET['action'])){
-                $action = htmlspecialchars($_GET['action']);
             }else{
-                ?>
-                <center>
-                    <p>
-                        <font size="6">Invalid action</font>
-                    </p>
-                    <p>
-                        <font size="5">You have not selected any actions.</font>
-                    </p> 
-				</center>
-                <?php
-				header( "refresh:5;url=index.php" );
-            }
-                    
-            if($action == "activate"){
-                if(isset($_GET['token'])){
-                    $token = htmlspecialchars($_GET['token']);
-                    $convmail = md5($user['email']);
-                    if($_GET['token']==$convmail){
-                        if($user['mailactivated']==1){
-                            ?>
-                            <center>
-                                <p>
-                                    <font size="6">Invalid activation</font>
-                                </p>
-                                <p>
-                                    <font size="5">Your address email is already activated.</font>
-                                </p> 
-                            </center>
-                            <?php
-							header( "refresh:5;url=index.php" );
+                if(isset($_GET['action'])){
+                    $action = htmlspecialchars($_GET['action']);
+                }else{
+                    ?>
+                    <center>
+                        <p>
+                            <font size="6">Invalid action</font>
+                        </p>
+                        <p>
+                            <font size="5">You have not selected any actions.</font>
+                        </p> 
+                    </center>
+                    <?php
+                    header( "refresh:5;url=index.php" );
+                }
+                        
+                if($action == "activate"){
+                    if(isset($_GET['token'])){
+                        $token = htmlspecialchars($_GET['token']);
+                        $convmail = md5($user['email']);
+                        if($_GET['token']==$convmail){
+                            if($user['mailactivated']==1){
+                                ?>
+                                <center>
+                                    <p>
+                                        <font size="6">Invalid activation</font>
+                                    </p>
+                                    <p>
+                                        <font size="5">Your address email is already activated.</font>
+                                    </p> 
+                                </center>
+                                <?php
+                                header( "refresh:5;url=index.php" );
+                            }else{
+                                $mail = $user['email'];
+                                mysqli_query($authconn, "UPDATE account SET mailactivated='1' WHERE email='".$mail."'");
+                                $sendnoti = mysqli_query($con, "INSERT INTO notifications (`title`, `notification`, `user`) VALUES ('Email Verified', 'Hey, ".$nick."! You successfully verified your email address. Pogchamp!', '".$user['id']."')");
+                                $insertlog = mysqli_query($con, "INSERT INTO logs_acc (`logger`, `logger_id`, `logdetails`, `logdate`) 
+                                    VALUES ('".$_SESSION['loggedin']."', '".$user['id']."', 'ACCOUNT: User `".$nick."` verified email (Mail: ".$mail.")', NOW());");
+                                
+                                ?>
+                                <center>
+                                    <p>
+                                        <font size="6">Successfully activated</font>
+                                    </p>
+                                    <p>
+                                        <font size="5">Your email has been successfully activated.</font>
+                                    </p> 
+                                </center>
+                                <?php
+                                header( "refresh:5;url=index.php" );
+                            }
                         }else{
-                            $mail = $user['email'];
-                            mysqli_query($authconn, "UPDATE account SET mailactivated='1' WHERE email='".$mail."'");
-							$sendnoti = mysqli_query($con, "INSERT INTO notifications (`title`, `notification`, `user`) VALUES ('Email Verified', 'Hey, ".$nick."! You successfully verified your email address. Pogchamp!', '".$user['id']."')");
-							$insertlog = mysqli_query($con, "INSERT INTO logs_acc (`logger`, `logger_id`, `logdetails`, `logdate`) 
-								  VALUES ('".$_SESSION['loggedin']."', '".$user['id']."', 'ACCOUNT: User `".$nick."` verified email (Mail: ".$mail.")', NOW());");
-							
                             ?>
                             <center>
                                 <p>
-                                    <font size="6">Successfully activated</font>
+                                    <font size="6">Invalid token</font>
                                 </p>
                                 <p>
-                                    <font size="5">Your email has been successfully activated.</font>
+                                    <font size="5">The token you provided is not valid.</font>
                                 </p> 
                             </center>
                             <?php
-							header( "refresh:5;url=index.php" );
+                            header( "refresh:5;url=index.php" );
                         }
                     }else{
                         ?>
@@ -243,67 +254,55 @@ while($row = mysqli_fetch_array($qr3)){
                             </p> 
                         </center>
                         <?php
-						header( "refresh:5;url=index.php" );
+                        header( "refresh:5;url=index.php" );
+                    }
+                }elseif($action == "generate"){
+                    if($user['mailactivated']==1){
+                        ?>
+                        <center>
+                            <p>
+                                <font size="6">Invalid activation</font>
+                            </p>
+                            <p>
+                                <font size="5">Your address email is already activated.</font>
+                            </p> 
+                        </center>
+                        <?php
+                        header( "refresh:5;url=index.php" );
+                    }else{
+                        $newtoken = md5($user['email']);
+                        $yourmail = $user['email'];
+                        $to = $yourmail;
+                        $subject = $sitename." | Email Activation";
+                        $message = "Hello, \nthank you ".$_SESSION['loggedin']." for deciding to activate your email.\n\nIn order to do this, click link right there:\n".htmlentities("http://".$_SERVER['SERVER_NAME']."/ucp/mail.php?action=activate")."&".htmlentities("token=".$newtoken);
+                        $headers = "From: ".$sitename;
+
+                        mail($to, $subject, $message, $headers);
+                        ?>
+                        <center>
+                            <p>
+                                <font size="6">Successfully generated</font>
+                            </p>
+                            <p>
+                                <font size="5">An activation link was sent to the email.</font>
+                            </p> 
+                        </center>
+                        <?php
+                        header( "refresh:5;url=index.php" );
                     }
                 }else{
                     ?>
                     <center>
                         <p>
-                            <font size="6">Invalid token</font>
+                            <font size="6">No action choosed</font>
                         </p>
                         <p>
-                            <font size="5">The token you provided is not valid.</font>
+                            <font size="5">You have not selected an action.</font>
                         </p> 
-					</center>
+                    </center>
                     <?php
-					header( "refresh:5;url=index.php" );
+                    header( "refresh:5;url=index.php" );
                 }
-            }elseif($action == "generate"){
-                if($user['mailactivated']==1){
-                    ?>
-                    <center>
-                        <p>
-                            <font size="6">Invalid activation</font>
-                        </p>
-                        <p>
-                            <font size="5">Your address email is already activated.</font>
-                        </p> 
-					</center>
-                    <?php
-					header( "refresh:5;url=index.php" );
-                }else{
-                    $newtoken = md5($user['email']);
-                    $yourmail = $user['email'];
-                    $to = $yourmail;
-                    $subject = $sitename." | Email Activation";
-                    $message = "Hello, \nthank you ".$_SESSION['loggedin']." for deciding to activate your email.\n\nIn order to do this, click link right there:\n".htmlentities("http://".$_SERVER['SERVER_NAME']."/ucp/mail.php?action=activate")."&".htmlentities("token=".$newtoken);
-                    $headers = "From: ".$sitename;
-
-                    mail($to, $subject, $message, $headers);
-                    ?>
-                    <center>
-                        <p>
-                            <font size="6">Successfully generated</font>
-                        </p>
-                        <p>
-                            <font size="5">An activation link was sent to the email.</font>
-                        </p> 
-					</center>
-                    <?php
-					header( "refresh:5;url=index.php" );
-                }
-            }else{
-                ?>
-                <center>
-                    <p>
-                        <font size="6">No action choosed</font>
-                    </p>
-                    <p>
-                        <font size="5">You have not selected an action.</font>
-                    </p> 
-				</center>
-                <?php
-				header( "refresh:5;url=index.php" );
             }
             ?>
 		</div>
