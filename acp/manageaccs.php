@@ -219,7 +219,7 @@
 						$datediff = $now - $your_date;
 						$esttime = round($datediff / (60 * 60 * 24));
 						?>
-						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 300px;">
+						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 325px;">
 						<span>ACCOUNT SUMMARY</span>
 						<table>
 						<tbody><tr>
@@ -273,6 +273,25 @@
 							<td>Posts: <font color="ffffff"><?php echo $rows['posts']; ?></font></td>
 						</tr>
 						<tr>
+							<td>Reputation: 
+							<?php
+							if($rows['reputation']>0){
+								?>
+								<font color="1df701"><?php echo $rows['reputation']; ?></font>
+								<?php
+							}elseif($rows['reputation']<0){
+								?>
+								<font color="red"><?php echo $rows['reputation']; ?></font>
+								<?php
+							}else{
+								?>
+								<font color="ffffff"><?php echo $rows['reputation']; ?></font>
+								<?php
+							}
+							?>
+							</td>
+						</tr>
+						<tr>
 							<td>&nbsp;</td>
 						</tr>
 						<tr>
@@ -315,7 +334,7 @@
 						</tr>
 					</tbody></table>
 						</div>
-						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 300px;">
+						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 325px;">
 						<span>ACCOUNT DETAILS</span>
 						<table>
 						<tbody><tr>

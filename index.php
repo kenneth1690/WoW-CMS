@@ -193,11 +193,20 @@ function getplayercount() {
 				<div class="wm-ui-article-content">
 				<p><?php echo $row['content']; ?></p>
 				<p><i>
-				News by <?php echo $row['author']; ?>
+				<?php
+				$checkacp=mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+				
+				$resultnewcreator = mysqli_query($checkacp, "SELECT * FROM account WHERE username = '" . $row['author'] . "'");
+				$rowscreator = mysqli_fetch_array($resultnewcreator);
+				
+				$resultneweditor = mysqli_query($checkacp, "SELECT * FROM account WHERE username = '" . $row['edited_by'] . "'");
+				$rowseditor = mysqli_fetch_array($resultneweditor);
+				?>
+				News by <a href="/ucp/profile.php?id=<?php echo $rowscreator['id']; ?>"><?php echo $row['author']; ?></a>
 				<?php
 				if(!empty($row['edited_by'])){
 					?>
-					(edited by <?php echo $row['edited_by']; ?>)
+					(edited by <a href="/ucp/profile.php?id=<?php echo $rowseditor['id']; ?>"><?php echo $row['edited_by']; ?></a>)
 					<?php
 				}
 				?>

@@ -175,10 +175,14 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			$result = mysqli_query($con,"SELECT * FROM `bugtracker` ORDER BY solved=0 DESC, date DESC LIMIT $offset, $total_records_per_page");
 			if($result->num_rows>0){
 				while($row = mysqli_fetch_array($result)){
+					$checkacp=mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+				
+					$resultbugcreator = mysqli_query($checkacp, "SELECT * FROM account WHERE username = '" . $row['author'] . "'");
+					$rowscreator = mysqli_fetch_array($resultbugcreator);
 					?>
 					<tr>
 					<th><?php echo $row['title']; ?></th>
-					<th><?php echo $row['author']; ?></th>
+					<th><a href="/ucp/profile.php?id=<?php echo $rowscreator['id']; ?>"><?php echo $row['author']; ?></a></th>
 					<th><?php echo $row['date']; ?></th>
 					<th><?php
 					if($row['solved']==1){

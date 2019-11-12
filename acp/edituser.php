@@ -220,6 +220,22 @@
 					</div>
 						<?php
 						header("refresh:5;url=acp.php");
+					}elseif(!is_numeric($_POST['reputation'])){
+						?>
+						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+						<div id="wm-error-page">
+						<center>
+							<p>
+								<font size="6">Empty field</font>
+							</p>
+							<p>
+								<font size="5">Field `reputation` cannot be empty.</font>
+							</p> 
+						</center>
+						</div>
+					</div>
+						<?php
+						header("refresh:5;url=acp.php");
 					}elseif(empty($_POST['email'])){
 						?>
 						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
@@ -297,7 +313,7 @@
 									}
 								}
 								
-								$updateuser = mysqli_query($checkacp,"UPDATE account SET username = '".$_POST['username']."', coins = '".$_POST['coins']."', posts = '".$_POST['posts']."', location = '".$_POST['location']."' WHERE id = '".$editid."'");
+								$updateuser = mysqli_query($checkacp,"UPDATE account SET username = '".$_POST['username']."', coins = '".$_POST['coins']."', posts = '".$_POST['posts']."', reputation = '".$_POST['reputation']."', location = '".$_POST['location']."' WHERE id = '".$editid."'");
 								
 								if($rowsedit['email']!=$_POST['email']){
 									$updatemail = mysqli_query($checkacp,"UPDATE account SET email = '".$_POST['email']."', mailactivated = '0' WHERE id = '".$editid."'");

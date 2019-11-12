@@ -171,7 +171,7 @@
 						$rowsgm = mysqli_fetch_array($resultgm);
 						
 						?>
-						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 450px;">
+						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 500px;">
 						<form action='/acp/edituser.php?id=<?php echo $rows['id']; ?>' method='POST'>
 						<span>ACCOUNT EDITOR</span>
 						<table>
@@ -245,9 +245,15 @@
 								<input type='text' id='posts' name='posts' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rows['posts']; ?>'/><br /><br>
 							</td>
 						</tr>
+						<tr>
+							<td>
+								<p>Reputation: </p>
+								<input type='text' id='reputation' name='reputation' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border' value='<?php echo $rows['reputation']; ?>'/><br /><br>
+							</td>
+						</tr>
 					</tbody></table>
 						</div>
-						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 450px;">
+						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 500px;">
 						<span>ACCOUNT EDITOR</span>
 						<table>
 						<tbody><tr>

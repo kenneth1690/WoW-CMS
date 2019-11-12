@@ -431,30 +431,38 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
-						<td>Community rank: 
+						<td>Community rank: <div class="tooltip">
 						<?php
 						if($rows['posts']>=0 && $rows['posts']<50){
 							?>
-							<font color="ffffff">Newbie</font>
+							<font color="ffffff">Newbie</font> <font color="1df701">(?)</font>
 							<?php
 						}elseif($rows['posts']>=50 && $rows['posts']<100){
 							?>
-							<font color="#1df701">Expert</font>
+							<font color="#1df701">Expert</font> <font color="1df701">(?)</font>
 							<?php
 						}elseif($rows['posts']>=100 && $rows['posts']<250){
 							?>
-							<font color="006dd7">Elite</font>
+							<font color="006dd7">Elite</font> <font color="1df701">(?)</font>
 							<?php
 						}elseif($rows['posts']>=250 && $rows['posts']<500){
 							?>
-							<font color="9e34e7">Legend</font>
+							<font color="9e34e7">Legend</font> <font color="1df701">(?)</font>
 							<?php
 						}elseif($rows['posts']>=500){
 							?>
-							<font color="f57b01">Senior</font>
+							<font color="f57b01">Senior</font> <font color="1df701">(?)</font>
 							<?php
 						}
 						?>
+							<span class="tooltiptext"><font color="FFE4B5">COMMUNITY RANK</font><br><br>
+							<font color="ffffff">Newbie</font> <font color="606060">0-49</font><br>
+							<font color="1df701">Expert</font> <font color="606060">50-99</font><br>
+							<font color="006dd7">Elite</font> <font color="606060">100-249</font><br>
+							<font color="9e34e7">Legend</font> <font color="606060">250-499</font><br>
+							<font color="f57b01">Senior</font> <font color="606060">500+</font>
+							</span>
+						</div>
 						</td>
 					</tr>
 					<tr>
@@ -474,12 +482,12 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						</td>
 					</tr>
 					<?php
-					if($resultgmmy && $rowsgmmy['gmlevel']>2){
+					if($resultgmmy && $rowsgmmy['gmlevel']>0){
 					?>
 					<tr>
 						<td>
-							<form action='/acp/managedetails.php?id=<?php echo $idcheck; ?>' method='POST'>
-								<input type='submit' value='MANAGE ACCOUNT' class='wm-ui-btn'/>
+							<form action='/acp/manageaccs.php?action=details&id=<?php echo $idcheck; ?>' method='POST'>
+								<input type='submit' value='ACCOUNT DETAILS' class='wm-ui-btn'/>
 							</form>
 						</td>
 					</tr>
