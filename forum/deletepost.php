@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 include("check.php");
 include('../config/config.php');
 
@@ -22,6 +23,25 @@ $id = $_SESSION['UID'];
 if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
     header("location: ../login.php");
 	exit;
+}elseif(isset($_SESSION["loggedin"])){
+		$nick = $_SESSION["loggedin"];
+		$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+		
+		$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+		$result = mysqli_query($checkacp,$sql);
+		$rows = mysqli_fetch_array($result);
+		
+		$idcheck = $rows['id'];
+		
+		$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+		$resultgm = mysqli_query($checkacp,$gm);
+		$rowsgm = mysqli_fetch_array($resultgm);
+		
+		if(!$rowsgm || $rowsgm['gmlevel']==0){
+			header("location: ../index.php");
+			exit;
+		}
+		mysqli_close($checkacp);
 }
 ?>
 <html lang="en" class="active"><head>
@@ -99,7 +119,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					?>
     	    		<li><a href="/forum/" class="active">Forum</a></li>
 					<li>></li>
-					<li><a href="#" class="active">Edit Content</a></li>
+					<li><a href="#" class="active">Delete Content</a></li>
             </ul>
     <ul>
         <li><?php
@@ -134,27 +154,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					$resultgm = mysqli_query($checkacp,$gm);
 					$rowsgm = mysqli_fetch_array($resultgm);
 					if(mysqli_num_rows($select)>0){
-						if(isset($_SESSION['loggedin'])) {
-							if($idcheck==$row['author_id'] || $rowsgm['gmlevel']>0){
-									echo "<form action='/forum/editconfpost.php?tid=".$_GET['tid']."' method='POST'>
-										  <p>Title: </p>
-										  <input type='text' id='topic' name='topic' value='".$row['title']."' size='40' maxlenght='30' class='wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border'/>
-										  <p>Content (HTML supported): </p>
-										  <textarea id='content' name='content' value='".$row['content']."' rows='14' cols='80' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
-										  <input type='submit' value='EDIT TOPIC' class='wm-ui-btn'/></form>";
-							}else{
-									?>
-									<center>
-									<p>
-										<font size="6">Cannot be edited</font>
-									</p>
-									<p>
-										<font size="5">This topic is not yours.</font>
-									</p> 
-									</center>
-									<?php
-							}
-						}
+						?>
+							<form action='deleteconfpost.php' method='POST'>
+								<input type="hidden" name="tid" id="tid" value="<?php echo $gettid;?>" />
+								<p>Are you sure you want to delete #<?php echo $gettid; ?> topic?</p>
+								<input type='submit' value="I'M SURE" class='wm-ui-btn'/>
+							</form>
+						<?php
 					}else{
 							?>
 									<center>
@@ -165,6 +171,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										<font size="5">Topic with that ID is not existing.</font>
 									</p> 
 									</center>
+									<?php header("refresh:5;url=index.php"); ?>
 									<?php
 					}
 			}elseif($_GET['pid']){
@@ -188,25 +195,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					$rowsgm = mysqli_fetch_array($resultgm);
 					
 					if(mysqli_num_rows($select)>0){
-						if(isset($_SESSION['loggedin'])) {
-							if($idcheck==$row['author_id'] || $rowsgm['gmlevel']>0){
-									echo "<form action='/forum/editconfpost.php?pid=".$_GET['pid']."' method='POST'>
-										  <p>Content (HTML supported): </p>
-										  <textarea id='comment' name='comment' value='".$row['comment']."' rows='14' cols='80' class='wm-ui-input-generic input-lg2 wm-ui-generic-frame wm-ui-all-border'></textarea><br /><br>
-										  <input type='submit' value='EDIT POST' class='wm-ui-btn'/></form>";
-							}else{
-									?>
-									<center>
-									<p>
-										<font size="6">Cannot be edited</font>
-									</p>
-									<p>
-										<font size="5">This post is not yours.</font>
-									</p> 
-									</center>
-									<?php
-							}
-						}
+						?>
+							<form action='deleteconfpost.php' method='POST'>
+								<input type="hidden" name="pid" id="pid" value="<?php echo $getpid;?>" />
+								<p>Are you sure you want to delete #<?php echo $getpid; ?> post?</p>
+								<input type='submit' value="I'M SURE" class='wm-ui-btn'/>
+							</form>
+						<?php
 					}else{
 							?>
 									<center>
@@ -217,6 +212,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										<font size="5">Post with that ID is not existing.</font>
 									</p> 
 									</center>
+									<?php header("refresh:5;url=index.php"); ?>
 									<?php
 					}
 			}else{

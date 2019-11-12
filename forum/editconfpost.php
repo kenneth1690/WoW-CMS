@@ -99,7 +99,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					?>
     	    		<li><a href="/forum/" class="active">Forum</a></li>
 					<li>></li>
-					<li><a href="#" class="active">Edit Post</a></li>
+					<li><a href="#" class="active">Edit Content</a></li>
             </ul>
     <ul>
         <li><?php
