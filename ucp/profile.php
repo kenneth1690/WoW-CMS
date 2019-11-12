@@ -1,0 +1,541 @@
+<?php
+session_start();
+
+include("check.php");
+include('../config/config.php');
+
+$conn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
+$qr1 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'sitename'");
+$qr2 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'siteonline'");
+$qr3 = mysqli_query($conn, "SELECT `conf_value` FROM `settings` WHERE `conf_key` = 'offlinemessage'");
+
+while($row = mysqli_fetch_array($qr1)){
+    $sitename = $row['conf_value'];
+}
+while($row = mysqli_fetch_array($qr2)){
+    $siteonline = $row['conf_value'];
+}
+while($row = mysqli_fetch_array($qr3)){
+    $offlinemessage = $row['conf_value'];
+}
+
+$id = $_SESSION['UID'];
+if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
+    header("location: ../login.php");
+	exit;
+}
+?>
+<html lang="en" class="active"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="csrf-token" content="MTk5MWNlNjFkMmYyOGE5YjM3OTYxZDEyMzQyYWE0MDU=">
+<meta name="robots" content="noodp, noydir">
+<meta name="google-site-verification" content="YW87KZKk-q94TWTgngHnf4ej3VUW3mWfFgznDZM_HB4">
+<meta name="Description" content="Private Server Community.">
+<meta name="Keywords" content="<?php echo $sitename; ?>, WoW, World of Warcraft, Warcraft, Private Server, Private WoW Server, WoW Server, Private WoW Server, wow private server, wow server, wotlk server, cataclysm private server, wow cata server, best free private server, largest private server, wotlk private server, blizzlike server, mists of pandaria, mop, cataclysm, cata, anti-cheat, sentinel anti-cheat, warden">
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+<title><?php echo $sitename; ?> | Profile</title>
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/ui.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/wm-contextmenu.css">
+</head>
+<body>
+<div class="navigation-wrapper">
+    <a href="/" class="navigation-logo"></a>
+    <div class="navigation">
+        <ul class="navbits">
+                        <li><a href="/ucp/ucp.php" title="Account Panel">ACCOUNT PANEL</a></li>
+                        <li><a href="/download.php" title="Download">DOWNLOAD</a></li>
+						<li><a href="/forum/index.php" title="Forum">FORUM</a></li>
+            <!--<li><a href="/information.php" title="Information">INFORMATION</a></li>-->
+						<li><a href="/armory/index.php" title="Armory">ARMORY</a></li>
+                        <li><a href="/logout.php" title="Logout">LOG OUT</a></li>
+                    </ul>        
+    </div>
+</div>
+<div id="page-frame">
+    <div class="lordaeron-render"></div>
+	<div class="frame-corners tl"></div>
+    <div class="frame-corners tr"></div>
+    <div class="leftmost-frame"></div>
+	<div class="header"></div>
+    <div class="center">
+        <iframe width="100%" height="100%" src="/images/bg3.jpg" frameborder="0" scrolling="no" allowfullscreen=""></iframe>
+    </div>
+    <div id="wm-theme-navigation"><a href="javascript:;" data-background="1"></a><a href="javascript:;" data-background="0"></a></div>
+    <div class="footer"></div>
+    <div class="rightmost-frame"></div>
+	<div class="frame-corners bl"></div>
+    <div class="frame-corners br"></div>
+</div>
+<div id="page-content-wrapper">
+	<div id="wm-ui-flash-message"></div>
+	<div class="frame-corners tl"></div>
+    <div class="frame-corners tr"></div>
+	<div class="header"></div>
+    <div class="center">
+        <div id="page-content">
+            
+
+<div id="page-navigation" class="wm-ui-generic-frame wm-ui-bottom-border">
+	<ul>
+		<li><a href="#" class="active"><i class="fas fa-user"></i> PROFILE</a></li>
+	</ul>
+	<ul>
+		<li>
+		<?php
+		$dt = new DateTime("now", new DateTimeZone('Europe/Warsaw'));
+		echo $dt->format('H:i');
+		?>
+		</li>
+    </ul>
+</div>
+
+<div id="content-wrapper">
+	<?php
+    if($_GET['id']){
+		$auth = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+		$getid = $_GET['id'];
+		$select = mysqli_query($auth, "SELECT * FROM `account` WHERE `id`='$getid'");
+		$row = mysqli_fetch_assoc($select);
+		if(mysqli_num_rows($select)>0){
+			$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+			
+			$sql= "SELECT * FROM account WHERE id = '" . $getid . "'";
+			$result = mysqli_query($checkacp,$sql);
+			$rows = mysqli_fetch_array($result);
+			
+			$idcheck = $rows['id'];
+			$ipcheck = $rows['last_ip'];
+			
+			$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
+			$resultgm = mysqli_query($checkacp,$gm);
+			$rowsgm = mysqli_fetch_array($resultgm);
+			
+			$ban= "SELECT * FROM account_banned WHERE id = '" . $idcheck . "' ORDER BY bandate DESC";
+			$resultban = mysqli_query($checkacp,$ban);
+			$rowsban = mysqli_fetch_array($resultban);
+			
+			$banip= "SELECT * FROM ip_banned WHERE ip = '" . $ipcheck . "' ORDER BY bandate DESC";
+			$resultbanip = mysqli_query($checkacp,$banip);
+			$rowsbanip = mysqli_fetch_array($resultbanip);
+			
+			$mute= "SELECT * FROM account_muted WHERE guid = '" . $idcheck . "' ORDER BY mutedate DESC LIMIT 1";
+			$resultmute = mysqli_query($checkacp,$mute);
+			$rowsmute = mysqli_fetch_array($resultmute);
+			
+			$bandate = date("F j, Y / H:i:s", $rowsban['bandate']);
+			$unbandate = date("F j, Y / H:i:s", $rowsban['unbandate']);
+			
+			$getbantime = new DateTime("now", new DateTimeZone('Europe/Warsaw'));
+			$banipdate = date("F j, Y / H:i:s", $rowsbanip['bandate']);
+			$unbanipdate = date("F j, Y / H:i:s", $rowsbanip['unbandate']);
+			
+			$mutedate = date("F j, Y / H:i:s", $rowsmute['mutedate']);
+			$finalmutedate = date("F j, Y / H:i:s", ($rowsmute['mutedate']+$rowsmute['mutetime']));
+
+			$mutedhowmuch = $rowsmute['mutedate']+$rowsmute['mutetime'];
+			
+			$unixjoin = strtotime($rows['joindate']);
+			$joindate = date("F j, Y", $unixjoin);
+			
+			$now = time();
+			$your_date = strtotime($rows['last_login']);
+			$datediff = $now - $your_date;
+			$esttime = round($datediff / (60 * 60 * 24));
+			?>
+			<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 350px;">
+				<span>ACCOUNT SUMMARY</span>
+				<table>
+					<tbody><tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>Looking at profile of  
+						<?php
+						if($rows['posts']>=0 && $rows['posts']<50){
+							?>
+							<font color="ffffff"><?php echo $rows['username']; ?></font>
+							<?php
+						}elseif($rows['posts']>=50 && $rows['posts']<100){
+							?>
+							<font color="#1df701"><?php echo $rows['username']; ?></font>
+							<?php
+						}elseif($rows['posts']>=100 && $rows['posts']<250){
+							?>
+							<font color="006dd7"><?php echo $rows['username']; ?></font>
+							<?php
+						}elseif($rows['posts']>=250 && $rows['posts']<500){
+							?>
+							<font color="9e34e7"><?php echo $rows['username']; ?></font>
+							<?php
+						}elseif($rows['posts']>=500){
+							?>
+							<font color="f57b01"><?php echo $rows['username']; ?></font>
+							<?php
+						}
+						if($rowsgm['gmlevel']==1){
+							?>
+							<font color="00ba0d">*Game Master*</font>
+							<?php
+						}elseif($rowsgm['gmlevel']==2){
+							?>
+							<font color="cf7c00">*Administrator*</font>
+							<?php
+						}elseif($rowsgm['gmlevel']==3){
+							?>
+							<font color="c70000">*Head Admin*</font>
+							<?php
+						}
+						?>
+						</td>
+					</tr>
+					<tr>
+						<td>Coins: <font color="gold"><?php echo $rows['coins']; ?></font></td>
+					</tr>
+					<tr>
+						<td>Posts: <font color="ffffff"><?php echo $rows['posts']; ?></font></td>
+					</tr>
+					<tr>
+						<td>Reputation: 
+						<?php
+						if($rows['reputation']>0){
+							?>
+							<font color="1df701"><?php echo $rows['reputation']; ?></font>
+							<?php
+						}elseif($rows['reputation']<0){
+							?>
+							<font color="red"><?php echo $rows['reputation']; ?></font>
+							<?php
+						}else{
+							?>
+							<font color="ffffff"><?php echo $rows['reputation']; ?></font>
+							<?php
+						}
+						?>
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>Email address: <font color="ffffff">
+						<?php
+						$gmmy1= "SELECT * FROM account WHERE username = '" . $_SESSION['loggedin'] . "'";
+						$resultgmmy1 = mysqli_query($auth,$gmmy1);
+						$rowsgmmy1 = mysqli_fetch_array($resultgmmy1);
+						
+						$gmmy= "SELECT * FROM account_access WHERE id = '" . $rowsgmmy1['id'] . "'";
+						$resultgmmy = mysqli_query($auth,$gmmy);
+						$rowsgmmy = mysqli_fetch_array($resultgmmy);
+						
+						if($resultgmmy && $rowsgmmy['gmlevel']>0){
+							?>
+							<font color="ffffff"><?php echo $rows['email']; ?></font>
+							<?php
+						}else{
+							?>
+							<font color="ffffff">*Only staff members can see emails*</font>
+							<?php
+						}
+						?>
+						</font></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>Avatar:<br><img src="/uploads/avatars/<?php echo $rows['avatar']; ?>" width="100px" height="100px"></td>
+					</tr>
+				</tbody></table>
+			</div>
+			<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 350px;">
+				<span>ACCOUNT DETAILS</span>
+				<table>
+					<tbody><tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>Account status: 
+						<?php
+						if((($rowsban && ($rowsban['active']=='1')) || ($resultbanip && $rowsbanip['unbandate'])) && !($resultmute && $rowsmute['mutedate'])){ 
+						?>
+						<div class="tooltip"><span class="q1"><font color="f57b01">Banned</font> <font color="red">(?)</font>
+							<span class="tooltiptext"><font color="FFE4B5">ACCOUNT STATUS</font><br><br><font color="9e34e7">Muted:</font> <font color="1df701">no</font><br>
+							<?php
+							if($resultbanip && $rowsbanip['unbandate']){
+								if($rowsbanip['bandate'] == $rowsbanip['unbandate']){
+									?>
+									<font color="f57b01">Banned:</font> <font color="red">yes (address IP)</font><br>
+									<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsbanip['banreason']; ?></font><br>
+									<font color="f57b01">*Date:</font> <font color="red"><?php echo $banipdate; ?></font><br>
+									<font color="f57b01">*Expires:</font> <font color="red">never</font><br>
+									<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsbanip['bannedby']; ?></font>
+									<?php
+								}else{
+									?>
+									<font color="f57b01">Banned:</font> <font color="red">yes (address IP)</font><br>
+									<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsbanip['banreason']; ?></font><br>
+									<font color="f57b01">*Date:</font> <font color="red"><?php echo $banipdate; ?></font><br>
+									<font color="f57b01">*Expires:</font> <font color="red"><?php echo $unbanipdate; ?></font><br>
+									<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsbanip['bannedby']; ?></font>
+								<?php
+								}
+							}elseif(($resultban && ($rowsban['active']=='1')) && !($resultbanip && ($rowsbanip['unbandate']>=$getbantime))){
+								if($rowsban['bandate'] == $rowsban['unbandate']){
+									?>
+									<font color="f57b01">Banned:</font> <font color="red">yes (account)</font><br>
+									<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsban['banreason']; ?></font><br>
+									<font color="f57b01">*Date:</font> <font color="red"><?php echo $bandate; ?></font><br>
+									<font color="f57b01">*Expires:</font> <font color="red">never</font><br>
+									<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsban['bannedby']; ?></font>
+									<?php
+								}else{
+									?>
+									<font color="f57b01">Banned:</font> <font color="red">yes (account)</font><br>
+									<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsban['banreason']; ?></font><br>
+									<font color="f57b01">*Date:</font> <font color="red"><?php echo $bandate; ?></font><br>
+									<font color="f57b01">*Expires:</font> <font color="red"><?php echo $unbandate; ?></font><br>
+									<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsban['bannedby']; ?></font>
+								<?php
+								}
+							}
+							?>
+							</span>
+						</div>
+						<?php
+						}elseif(($resultmute && $mutedhowmuch>time()) && !(($rowsban && ($rowsban['active']=='1')) || ($resultbanip && $rowsbanip['unbandate']))){
+						?>
+						<div class="tooltip"><span class="q1"><font color="9e34e7">Muted</font> <font color="red">(?)</font>
+							<span class="tooltiptext"><font color="FFE4B5">ACCOUNT STATUS</font><br><br><font color="9e34e7">Muted:</font> <font color="red">yes</font><br>
+							<font color="9e34e7">*Reason:</font> <font color="red"><?php echo $rowsmute['mutereason']; ?></font><br>
+							<?php
+							if($rowsmute['mutetime']=='0'){
+								?>
+								<font color="9e34e7">*Date:</font> <font color="red"><?php echo $mutedate; ?></font><br>
+								<font color="9e34e7">*Expires:</font> <font color="red">never</font><br>
+								<?php
+							}else{
+								?>
+							<font color="9e34e7">*Date:</font> <font color="red"><?php echo $mutedate; ?></font><br>
+							<font color="9e34e7">*Expires:</font> <font color="red"><?php echo $finalmutedate; ?></font><br>
+							<?php
+							}
+							?>
+							<font color="9e34e7">*Muted by:</font> <font color="red"><?php echo $rowsmute['mutedby']; ?></font><br>
+							<font color="f57b01">Banned:</font> <font color="1df701">no</font>
+							</span>
+						</div>
+						<?php
+						}elseif(($resultmute && $mutedhowmuch>time()) && (($resultban && ($rowsban['active']=='1')) || ($resultbanip && $rowsbanip['unbandate']))){
+						?>
+						<div class="tooltip"><font color="9e34e7">Muted</font> <font color="white">&</font> <font color="f57b01">Banned</font> <font color="red">(?)</font>
+							<span class="tooltiptext"><font color="FFE4B5">ACCOUNT STATUS</font><br><br><font color="9e34e7">Muted:</font> <font color="red">yes</font><br>
+							<font color="9e34e7">*Reason:</font> <font color="red"><?php echo $rowsmute['mutereason']; ?></font><br>
+							<?php
+							if($rowsmute['mutetime']=='0'){
+								?>
+								<font color="9e34e7">*Date:</font> <font color="red"><?php echo $mutedate; ?></font><br>
+								<font color="9e34e7">*Expires:</font> <font color="red">never</font><br>
+								<?php
+							}else{
+								?>
+							<font color="9e34e7">*Date:</font> <font color="red"><?php echo $mutedate; ?></font><br>
+							<font color="9e34e7">*Expires:</font> <font color="red"><?php echo $finalmutedate; ?></font><br>
+							<?php
+							}
+							?>
+							<font color="9e34e7">*Muted by:</font> <font color="red"><?php echo $rowsmute['mutedby']; ?></font><br>
+							<?php
+							if($resultbanip && $rowsbanip['unbandate']){
+								if($rowsbanip['bandate'] == $rowsbanip['unbandate']){
+									?>
+									<font color="f57b01">Banned:</font> <font color="red">yes (address IP)</font><br>
+									<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsbanip['banreason']; ?></font><br>
+									<font color="f57b01">*Date:</font> <font color="red"><?php echo $banipdate; ?></font><br>
+									<font color="f57b01">*Expires:</font> <font color="red">never</font><br>
+									<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsbanip['bannedby']; ?></font>
+									<?php
+								}else{
+									?>
+									<font color="f57b01">Banned:</font> <font color="red">yes (address IP)</font><br>
+									<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsbanip['banreason']; ?></font><br>
+									<font color="f57b01">*Date:</font> <font color="red"><?php echo $banipdate; ?></font><br>
+									<font color="f57b01">*Expires:</font> <font color="red"><?php echo $unbanipdate; ?></font><br>
+									<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsbanip['bannedby']; ?></font>
+								<?php
+								}
+							}elseif(($resultban && ($rowsban['active']=='1')) && !($resultbanip && ($rowsbanip['unbandate']>=$getbantime))){
+								if($rowsban['bandate'] == $rowsban['unbandate']){
+									?>
+									<font color="f57b01">Banned:</font> <font color="red">yes (account)</font><br>
+									<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsban['banreason']; ?></font><br>
+									<font color="f57b01">*Date:</font> <font color="red"><?php echo $bandate; ?></font><br>
+									<font color="f57b01">*Expires:</font> <font color="red">never</font><br>
+									<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsban['bannedby']; ?></font>
+									<?php
+								}else{
+									?>
+									<font color="f57b01">Banned:</font> <font color="red">yes (account)</font><br>
+									<font color="f57b01">*Reason:</font> <font color="red"><?php echo $rowsban['banreason']; ?></font><br>
+									<font color="f57b01">*Date:</font> <font color="red"><?php echo $bandate; ?></font><br>
+									<font color="f57b01">*Expires:</font> <font color="red"><?php echo $unbandate; ?></font><br>
+									<font color="f57b01">*Banned by:</font> <font color="red"><?php echo $rowsban['bannedby']; ?></font>
+								<?php
+								}
+							}
+							?>
+						</div>
+						<?php
+						}else{
+						?>
+						<div class="tooltip"><font color="white">In good standing</font> <font color="1df701">(?)</font>
+							<span class="tooltiptext"><font color="FFE4B5">ACCOUNT STATUS</font><br><br><font color="9e34e7">Muted:</font> <font color="1df701">no</font><br><font color="f57b01">Banned:</font> <font color="1df701">no</font></span>
+						</div>
+						<?php
+						}
+						?>
+						</td>
+					</tr>
+					<?php
+					/*if($rowsgm){ 
+					?>
+					<tr>
+						<td>GM Level: <span><?php echo $rowsgm['gmlevel']; ?></span></td>
+					</tr>
+					<?php
+					}*/
+					?>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>Join date: <?php echo $joindate; ?></td>
+					</tr>
+					<tr>
+						<td>Last seen (in-game): <?php 
+						if($esttime==0){ 
+							?>Today from <?php echo $rows['last_ip'];
+						}elseif($esttime==1){
+							?>Yesterday from <?php echo $rows['last_ip'];
+						}elseif($esttime>18080){
+							?>Never<?php
+						}else{
+							echo $esttime;
+							?> days ago from <?php echo $rows['last_ip'];
+						}
+						?>
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>Community rank: 
+						<?php
+						if($rows['posts']>=0 && $rows['posts']<50){
+							?>
+							<font color="ffffff">Newbie</font>
+							<?php
+						}elseif($rows['posts']>=50 && $rows['posts']<100){
+							?>
+							<font color="#1df701">Expert</font>
+							<?php
+						}elseif($rows['posts']>=100 && $rows['posts']<250){
+							?>
+							<font color="006dd7">Elite</font>
+							<?php
+						}elseif($rows['posts']>=250 && $rows['posts']<500){
+							?>
+							<font color="9e34e7">Legend</font>
+							<?php
+						}elseif($rows['posts']>=500){
+							?>
+							<font color="f57b01">Senior</font>
+							<?php
+						}
+						?>
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>Location: <font color="ffffff"><?php echo $rows['location']; ?></font></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>
+							<form action='/ucp/sendmessage.php?id=<?php echo $idcheck; ?>' method='POST'>
+								<input type='submit' value='WRITE A MESSAGE' class='wm-ui-btn'/>
+							</form>
+						</td>
+					</tr>
+					<?php
+					if($resultgmmy && $rowsgmmy['gmlevel']>2){
+					?>
+					<tr>
+						<td>
+							<form action='/acp/managedetails.php?id=<?php echo $idcheck; ?>' method='POST'>
+								<input type='submit' value='MANAGE ACCOUNT' class='wm-ui-btn'/>
+							</form>
+						</td>
+					</tr>
+					<?php
+					}
+					?>
+				</tbody></table>
+			</div>
+			<?php
+		}else{
+			?>
+			<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+				<div id="wm-error-page">
+					<center>
+					<p>
+						<font size="6">Something is wrong</font>
+					</p>
+					<p>
+						<font size="5">User with that ID is not existing.</font>
+					</p> 
+					</center>
+				</div>
+			</div>
+			<?php
+		}
+	}else{
+		?>
+			<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+				<div id="wm-error-page">
+					<center>
+					<p>
+						<font size="6">No action choosed</font>
+					</p>
+					<p>
+						<font size="5">You have not selected an action.</font>
+					</p> 
+					</center>
+				</div>
+			</div>
+		<?php header("refresh:5;url=index.php"); ?>
+	<?php
+	}
+	?>
+</div>
+
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="footer"></div>
+	<div class="frame-corners bl"></div>
+    <div class="frame-corners br"></div>
+</div>
+
+<div id="page-footer">
+	Copyright ][ <?php echo $sitename; ?> ][ 2019. All Rights Reserved.
+</div>
+
+
+</body></html>
