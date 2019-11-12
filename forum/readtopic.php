@@ -443,7 +443,14 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 				</center></th>
 				<th><span style="float:right; text-align: right;">
 				<?php
-				if($idcheck==$row['author_id'] || $rowsgmmy>0){
+				if($idcheck!=$row['author_id']){
+					?>
+					<a href="/forum/likepost.php?pid=<?php echo $row['reply_id']; ?>">Like</a> / 
+					<?php
+				}
+				?>
+				<?php
+				if($idcheck==$row['author_id'] || $rowsgmmy['gmlevel']>0){
 					?>
 					<a href="/forum/editpost.php?pid=<?php echo $row['reply_id']; ?>">Edit</a> / 
 					<?php
