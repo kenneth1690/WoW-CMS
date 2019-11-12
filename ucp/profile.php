@@ -191,9 +191,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						</td>
 					</tr>
 					<tr>
-						<td>Coins: <font color="gold"><?php echo $rows['coins']; ?></font></td>
-					</tr>
-					<tr>
 						<td>Posts: <font color="ffffff"><?php echo $rows['posts']; ?></font></td>
 					</tr>
 					<tr>
