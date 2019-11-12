@@ -143,6 +143,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					$username = $rows['username'];
 					$idcheck = $rows['id'];
 					$title = $row['title'];
+					$id = $rows['id'];
 					
 					if(mysqli_num_rows($select)>0){
 						if(isset($_SESSION['loggedin'])) {
@@ -156,7 +157,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 									$resultrep = mysqli_query($checkacp,$sqlrep);
 									$rowrep = mysqli_fetch_array($resultrep);
 									$giverep = mysqli_query($checkacp, "UPDATE account SET reputation = reputation+1 WHERE id = '".$rowrep['id']."'");
-									$sendnoti = mysqli_query($con, "INSERT INTO notifications (`title`, `notification`, `user`) VALUES ('Reputation update', 'User ".$username." actually liked your topic with TID: ".$gettid."!', '".$rowrep['id']."')");
+									$sendnoti = mysqli_query($con, "INSERT INTO notifications (`title`, `notification`, `user`) VALUES ('Reputation update', 'User <a href=/ucp/profile.php?id=".$id.">".$username."</a> actually liked your topic with TID: ".$gettid."!', '".$rowrep['id']."')");
 									?>
 									<center>
 									<p>
