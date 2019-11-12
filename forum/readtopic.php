@@ -305,6 +305,13 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 					<?php
 				}
 				?>
+				<?php
+				if($rowsgmmy['gmlevel']>0){
+					?>
+					<a href="/forum/deletepost.php?tid=<?php echo $_GET['tid']; ?>">Delete</a> / 
+					<?php
+				}
+				?>
 				Posted date: <?php echo $row['date_posted']; ?>
 				<?php
 				if(!is_null($row['edited_by']) && !is_null($row['edited_date'])){
@@ -476,6 +483,13 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 				if($idcheck==$row['author_id'] || $rowsgmmy['gmlevel']>0){
 					?>
 					<a href="/forum/editpost.php?pid=<?php echo $row['reply_id']; ?>">Edit</a> / 
+					<?php
+				}
+				?>
+				<?php
+				if($rowsgmmy['gmlevel']>0){
+					?>
+					<a href="/forum/deletepost.php?pid=<?php echo $row['reply_id']; ?>">Delete</a> / 
 					<?php
 				}
 				?>
