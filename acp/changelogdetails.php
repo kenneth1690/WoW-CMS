@@ -173,6 +173,13 @@
 					$resultgm = mysqli_query($checkacp,$gm);
 					$rowsgm = mysqli_fetch_array($resultgm);
 					
+					$checkacp=mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+				
+					$resultchangescreator = mysqli_query($checkacp, "SELECT * FROM account WHERE username = '" . $rowscms['author'] . "'");
+					$rowscreator = mysqli_fetch_array($resultchangescreator);
+					
+					$resultchangeseditor = mysqli_query($checkacp, "SELECT * FROM account WHERE username = '" . $rowscms['edited_by'] . "'");
+					$rowseditor = mysqli_fetch_array($resultchangeseditor);
 					
 					if($rowscms['id']==$chgsid){
 						?>
@@ -191,7 +198,7 @@
 											<td>&nbsp;</td>
 										</tr>
 										<tr>
-											<td>Author:<br><font color="white"><?php echo $rowscms['author']; ?></font></td>
+											<td>Author:<br><a href="/ucp/profile.php?id=<?php echo $rowscreator['id']; ?>"><font color="white"><?php echo $rowscms['author']; ?></font></a></td>
 										</tr>
 										<tr>
 											<td>&nbsp;</td>
@@ -216,7 +223,19 @@
 											<td>&nbsp;</td>
 										</tr>
 										<tr>
-											<td>Edited by:<br><font color="white"><?php if(empty($rowscms['edited_by'])){ echo "---"; }else{ echo $rowscms['edited_by'];} ?></font></td>
+											<td>Edited by:<br><font color="white">
+											<?php
+											if(empty($rowscms['edited_by'])){
+												?>
+												<font color="ffffff">---</font>
+												<?php
+											}else{
+												?>
+												<a href="/ucp/profile.php?id=<?php echo $rowseditor['id']; ?>"><font color="ffffff"><?php echo $rowscms['edited_by']; ?></font></a>
+												<?php
+											}
+											?>
+											</td>
 										</tr>
 										<tr>
 											<td>&nbsp;</td>

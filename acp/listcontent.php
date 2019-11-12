@@ -267,9 +267,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				$result = mysqli_query($cmsconn,"SELECT * FROM `news` ORDER BY date DESC LIMIT $offset, $total_records_per_page");
 				if($result->num_rows>0){
 					while($row = mysqli_fetch_array($result)){
+						$checkacp=mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+				
+						$resultnewcreator = mysqli_query($checkacp, "SELECT * FROM account WHERE username = '" . $row['author'] . "'");
+						$rowscreator = mysqli_fetch_array($resultnewcreator);
 						echo "<tr>
 						<th>News ID #".$row['id']."</th>
-						<th>".$row['author']."</th>
+						<th><a href=/ucp/profile.php?id=".$rowscreator['id'].">".$row['author']."</a></th>
 						<th>".$row['date']."</th>
 						<th><a href='newsdetails.php?newsid=".$row['id']."'>Details</a> / <a href='editnews.php?newsid=".$row['id']."'>Edit</a> / <a href='delnews.php?newsid=".$row['id']."'>Delete</a></th>
 						</tr>";
@@ -403,9 +407,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				$result = mysqli_query($cmsconn,"SELECT * FROM `changelogs` ORDER BY date DESC LIMIT $offset, $total_records_per_page");
 				if($result->num_rows>0){
 					while($row = mysqli_fetch_array($result)){
+						$checkacp=mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+				
+						$resultnewcreator = mysqli_query($checkacp, "SELECT * FROM account WHERE username = '" . $row['author'] . "'");
+						$rowscreator = mysqli_fetch_array($resultnewcreator);
 						echo "<tr>
 						<th>Changelog ID #".$row['id']."</th>
-						<th>".$row['author']."</th>
+						<th><a href=/ucp/profile.php?id=".$rowscreator['id'].">".$row['author']."</a></th>
 						<th>".$row['date']."</th>
 						<th><a href='changelogdetails.php?chgsid=".$row['id']."'>Details</a> / <a href='editchangelog.php?chgsid=".$row['id']."'>Edit</a> / <a href='delchangelog.php?chgsid=".$row['id']."'>Delete</a></th>
 						</tr>";
