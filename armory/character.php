@@ -130,11 +130,18 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 								$money = intval($money%10000);
 								$silver = intval($money/100);
 								$copper = intval($money%100);
+								
+								$checkacp = mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+								$resowner = mysqli_query($checkacp, 'SELECT * FROM account WHERE id="'.$rowschar['account'].'"');
+								$rowsowner = mysqli_fetch_array($resowner);
 								?>
 								<span>CHARACTER DETAILS</span>
 								<table>
 									<tbody><tr>
 										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>Owner: <a href="/ucp/profile.php?id=<?php echo $rowsowner['id']; ?>"><font color="white"><?php echo $rowsowner['username']; ?></font></a></td>
 									</tr>
 									<tr>
 										<td>Name: <font color="white"><?php echo $rowschar['name']; ?></font> (ID: <font color="white"><?php echo $rowschar['guid']; ?></font>)</td>

@@ -293,7 +293,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										<?php
 									}
 									?>
-									<a href="/ucp/profile.php?id=<?php echo $row['id']; ?>">
+									<a href="/ucp/profile.php?id=<?php echo $rowsauthor['id']; ?>">
 									<?php
 									if($rowsauthor['posts']>=0 && $rowsauthor['posts']<50){
 										?>
