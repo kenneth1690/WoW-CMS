@@ -136,7 +136,7 @@ while($row = mysqli_fetch_array($qr5)){
                 <td>- Start the game client using WoW.exe, not Launcher.exe</td>
             </tr>
             <tr>
-                <td>- Log in using your <?php echo $realmname; ?> account name, not email address</td>
+                <td>- Log in using your <?php echo $sitename; ?> account name, not email address</td>
             </tr>
             <tr>
                 <td>&nbsp;</td>

@@ -12,6 +12,7 @@
 ALTER TABLE `account`
 ADD `coins` INT(255) NOT NULL DEFAULT '0',
 ADD `posts` INT(255) NOT NULL DEFAULT '0',
+ADD `reputation` INT(255) NOT NULL DEFAULT '0',
 ADD `avatar` VARCHAR(255) NOT NULL DEFAULT 'no-avatar.png',
 ADD `mailactivated` INT(11) NOT NULL DEFAULT '0',
 ADD `location` VARCHAR(255) NOT NULL DEFAULT 'Unknown',

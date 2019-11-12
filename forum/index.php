@@ -91,6 +91,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                         <li><a href="/download.php" title="Download">DOWNLOAD</a></li>
 						<li><a href="/forum/index.php" title="Forum">FORUM</a></li>
             <!--<li><a href="/information.php" title="Information">INFORMATION</a></li>-->
+						<li><a href="/armory/index.php" title="Armory">ARMORY</a></li>
                         <?php
 						if(isset($_SESSION["loggedin"]) && !empty($_SESSION["loggedin"])){
 							?><li><a href="/logout.php" title="Logout">LOG OUT</a></li><?php
