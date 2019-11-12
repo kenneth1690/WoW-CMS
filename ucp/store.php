@@ -225,7 +225,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				if(isset($_GET['type'])){
 					$type = $_GET['type'];
             		
-						if($type==1 || $type==2){
+						if($type==1 || $type==2 || $type==3){
 							?>
 							
 							<?php
@@ -272,9 +272,23 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 							<td>&nbsp;</td>
 						</tr>
 						<tr>
+							<td>IN-GAME</td>
+						</tr>
+						<tr>
 							<td>
 								<font color="1df701">Free</font> (<a href="store.php?action=showstores&type=1"><font color="lightgreen">Select</font></a>)<br>
-								<font color="f57b01">Paid</font> (<a href="store.php?action=showstores&type=2"><font color="lightgreen">Select</font></a>)<br>
+								<font color="f57b01">Coins</font> (<a href="store.php?action=showstores&type=2"><font color="lightgreen">Select</font></a>)<br>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td>OTHERS</td>
+						</tr>
+						<tr>
+							<td>
+								<font color="1df701">Services</font> (<a href="store.php?action=showstores&type=3"><font color="lightgreen">Select</font></a>)<br>
 							</td>
 						</tr>
 						<tr>
