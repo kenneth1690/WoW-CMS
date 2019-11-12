@@ -220,7 +220,9 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 						<font color="c70000">Head Admin</font><br>
 						<?php
 					}
-					
+					?>
+					<a href="/ucp/profile.php?id=<?php echo $rowsauthor['id']; ?>">
+					<?php
 					if($rowsauthor['posts']>=0 && $rowsauthor['posts']<50){
 						?>
 						<font color="ffffff"><?php echo $rowsauthor['username']; ?></font>
@@ -241,7 +243,8 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 						?><font color="f57b01"><?php echo $rowsauthor['username']; ?></font><?php
 					}
 					?>
-					<br><img src="/uploads/avatars/<?php echo $rowsauthor['avatar']; ?>" width="100px" height="100px"><br>
+					<br><img src="/uploads/avatars/<?php echo $rowsauthor['avatar']; ?>" width="100px" height="100px">
+					</a><br>
 					Rank: 
 					<?php
 					if($rowsauthor['posts']>=0 && $rowsauthor['posts']<50){
@@ -402,7 +405,9 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 						<font color="c70000">Head Admin</font><br>
 						<?php
 					}
-					
+					?>
+					<a href="/ucp/profile.php?id=<?php echo $rowsauthor['id']; ?>">
+					<?php
 					if($rowsauthor['posts']>=0 && $rowsauthor['posts']<50){
 						?>
 						<font color="ffffff"><?php echo $row['author']; ?></font>
@@ -423,7 +428,8 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 						?><font color="f57b01"><?php echo $row['author']; ?></font><?php
 					}
 					?>
-				<br><img src="/uploads/avatars/<?php echo $avatar; ?>" width="100px" height="100px"><br>
+				<br><img src="/uploads/avatars/<?php echo $avatar; ?>" width="100px" height="100px">
+				</a><br>
 				Rank: 
 				<?php
 				if($rowsauthor['posts']>=0 && $rowsauthor['posts']<50){
