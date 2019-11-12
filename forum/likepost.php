@@ -152,6 +152,11 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 								if(mysqli_num_rows($checklike)==0){
 									$insertlog = mysqli_query($con, "INSERT INTO logs_forum (`logger`, `logger_id`, `logdetails`, `logdate`) VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', 'REPUTATION: Liked topic `".$title."` by ".$username.". (TID: ".$gettid.")', NOW());");
 									mysqli_query($con, "INSERT INTO likes (`giving_id`, `receiving_id`, `type`, `tidorpid`, `tid`) VALUES ('$idcheck', '$author_id', '1', '0', '$gettid');");
+									$sqlrep = "SELECT * FROM account WHERE id = '" . $row['author_id'] . "'";
+									$resultrep = mysqli_query($checkacp,$sqlrep);
+									$rowrep = mysqli_fetch_array($resultrep);
+									$giverep = mysqli_query($checkacp, "UPDATE account SET reputation = reputation+1 WHERE id = '".$rowrep['id']."'");
+									$sendnoti = mysqli_query($con, "INSERT INTO notifications (`title`, `notification`, `user`) VALUES ('Reputation update', 'User ".$username." actually liked your topic with TID: ".$gettid."!', '".$rowrep['id']."')");
 									?>
 									<center>
 									<p>
@@ -166,6 +171,10 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 								}else{
 									$insertlog = mysqli_query($con, "INSERT INTO logs_forum (`logger`, `logger_id`, `logdetails`, `logdate`) VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', 'REPUTATION: Unliked topic `".$title."` by ".$username.". (TID: ".$gettid.")', NOW());");
 									mysqli_query($con, "DELETE FROM likes WHERE `giving_id`='$idcheck' AND `tidorpid`='0' AND `tid`='$gettid'");
+									$sqlrep = "SELECT * FROM account WHERE id = '" . $row['author_id'] . "'";
+									$resultrep = mysqli_query($checkacp,$sqlrep);
+									$rowrep = mysqli_fetch_array($resultrep);
+									$giverep = mysqli_query($checkacp, "UPDATE account SET reputation = reputation-1 WHERE id = '".$rowrep['id']."'");
 									?>
 									<center>
 									<p>
@@ -230,6 +239,11 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 								if(mysqli_num_rows($checklike)==0){
 									$insertlog = mysqli_query($con, "INSERT INTO logs_forum (`logger`, `logger_id`, `logdetails`, `logdate`) VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', 'REPUTATION: Liked post by ".$username.". (PID: ".$getpid.")', NOW());");
 									mysqli_query($con, "INSERT INTO likes (`giving_id`, `receiving_id`, `type`, `tidorpid`, `pid`) VALUES ('$idcheck', '$author_id', '1', '1', '$getpid');");
+									$sqlrep = "SELECT * FROM account WHERE id = '" . $row['author_id'] . "'";
+									$resultrep = mysqli_query($checkacp,$sqlrep);
+									$rowrep = mysqli_fetch_array($resultrep);
+									$giverep = mysqli_query($checkacp, "UPDATE account SET reputation = reputation+1 WHERE id = '".$rowrep['id']."'");
+									$sendnoti = mysqli_query($con, "INSERT INTO notifications (`title`, `notification`, `user`) VALUES ('Reputation update', 'User ".$username." actually liked your post with PID: ".$getpid."!', '".$rowrep['id']."')");
 									?>
 									<center>
 									<p>
@@ -244,6 +258,10 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 								}else{
 									$insertlog = mysqli_query($con, "INSERT INTO logs_forum (`logger`, `logger_id`, `logdetails`, `logdate`) VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', 'REPUTATION: Unliked post by ".$username.". (PID: ".$getpid.")', NOW());");
 									mysqli_query($con, "DELETE FROM likes WHERE `giving_id`='$idcheck' AND `tidorpid`='1' AND `pid`='$getpid'");
+									$sqlrep = "SELECT * FROM account WHERE id = '" . $row['author_id'] . "'";
+									$resultrep = mysqli_query($checkacp,$sqlrep);
+									$rowrep = mysqli_fetch_array($resultrep);
+									$giverep = mysqli_query($checkacp, "UPDATE account SET reputation = reputation-1 WHERE id = '".$rowrep['id']."'");
 									?>
 									<center>
 									<p>
