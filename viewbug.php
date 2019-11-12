@@ -152,6 +152,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                 $checkbug = mysqli_query($conn, 'SELECT * FROM bugtracker WHERE id="'.$bugid.'"');
                 if(mysqli_num_rows($checkbug)>0){
 					$rowbug = mysqli_fetch_array($checkbug);
+					$checkacp=mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+				
+					$resultbugcreator = mysqli_query($checkacp, "SELECT * FROM account WHERE username = '" . $rowbug['author'] . "'");
+					$rowscreator = mysqli_fetch_array($resultbugcreator);
+					
+					$resultbugsolver = mysqli_query($checkacp, "SELECT * FROM account WHERE username = '" . $rowbug['solved_by'] . "'");
+					$rowssolver = mysqli_fetch_array($resultbugsolver);
                     ?>
                             <div id="content-wrapper">
 								<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: auto;">
@@ -174,7 +181,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 											<td>&nbsp;</td>
 										</tr>
 										<tr>
-											<td>Author:<br><font color="white"><?php echo $rowbug['author']; ?></font></td>
+											<td>Author:<br><a href="/ucp/profile.php?id=<?php echo $rowscreator['id']; ?>"><font color="white"><?php echo $rowbug['author']; ?></font></a></td>
 										</tr>
 										<tr>
 											<td>&nbsp;</td>
@@ -199,7 +206,19 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 											<td>&nbsp;</td>
 										</tr>
 										<tr>
-											<td>Solved by:<br><font color="white"><?php if(empty($rowbug['solved_by'])){ echo "---"; }else{ echo $rowbug['solved_by'];} ?></font></td>
+											<td>Solved by:<br><font color="white">
+											<?php
+											if(empty($rowbug['solved_by'])){
+												?>
+												<font color="ffffff">---</font>
+												<?php
+											}else{
+												?>
+												<a href="/ucp/profile.php?id=<?php echo $rowssolver['id']; ?>"><font color="ffffff"><?php echo $rowbug['solved_by']; ?></font></a>
+												<?php
+											}
+											?>
+											</td>
 										</tr>
 										<tr>
 											<td>&nbsp;</td>
