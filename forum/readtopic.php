@@ -318,8 +318,12 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 				Posted date: <?php echo $row['date_posted']; ?>
 				<?php
 				if(!is_null($row['edited_by']) && !is_null($row['edited_date'])){
+					$checkacp=mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+				
+					$resultconeditor = mysqli_query($checkacp, "SELECT * FROM account WHERE username = '" . $row['edited_by'] . "'");
+					$rowseditor = mysqli_fetch_array($resultconeditor);
 					?>
-					 / Edited <?php echo $row['edited_date']; ?> by <?php echo $row['edited_by']; ?>
+					/ Edited <?php echo $row['edited_date']; ?> by <a href="/ucp/profile.php?id=<?php echo $rowseditor['id']; ?>"><?php echo $row['edited_by']; ?></a>
 					<?php
 				}
 				?>
@@ -502,8 +506,12 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 				Posted date: <?php echo $row['date_posted']; ?>
 				<?php
 				if(!is_null($row['edited_by']) && !is_null($row['edited_date'])){
+					$checkacp=mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
+				
+					$resultconeditor = mysqli_query($checkacp, "SELECT * FROM account WHERE username = '" . $row['edited_by'] . "'");
+					$rowseditor = mysqli_fetch_array($resultconeditor);
 					?>
-					/ Edited <?php echo $row['edited_date']; ?> by <?php echo $row['edited_by']; ?>
+					/ Edited <?php echo $row['edited_date']; ?> by <a href="/ucp/profile.php?id=<?php echo $rowseditor['id']; ?>"><?php echo $row['edited_by']; ?></a>
 					<?php
 				}
 				?>
