@@ -292,7 +292,9 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										<font color="c70000">Head Admin</font><br>
 										<?php
 									}
-									
+									?>
+									<a href="/ucp/profile.php?id=<?php echo $row['id']; ?>">
+									<?php
 									if($rowsauthor['posts']>=0 && $rowsauthor['posts']<50){
 										?>
 										<font color="ffffff"><?php echo $row['author']; ?></font>
@@ -314,6 +316,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 									}
 									?>
 								<br><img src="/uploads/avatars/<?php echo $avatar; ?>" width="100px" height="100px">
+								</a>
 								<?php
 								if($idcheck==$row['author_id']){
 								?>

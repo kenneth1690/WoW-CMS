@@ -296,7 +296,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td>Last lottery winner: <font color="ffffff"><?php echo $rowswinlast['username']; ?></td>
+				<td>Last lottery winner: <a href="/ucp/profile.php?id=<?php echo $rowswinlast['id']; ?>"><font color="ffffff"><?php echo $rowswinlast['username']; ?></font></a></td>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
@@ -338,7 +338,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 								$resultwinner = mysqli_query($checkacp,$sqlwinner);
 								$rowwinner = mysqli_fetch_array($resultwinner);
 								?>
-								<th><?php echo $rowwinner['username']; ?></th>
+								<th><a href="/ucp/profile.php?id=<?php echo $rowwinner['id']; ?>"><?php echo $rowwinner['username']; ?></a></th>
 								<?php
 							}
 							?>
