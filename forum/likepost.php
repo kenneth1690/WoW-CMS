@@ -99,7 +99,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					?>
     	    		<li><a href="/forum/" class="active">Forum</a></li>
 					<li>></li>
-					<li><a href="#" class="active">Edit Post</a></li>
+					<li><a href="#" class="active">Like Content</a></li>
             </ul>
     <ul>
         <li><?php
@@ -114,9 +114,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
 			<?php
-			$topic = addslashes($_POST['topic']);
-			$content = nl2br(addslashes($_POST['content']));
-			$comment = nl2br(addslashes($_POST['comment']));
 			
 			if(isset($_SESSION["loggedin"])) {
 					$nick = $_SESSION["loggedin"];
@@ -143,38 +140,56 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					$result = mysqli_query($checkacp,$sql);
 					$rows = mysqli_fetch_array($result);
 					
+					$username = $rows['username'];
 					$idcheck = $rows['id'];
+					$title = $row['title'];
 					
-					$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
-					$resultgm = mysqli_query($checkacp,$gm);
-					$rowsgm = mysqli_fetch_array($resultgm);
 					if(mysqli_num_rows($select)>0){
 						if(isset($_SESSION['loggedin'])) {
-							if($idcheck==$row['author_id'] || $rowsgm['gmlevel']>0){
-								$insert = mysqli_query($con, "UPDATE topics SET title='$topic', content='$content', edited_by='$nick', edited_date=NOW() WHERE topic_id='$gettid'");
+							if($idcheck!=$row['author_id']){
+								$author_id = $row['author_id'];
+								$checklike = mysqli_query($con, "SELECT * FROM `likes` WHERE `giving_id`='$idcheck' AND `tidorpid`='0' AND `tid`='$gettid'");
+								if(mysqli_num_rows($checklike)==0){
+									$insertlog = mysqli_query($con, "INSERT INTO logs_forum (`logger`, `logger_id`, `logdetails`, `logdate`) VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', 'REPUTATION: Liked topic `".$title."` by ".$username.". (TID: ".$gettid.")', NOW());");
+									mysqli_query($con, "INSERT INTO likes (`giving_id`, `receiving_id`, `type`, `tidorpid`, `tid`) VALUES ('$idcheck', '$author_id', '1', '0', '$gettid');");
 									?>
 									<center>
 									<p>
-										<font size="6">Successfully edited</font>
+										<font size="6">Successfully liked</font>
 									</p>
 									<p>
-										<font size="5">You have successfully edited that topic.</font>
+										<font size="5">You have successfully liked that topic.</font>
 									</p> 
 									</center>
 									<?php	  
-								header("refresh:5;url=index.php");
+									header("refresh:5;url=index.php");
+								}else{
+									$insertlog = mysqli_query($con, "INSERT INTO logs_forum (`logger`, `logger_id`, `logdetails`, `logdate`) VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', 'REPUTATION: Unliked topic `".$title."` by ".$username.". (TID: ".$gettid.")', NOW());");
+									mysqli_query($con, "DELETE FROM likes WHERE `giving_id`='$idcheck' AND `tidorpid`='0' AND `tid`='$gettid'");
+									?>
+									<center>
+									<p>
+										<font size="6">Successfully unliked</font>
+									</p>
+									<p>
+										<font size="5">You have successfully unliked that topic.</font>
+									</p> 
+									</center>
+									<?php	  
+									header("refresh:5;url=index.php");
+								}
 							}else{
 									?>
 									<center>
 									<p>
-										<font size="6">Cannot be edited</font>
+										<font size="6">Cannot be liked</font>
 									</p>
 									<p>
-										<font size="5">This topic is not yours.</font>
+										<font size="5">This topic is yours.</font>
 									</p> 
 									</center>
-									<?php header("refresh:5;url=index.php"); ?>
 									<?php
+									header("refresh:5;url=index.php");
 							}
 						}
 					}else{
@@ -187,8 +202,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										<font size="5">Topic with that ID is not existing.</font>
 									</p> 
 									</center>
-									<?php header("refresh:5;url=index.php"); ?>
 									<?php
+									header("refresh:5;url=index.php");
 					}
 			}elseif($_GET['pid']){
 					$getpid = $_GET['pid'];
@@ -204,39 +219,55 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					$result = mysqli_query($checkacp,$sql);
 					$rows = mysqli_fetch_array($result);
 					
+					$username = $rows['username'];
 					$idcheck = $rows['id'];
-					
-					$gm= "SELECT * FROM account_access WHERE id = '" . $idcheck . "'";
-					$resultgm = mysqli_query($checkacp,$gm);
-					$rowsgm = mysqli_fetch_array($resultgm);
 					
 					if(mysqli_num_rows($select)>0){
 						if(isset($_SESSION['loggedin'])) {
-							if($idcheck==$row['author_id'] || $rowsgm['gmlevel']>0){
-								$insert = mysqli_query($con, "UPDATE replies SET comment='$comment', edited_by='$nick', edited_date=NOW() WHERE reply_id='$getpid'");
+							if($idcheck!=$row['author_id']){
+								$author_id = $row['author_id'];
+								$checklike = mysqli_query($con, "SELECT * FROM `likes` WHERE `giving_id`='$idcheck' AND `tidorpid`='1' AND `pid`='$getpid'");
+								if(mysqli_num_rows($checklike)==0){
+									$insertlog = mysqli_query($con, "INSERT INTO logs_forum (`logger`, `logger_id`, `logdetails`, `logdate`) VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', 'REPUTATION: Liked post by ".$username.". (PID: ".$getpid.")', NOW());");
+									mysqli_query($con, "INSERT INTO likes (`giving_id`, `receiving_id`, `type`, `tidorpid`, `pid`) VALUES ('$idcheck', '$author_id', '1', '1', '$getpid');");
 									?>
 									<center>
 									<p>
-										<font size="6">Successfully edited</font>
+										<font size="6">Successfully liked</font>
 									</p>
 									<p>
-										<font size="5">You have successfully edited that post.</font>
+										<font size="5">You have successfully liked that post.</font>
 									</p> 
 									</center>
 									<?php	  
-								header("refresh:5;url=index.php");
+									header("refresh:5;url=index.php");
+								}else{
+									$insertlog = mysqli_query($con, "INSERT INTO logs_forum (`logger`, `logger_id`, `logdetails`, `logdate`) VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', 'REPUTATION: Unliked post by ".$username.". (PID: ".$getpid.")', NOW());");
+									mysqli_query($con, "DELETE FROM likes WHERE `giving_id`='$idcheck' AND `tidorpid`='1' AND `pid`='$getpid'");
+									?>
+									<center>
+									<p>
+										<font size="6">Successfully unliked</font>
+									</p>
+									<p>
+										<font size="5">You have successfully unliked that post.</font>
+									</p> 
+									</center>
+									<?php	  
+									header("refresh:5;url=index.php");
+								}
 							}else{
 									?>
 									<center>
 									<p>
-										<font size="6">Cannot be edited</font>
+										<font size="6">Cannot be liked</font>
 									</p>
 									<p>
-										<font size="5">This post is not yours.</font>
+										<font size="5">This post is yours.</font>
 									</p> 
 									</center>
-									<?php header("refresh:5;url=index.php"); ?>
 									<?php
+									header("refresh:5;url=index.php");
 							}
 						}
 					}else{
@@ -249,8 +280,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										<font size="5">Post with that ID is not existing.</font>
 									</p> 
 									</center>
-									<?php header("refresh:5;url=index.php"); ?>
 									<?php
+									header("refresh:5;url=index.php");
 					}
 			}else{
 				?>

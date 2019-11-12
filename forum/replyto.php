@@ -309,9 +309,17 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		<th><span style="float:right; text-align: right;">
 				<?php
 				if($idcheck!=$row['author_id']){
-					?>
-					<a href="/forum/likepost.php?tid=<?php echo $_GET['tid']; ?>">Like</a> / 
-					<?php
+					$tid = $_GET['tid'];
+					$checklike = mysqli_query($conn, "SELECT * FROM `likes` WHERE `giving_id`='$idcheck' AND `tidorpid`='0' AND `tid`='$tid'");
+					if(mysqli_num_rows($checklike)==0){
+						?>
+						<a href="/forum/likepost.php?tid=<?php echo $_GET['tid']; ?>">Like</a> / 
+						<?php
+					}else{
+						?>
+						<a href="/forum/likepost.php?tid=<?php echo $_GET['tid']; ?>">Dislike</a> / 
+						<?php
+					}
 				}
 				?>
 				<?php
@@ -475,9 +483,17 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				<th><span style="float:right; text-align: right;">
 				<?php
 				if($idcheck!=$row['author_id']){
-					?>
-					<a href="/forum/likepost.php?pid=<?php echo $row['reply_id']; ?>">Like</a> / 
-					<?php
+					$pid = $row['reply_id'];
+					$checklike = mysqli_query($conn, "SELECT * FROM `likes` WHERE `giving_id`='$idcheck' AND `tidorpid`='1' AND `pid`='$pid'");
+					if(mysqli_num_rows($checklike)==0){
+						?>
+						<a href="/forum/likepost.php?pid=<?php echo $row['reply_id']; ?>">Like</a> / 
+						<?php
+					}else{
+						?>
+						<a href="/forum/likepost.php?pid=<?php echo $row['reply_id']; ?>">Dislike</a> / 
+						<?php
+					}
 				}
 				?>
 				<?php
