@@ -308,6 +308,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					</center></th>
 		<th><span style="float:right; text-align: right;">
 				<?php
+				if($idcheck!=$row['author_id']){
+					?>
+					<a href="/forum/likepost.php?tid=<?php echo $_GET['tid']; ?>">Like</a> / 
+					<?php
+				}
+				?>
+				<?php
 				if($idcheck==$row['author_id'] || $rowsgmmy['gmlevel']>0){
 					?>
 					<a href="/forum/editpost.php?tid=<?php echo $_GET['tid']; ?>">Edit</a> / 

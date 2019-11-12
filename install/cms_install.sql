@@ -66,6 +66,22 @@ CREATE TABLE `changelogs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `likes`
+--
+
+CREATE TABLE `likes` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `giving_id` int(11) NOT NULL,
+  `receiving_id` int(11) NOT NULL,
+  `type` int(3) NOT NULL COMMENT '0 - negative, 1 - positive',
+  `tidorpid` int(3) NOT NULL COMMENT '0 - tid, 1 - pid',
+  `tid` int(11) DEFAULT NULL,
+  `pid` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `logs_acc`
 --
 
@@ -368,6 +384,12 @@ ALTER TABLE `changelogs`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `likes`
+--
+ALTER TABLE `likes`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `logs_acc`
 --
 ALTER TABLE `logs_acc`
@@ -485,6 +507,11 @@ ALTER TABLE `bugtracker`
 -- AUTO_INCREMENT for table `changelogs`
 --
 ALTER TABLE `changelogs`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `likes`
+--
+ALTER TABLE `likes`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `logs_acc`
