@@ -145,9 +145,10 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			$rows = mysqli_fetch_array($result);
 				
 			$idcheck = $rows['id'];
+			$nick = $rows['username'];
 
-			if($_GET['tid']){
-					$gettid = $_GET['tid'];
+			if($_POST['tid']){
+					$gettid = $_POST['tid'];
 					$select = mysqli_query($con, "SELECT * FROM `topics` WHERE `topic_id`='$gettid'");
 					$row = mysqli_fetch_assoc($select);
 					
@@ -163,8 +164,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					$idcheck = $rows['id'];
 					
 					if(mysqli_num_rows($select)>0){
-								$insertlog = mysqli_query($cmsconn, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'REPLY: User `".$nick."` deleted topic (TID: ".$_GET['tid'].")', NOW());");
-								mysqli_query($con, "DELETE FROM topics WHERE `topic_id`='$gettid'");
 								?>
 									<center>
 									<p>
@@ -176,6 +175,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 									</center>
 									<?php	  
 								header("refresh:5;url=index.php");
+								$insertlog = mysqli_query($con, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'REPLY: User `".$nick."` deleted topic (TID: ".$_POST['tid'].")', NOW());");
+								mysqli_query($con, "DELETE FROM topics WHERE `topic_id`='$gettid'");
 					}else{
 							?>
 									<center>
@@ -189,9 +190,9 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 									<?php header("refresh:5;url=index.php"); ?>
 									<?php
 					}
-			}elseif($_GET['pid']){
-					$getpid = $_GET['pid'];
-					$select = mysqli_query($cmsconn, "SELECT * FROM `replies` WHERE `reply_id`='$getpid'");
+			}elseif($_POST['pid']){
+					$getpid = $_POST['pid'];
+					$select = mysqli_query($con, "SELECT * FROM `replies` WHERE `reply_id`='$getpid'");
 					$row = mysqli_fetch_assoc($select);
 					
 					if(isset($_SESSION["loggedin"])) {
@@ -206,8 +207,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					$idcheck = $rows['id'];
 					
 					if(mysqli_num_rows($select)>0){
-								$insertlog = mysqli_query($cmsconn, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'REPLY: User `".$nick."` deleted post (PID: ".$_GET['pid'].")', NOW());");
-								mysqli_query($con, "DELETE FROM replies WHERE `reply_id`='$getpid'");
 								?>
 									<center>
 									<p>
@@ -219,6 +218,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 									</center>
 									<?php	  
 								header("refresh:5;url=index.php");
+								$insertlog = mysqli_query($con, "INSERT INTO logs_gm (`logger`, `logger_id`, `logger_gmlevel`, `logdetails`, `logdate`) VALUES ('".$_SESSION['loggedin']."', '".$rows['id']."', '".$rowsgm['gmlevel']."', 'REPLY: User `".$nick."` deleted post (PID: ".$_POST['pid'].")', NOW());");
+								mysqli_query($con, "DELETE FROM replies WHERE `reply_id`='$getpid'");
 					}else{
 							?>
 									<center>
