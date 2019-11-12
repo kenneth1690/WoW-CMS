@@ -265,6 +265,22 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 					}
 					?>
 					<br>Posts: <font color="ffffff"><?php echo $rowsauthor['posts']; ?></font>
+					<br>Reputation: 
+					<?php
+					if($rowsauthor['reputation']>0){
+						?>
+						<font color="1df701"><?php echo $rowsauthor['reputation']; ?></font>
+						<?php
+					}elseif($rowsauthor['reputation']<0){
+						?>
+						<font color="red"><?php echo $rowsauthor['reputation']; ?></font>
+						<?php
+					}else{
+						?>
+						<font color="ffffff"><?php echo $rowsauthor['reputation']; ?></font>
+						<?php
+					}
+					?>
 					</center></th>
 		<th><span style="float:right; text-align: right;">
 				<?php
@@ -408,6 +424,22 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 					?><font color="f57b01">Senior</font><?php
 				}
 				?><br>Posts: <font color="ffffff"><?php echo $rowsauthor['posts']; ?></font>
+					<br>Reputation: 
+					<?php
+					if($rowsauthor['reputation']>0){
+						?>
+						<font color="1df701"><?php echo $rowsauthor['reputation']; ?></font>
+						<?php
+					}elseif($rowsauthor['reputation']<0){
+						?>
+						<font color="red"><?php echo $rowsauthor['reputation']; ?></font>
+						<?php
+					}else{
+						?>
+						<font color="ffffff"><?php echo $rowsauthor['reputation']; ?></font>
+						<?php
+					}
+					?>
 				</center></th>
 				<th><span style="float:right; text-align: right;">
 				<?php
