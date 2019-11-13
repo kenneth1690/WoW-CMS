@@ -227,8 +227,123 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
             		
 						if($type==1 || $type==2 || $type==3){
 							?>
-							
+							<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-left wm-ui-content-fontstyle wm-ui-right-border wm-ui-top-border" style="height: 350px; width: 250px;">
+								<span>AVAILABLE CATEGORIES</span>
+								<table>
+									<tbody><tr>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>IN-GAME</td>
+									</tr>
+									<tr>
+										<td>
+											<?php
+											if($type==1){
+												?>
+												<font color="1df701">Free</font> (<a href="store.php?action=showstores&type=1"><font color="orange">Selected</font></a>)<br>
+												<?php
+											}else{
+												?>
+												<font color="1df701">Free</font> (<a href="store.php?action=showstores&type=1"><font color="lightgreen">Select</font></a>)<br>
+												<?php
+											}
+											?>
+											<?php
+											if($type==2){
+												?>
+												<font color="f57b01">Coins</font> (<a href="store.php?action=showstores&type=2"><font color="orange">Selected</font></a>)<br>
+												<?php
+											}else{
+												?>
+												<font color="f57b01">Coins</font> (<a href="store.php?action=showstores&type=2"><font color="lightgreen">Select</font></a>)<br>
+												<?php
+											}
+											?>
+										</td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>OTHERS</td>
+									</tr>
+									<tr>
+										<td>
+											<?php
+											if($type==3){
+												?>
+												<font color="006dd7">Services</font> (<a href="store.php?action=showstores&type=3"><font color="orange">Selected</font></a>)<br>
+												<?php
+											}else{
+												?>
+												<font color="006dd7">Services</font> (<a href="store.php?action=showstores&type=3"><font color="lightgreen">Select</font></a>)<br>
+												<?php
+											}
+											?>
+										</td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+									</tr>
+								</tbody></table>
+							</div>
 							<?php
+							if($type==1 || $type==2 || $type==3){
+							?>
+							<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 50px; width: 736px;">
+								<center>
+									<?php
+									if($type==1){
+										?>
+										IN-GAME: <font color="1df701">Free</font>
+										<?php
+									}elseif($type==2){
+										?>
+										IN-GAME: <font color="f57b01">Coins</font>
+										<?php
+									}elseif($type==3){
+										?>
+										OTHERS: <font color="006dd7">Services</font>
+										<?php
+									}else{
+										?>
+										You shouldn't see this, report this.
+										<?php
+									}
+									?>
+								</center>
+							</div>
+							<table id="categories">
+								<tr>
+									<th width="5%"><center>Class</center></th>
+									<th width="5%"><center>Race</center></th>
+									<th width="20%">Character</th>
+									<th width="5%"><center>Faction</center></th>
+									<th width="5%"><center>Level</center></th>
+									<th width="10%">Price</th>
+									<th width="5%"><center>Buy</center></th>
+								</tr>
+								<tr>
+									<th width="5%"><center>Buy</center></th>
+								</tr>
+							</table>
+							<?php
+							}else{
+							?>
+							<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: 350px; width: 786px;">
+								<span>AVAILABLE SERVICES & PRODUCTS</span>
+								<table>
+									<tbody><tr>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+										<td>First please select an interesting you category.</td>
+									</tr>
+								</tbody></table>
+							</div>
+							<?php
+							}
 						}else{
 						?>
 							<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
@@ -288,7 +403,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						</tr>
 						<tr>
 							<td>
-								<font color="1df701">Services</font> (<a href="store.php?action=showstores&type=3"><font color="lightgreen">Select</font></a>)<br>
+								<font color="006dd7">Services</font> (<a href="store.php?action=showstores&type=3"><font color="lightgreen">Select</font></a>)<br>
 							</td>
 						</tr>
 						<tr>
