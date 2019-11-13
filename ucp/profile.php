@@ -232,7 +232,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 							<?php
 						}else{
 							?>
-							<font color="ffffff">*Only staff members can see emails*</font>
+							<font color="ffffff">hidden</font>
 							<?php
 						}
 						?>
@@ -412,14 +412,35 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					<tr>
 						<td>Last seen (in-game): <?php 
 						if($esttime==0){ 
-							?>Today from <?php echo $rows['last_ip'];
+							?>Today from <?php
+							if($resultgmmy && $rowsgmmy['gmlevel']>0){
+								echo $rows['last_ip'];
+							}else{
+								?>
+								hidden
+								<?php
+							}
 						}elseif($esttime==1){
-							?>Yesterday from <?php echo $rows['last_ip'];
+							?>Yesterday from <?php
+							if($resultgmmy && $rowsgmmy['gmlevel']>0){
+								echo $rows['last_ip'];
+							}else{
+								?>
+								hidden
+								<?php
+							}
 						}elseif($esttime>18080){
 							?>Never<?php
 						}else{
 							echo $esttime;
-							?> days ago from <?php echo $rows['last_ip'];
+							?> days ago from <?php
+							if($resultgmmy && $rowsgmmy['gmlevel']>0){
+								echo $rows['last_ip'];
+							}else{
+								?>
+								hidden
+								<?php
+							}
 						}
 						?>
 						</td>
