@@ -315,18 +315,64 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 								</center>
 							</div>
 							<table id="categories">
-								<tr>
-									<th width="5%"><center>Class</center></th>
-									<th width="5%"><center>Race</center></th>
-									<th width="20%">Character</th>
-									<th width="5%"><center>Faction</center></th>
-									<th width="5%"><center>Level</center></th>
-									<th width="10%">Price</th>
-									<th width="5%"><center>Buy</center></th>
-								</tr>
-								<tr>
-									<th width="5%"><center>Buy</center></th>
-								</tr>
+								<?php
+								if($type==1){
+									?>
+									<tr>
+										<th width="60%">Service</th>
+										<th width="30%"><center>Cost</center></th>
+										<th width="10%"><center>Buy</center></th>
+									</tr>
+									<tr>
+										<th width="60%">Character Unstuck</th>
+										<th width="30%"><center>Free</center></th>
+										<th width="10%"><center>Buy</center></th>
+									</tr>
+									<?php
+								}elseif($type==2){
+									?>
+									<tr>
+										<th width="60%">Service</th>
+										<th width="30%"><center>Cost</center></th>
+										<th width="10%"><center>Buy</center></th>
+									</tr>
+									<tr>
+										<th width="60%">Character Rename</th>
+										<th width="30%"><center>5 Coins</center></th>
+										<th width="10%"><center>Buy</center></th>
+									</tr>
+									<tr>
+										<th width="60%">Character Instant 80 Level Up</th>
+										<th width="30%"><center>30 Coins</center></th>
+										<th width="10%"><center>Buy</center></th>
+									</tr>
+									<?php
+								}elseif($type==3){
+									?>
+									<tr>
+										<th width="60%">Service</th>
+										<th width="30%"><center>Cost</center></th>
+										<th width="10%"><center>Buy</center></th>
+									</tr>
+									<tr>
+										<th width="60%">Coins gifting</th>
+										<th width="30%"><center>Free</center></th>
+										<th width="10%"><center>Buy</center></th>
+									</tr>
+									<?php
+								}else{
+									?>
+									<tr>
+										<th width="60%">Service</th>
+										<th width="30%"><center>Cost</center></th>
+										<th width="10%"><center>Buy</center></th>
+									</tr>
+									<tr>
+										<th colspan="3">There's no available services to purchase.</th>
+									</tr>
+									<?php
+								}
+								?>
 							</table>
 							<?php
 							}else{
