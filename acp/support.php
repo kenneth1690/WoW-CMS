@@ -224,7 +224,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			$total_no_of_pages = ceil($total_records / $total_records_per_page);
 			$second_last = $total_no_of_pages - 1; // total page minus 1
 
-			$result = mysqli_query($con,"SELECT * FROM `tickets` WHERE author_id='$idcheck' ORDER BY status=0 DESC, date_posted DESC LIMIT $offset, $total_records_per_page");
+			$result = mysqli_query($con,"SELECT * FROM `tickets` ORDER BY status=0 DESC, date_posted DESC LIMIT $offset, $total_records_per_page");
 			if($result->num_rows>0){
 				while($row = mysqli_fetch_array($result)){
 					?>
@@ -283,7 +283,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			}else{
 				?>
 				<tr>
-					<th colspan="5">You have no tickets created.</th>
+					<th colspan="6">You have no tickets created.</th>
 				</tr>
 				<?php
 			}

@@ -389,8 +389,8 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 						$cmsconn = mysqli_connect($db_host, $db_username, $db_password, $cms_db_name, $db_port);
 					}
 					
-					$problem = $_POST['problem'];
-					$description = $_POST['description'];
+					$problem = addslashes($_POST['problem']);
+					$description = nl2br(addslashes($_POST['description']));
 					
 					$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
 					$result = mysqli_query($checkacp,$sql);
