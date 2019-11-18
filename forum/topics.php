@@ -251,7 +251,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			}
 			echo "</table>";
 		} else {
-			echo "<table id='categories'><tr><th>This category has no topics yet! <a href='/forum/newtopic/".$cid."/".$scid."'>
+			echo "<table id='categories'><tr><th>This category has no topics yet! <a href='/forum/newtopic/".$_GET['cid']."/".$_GET['scid']."'>
 				 Add the very first topic like a boss!</a></th></tr></table>";
 		}
 	?>
