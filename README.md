@@ -40,5 +40,5 @@ This CMS repository was originally created in 09.2019 and removed by me on 10.20
 [![DONATE](https://www.paypalobjects.com/en_US/PL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7MK2QT5D4L682&source=url)
 
 # ScreenShots
-![SS1](https://i.imgur.com/Sw40VC4.png)
-![SS2](https://i.imgur.com/il7u1ad.png)
+![SS1](https://i.imgur.com/nxIYjnD.png)
+![SS2](https://i.imgur.com/qIZTVuP.png)
