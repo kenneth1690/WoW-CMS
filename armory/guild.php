@@ -167,7 +167,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 								$page_no = 1;
 							}
 
-							$total_records_per_page = 100;
+							$total_records_per_page = 50;
 							$offset = ($page_no-1) * $total_records_per_page;
 							$previous_page = $page_no - 1;
 							$next_page = $page_no + 1;
@@ -672,6 +672,10 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 							mysqli_close($cmsconn);
 							?>
 						</table>
+						<?php
+						$select2 = mysqli_query($conn, "SELECT * FROM `guild_member` WHERE guildid=$gid ORDER BY rank DESC");
+						if (mysqli_num_rows($select2) > 50) {
+						?>
 						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 							<div id="wm-error-page">
 								<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
@@ -739,6 +743,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 							</div>
 						</div>
 						<?php
+						}
 					}else{
 						?>
 						<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
