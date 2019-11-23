@@ -316,13 +316,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 										if($insertdetails){
 											?>
 											<center>
-											<p><font size="6">Details changed</font></p>
+											<p><font size="6">Location changed</font></p>
 											<p>
-												<font size="5">Your profile details has been changed successfully.</font>
+												<font size="5">Your location has been changed successfully.</font>
 											</p> 
 											</center>
 											<?php
-											header( "refresh:5;url=ucp.php" );
+											header("refresh:5;url=ucp.php");
 										}else{
 											?>
 											<center>
@@ -332,7 +332,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 											</p> 
 											</center>
 											<?php
-											header( "refresh:5;url=ucp.php" );
+											header("refresh:5;url=ucp.php");
 										}
 									}
 				}else{

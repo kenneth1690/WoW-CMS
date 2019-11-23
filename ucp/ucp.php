@@ -525,21 +525,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td>Location:<br><br>
-				<?php
-				if (isset($_SESSION['loggedin'])) {
-					$getlocation = $rows['location'];
-					?>
-					<form action='/ucp/details.php?change=location' method='POST'>
-						<input type="text" id="location" name="location" size="40" maxlenght="30" class="wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border" value="<?php echo $getlocation; ?>"/><br><br>
-						<input type='submit' value='CHANGE LOCATION' class='wm-ui-btn'/>
-					</form>
-					<?php
-				}else{
-					header("location: ../login.php");
-				}
-			?>   
-				</td>
+                <td>Location: <font color="ffffff"><?php echo $rows['location']; ?></font></td>
             </tr>
         </tbody></table>
     </div>

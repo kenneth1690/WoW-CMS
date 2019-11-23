@@ -167,7 +167,6 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			<li><a href="/acp/acp.php"><i class="fas fa-user-secret"></i> ADMIN</a></li>
 			<?php
 		}
-		mysqli_close($checkacp);
 		?>
         <li><?php
 		$dt = new DateTime("now", new DateTimeZone('Europe/Warsaw'));
@@ -207,6 +206,25 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				}else{
 					header("location: ../login.php");
 				}
+			?>   
+			<?php
+				if (isset($_SESSION['loggedin'])) {
+					$nick = $_SESSION["loggedin"];
+					$sql= "SELECT * FROM account WHERE username = '" . $nick . "'";
+					$result = mysqli_query($checkacp,$sql);
+					$rows = mysqli_fetch_array($result);
+					$getlocation = $rows['location'];
+					?>
+					<form action='/ucp/details.php?change=location' method='POST'>
+						<p>Location: </p>
+						<input type="text" id="location" name="location" size="40" maxlenght="30" class="wm-ui-input-generic wm-ui-generic-frame wm-ui-all-border" value="<?php echo $getlocation; ?>"/><br><br>
+						<input type='submit' value='CHANGE LOCATION' class='wm-ui-btn'/>
+					</form>
+					<?php
+				}else{
+					header("location: ../login.php");
+				}
+			mysqli_close($checkacp);
 			?>   
     </div>
 </div>
