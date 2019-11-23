@@ -204,7 +204,10 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					Notifications empty.
 				<?php
 			}
-			mysqli_close($cmsconn);
+			?>
+			<?php
+			$select2 = mysqli_query($cmsconn,"SELECT * FROM `notifications` WHERE user = '".$idcheck."' ORDER BY id DESC");
+			if (mysqli_num_rows($select2) > 6) {
 			?>
 			<br><br>
 			<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
@@ -268,6 +271,10 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			if($page_no < $total_no_of_pages){
 				echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
 			}
+			?>
+			<?php
+			}
+			mysqli_close($cmsconn);
 			?>
     </div>
     <div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="height: auto;">

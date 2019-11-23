@@ -938,76 +938,81 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 									</tr>
 									<?php
 								}
-								mysqli_close($conn);
 								?>
 							</table>
-						<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="width: 736px; height: 80px;">
-							<div id="wm-error-page">
-								<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
-								<?php // if($page_no > 1){ echo "<li><a href='?action=showtrades&class=$getcharid&page_no=1'>First Page</a></li>"; } ?>
-								
-								<b><a <?php if($page_no > 1){ echo "href='?action=showtrades&class=$getcharid&page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
-								   
-								<?php 
-								if ($total_no_of_pages <= 10){  	 
-									for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
-										if ($counter == $page_no) {
-											echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
-										}else{
-											echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
-										}
-									}
-								}elseif($total_no_of_pages > 10){
-									if($page_no <= 4) {			
-										for ($counter = 1; $counter < 8; $counter++){		 
+							<?php
+							$select2 = mysqli_query($cmsconn, "SELECT * FROM trades WHERE class='$getcharid' AND selled='0' ORDER BY id DESC");
+							if (mysqli_num_rows($select2) > 10) {
+							?>
+							<div id="content-inner" class="wm-ui-generic-frame wm-ui-genericform wm-ui-two-side-page-right wm-ui-content-fontstyle wm-ui-left-border wm-ui-top-border" style="width: 736px; height: 80px;">
+								<div id="wm-error-page">
+									<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
+									<?php // if($page_no > 1){ echo "<li><a href='?action=showtrades&class=$getcharid&page_no=1'>First Page</a></li>"; } ?>
+									
+									<b><a <?php if($page_no > 1){ echo "href='?action=showtrades&class=$getcharid&page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
+									   
+									<?php 
+									if ($total_no_of_pages <= 10){  	 
+										for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
 											if ($counter == $page_no) {
 												echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
 											}else{
 												echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
 											}
 										}
-										echo "<b><a>...</a></b>";
-										echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
-										echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
-									}elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
-										echo "<b><a href='?action=showtrades&class=$getcharid&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
-										echo "<b><a href='?action=showtrades&class=$getcharid&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
-										echo "<b><a>...</a></b>";
-										for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {			
-											if ($counter == $page_no) {
-												echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
-											}else{
-												echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
-											}                  
-									   }
-									   echo "<b><a>...</a></b>";
-									   echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
-									   echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
-									}else {
-										echo "<b><a href='?action=showtrades&class=$getcharid&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
-										echo "<b><a href='?action=showtrades&class=$getcharid&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
-										echo "<b><a>...</a></b>";
+									}elseif($total_no_of_pages > 10){
+										if($page_no <= 4) {			
+											for ($counter = 1; $counter < 8; $counter++){		 
+												if ($counter == $page_no) {
+													echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+												}else{
+													echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+												}
+											}
+											echo "<b><a>...</a></b>";
+											echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+											echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
+										}elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
+											echo "<b><a href='?action=showtrades&class=$getcharid&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+											echo "<b><a href='?action=showtrades&class=$getcharid&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+											echo "<b><a>...</a></b>";
+											for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {			
+												if ($counter == $page_no) {
+													echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+												}else{
+													echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+												}                  
+										   }
+										   echo "<b><a>...</a></b>";
+										   echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+										   echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
+										}else {
+											echo "<b><a href='?action=showtrades&class=$getcharid&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+											echo "<b><a href='?action=showtrades&class=$getcharid&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+											echo "<b><a>...</a></b>";
 
-										for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
-											if ($counter == $page_no) {
-												echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
-											}else{
-												echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
-											}                   
+											for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+												if ($counter == $page_no) {
+													echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+												}else{
+													echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+												}                   
+											}
 										}
 									}
-								}
-								?>
-						
-								<b><a <?php if($page_no < $total_no_of_pages) { echo "href='?action=showtrades&class=$getcharid&page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
-								<?php
-								if($page_no < $total_no_of_pages){
-									echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
-								}
-								?>
+									?>
+							
+									<b><a <?php if($page_no < $total_no_of_pages) { echo "href='?action=showtrades&class=$getcharid&page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
+									<?php
+									if($page_no < $total_no_of_pages){
+										echo "<b><a href='?action=showtrades&class=$getcharid&page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
+									}
+									?>
+								</div>
 							</div>
-						</div>
 							<?php
+							}
+							mysqli_close($conn);
 						}else{
 						?>
 							<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
