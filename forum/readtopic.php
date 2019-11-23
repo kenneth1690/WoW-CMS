@@ -590,8 +590,8 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 		</div>
 	</div>
 	<?php
-	$select2 = mysqli_query($con, "SELECT * FROM replies WHERE category_id = $getcid AND subcategory_id = $getscid AND topic_id = $gettid");
-	
+	$select2 = mysqli_query($con, "SELECT * FROM replies WHERE category_id = $getcid AND subcategory_id = $getscid AND topic_id = $gettid ORDER BY reply_id ASC");
+	if (mysqli_num_rows($select2) > 6) {
 	?>
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
@@ -660,7 +660,7 @@ $update = mysqli_query($conn, "UPDATE topics SET views = views + 1 WHERE categor
 		</div>
 	</div>
 	<?php
-	
+	}
 	?>
 </div>
 <div class="clear"></div>
