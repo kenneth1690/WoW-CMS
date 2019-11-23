@@ -384,7 +384,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 							</div>
 							<?php
 							$select2 = mysqli_query($conn, "SELECT * FROM ticket_answers WHERE ticket_id = $ticid");
-							
+							if (mysqli_num_rows($select2) > 6) {
 							?>
 							<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 								<div id="wm-error-page">
@@ -453,7 +453,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 								</div>
 							</div>
 							<?php
-							
+							}
 						}
 					
                 }else{

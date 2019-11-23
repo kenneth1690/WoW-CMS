@@ -212,7 +212,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				$page_no = 1;
 			}
 
-			$total_records_per_page = 10;
+			$total_records_per_page = 25;
 			$offset = ($page_no-1) * $total_records_per_page;
 			$previous_page = $page_no - 1;
 			$next_page = $page_no + 1;
@@ -287,76 +287,83 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				</tr>
 				<?php
 			}
-			mysqli_close($con);
 			?>
 		</table>
-	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-		<div id="wm-error-page">
-			<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
-			<?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } ?>
-			
-			<b><a <?php if($page_no > 1){ echo "href='?page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
-			   
-			<?php 
-			if ($total_no_of_pages <= 10){  	 
-				for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
-					if ($counter == $page_no) {
-						echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
-					}else{
-						echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
-					}
-				}
-			}elseif($total_no_of_pages > 10){
-				if($page_no <= 4) {			
-					for ($counter = 1; $counter < 8; $counter++){		 
+		<?php
+		$select2 = mysqli_query($con, "SELECT * FROM `tickets` ORDER BY status=0 DESC, date_posted DESC");
+		if (mysqli_num_rows($select2) > 25) {
+		?>
+		<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+			<div id="wm-error-page">
+				<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
+				<?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } ?>
+				
+				<b><a <?php if($page_no > 1){ echo "href='?page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
+				   
+				<?php 
+				if ($total_no_of_pages <= 10){  	 
+					for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
 						if ($counter == $page_no) {
 							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
 						}else{
 							echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
 						}
 					}
-					echo "<b><a>...</a></b>";
-					echo "<b><a href='?page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
-					echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
-				}elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
-					echo "<b><a href='?page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
-					echo "<b><a href='?page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
-					echo "<b><a>...</a></b>";
-					for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {			
-						if ($counter == $page_no) {
-							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
-						}else{
-							echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
-						}                  
-				   }
-				   echo "<b><a>...</a></b>";
-				   echo "<b><a href='?page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
-				   echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
-				}else {
-					echo "<b><a href='?page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
-					echo "<b><a href='?page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
-					echo "<b><a>...</a></b>";
+				}elseif($total_no_of_pages > 10){
+					if($page_no <= 4) {			
+						for ($counter = 1; $counter < 8; $counter++){		 
+							if ($counter == $page_no) {
+								echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+							}else{
+								echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+							}
+						}
+						echo "<b><a>...</a></b>";
+						echo "<b><a href='?page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+						echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
+					}elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
+						echo "<b><a href='?page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+						echo "<b><a href='?page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+						echo "<b><a>...</a></b>";
+						for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {			
+							if ($counter == $page_no) {
+								echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+							}else{
+								echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+							}                  
+					   }
+					   echo "<b><a>...</a></b>";
+					   echo "<b><a href='?page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+					   echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
+					}else {
+						echo "<b><a href='?page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+						echo "<b><a href='?page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+						echo "<b><a>...</a></b>";
 
-					for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
-						if ($counter == $page_no) {
-							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
-						}else{
-							echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
-						}                   
+						for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+							if ($counter == $page_no) {
+								echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+							}else{
+								echo "<b><a href='?page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+							}                   
+						}
 					}
 				}
-			}
-			?>
-    
-			<b><a <?php if($page_no < $total_no_of_pages) { echo "href='?page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
-			<?php
-			if($page_no < $total_no_of_pages){
-				echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
-			}
-			?>
+				?>
+		
+				<b><a <?php if($page_no < $total_no_of_pages) { echo "href='?page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
+				<?php
+				if($page_no < $total_no_of_pages){
+					echo "<b><a href='?page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
+				}
+				?>
+			</div>
 		</div>
+		<?php
+		}
+		mysqli_close($con);
+		?>
 	</div>
-</div>
 
             <div class="clear"></div>
         </div>

@@ -258,13 +258,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				$next_page = $page_no + 1;
 				$adjacents = "2"; 
 
-				$result_count = mysqli_query($cmsconn,"SELECT COUNT(*) As total_records FROM `news`");
+				$result_count = mysqli_query($newscon,"SELECT COUNT(*) As total_records FROM `news`");
 				$total_records = mysqli_fetch_array($result_count);
 				$total_records = $total_records['total_records'];
 				$total_no_of_pages = ceil($total_records / $total_records_per_page);
 				$second_last = $total_no_of_pages - 1; // total page minus 1
 
-				$result = mysqli_query($cmsconn,"SELECT * FROM `news` ORDER BY date DESC LIMIT $offset, $total_records_per_page");
+				$result = mysqli_query($newscon,"SELECT * FROM `news` ORDER BY date DESC LIMIT $offset, $total_records_per_page");
 				if($result->num_rows>0){
 					while($row = mysqli_fetch_array($result)){
 						$checkacp=mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
@@ -288,73 +288,79 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				mysqli_close($cmsconn);
 				?>
 				</table>
-				<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-		<div id="wm-error-page">
-			<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
-			<?php // if($page_no > 1){ echo "<li><a href='?action=news&page_no=1'>First Page</a></li>"; } ?>
-			
-			<b><a <?php if($page_no > 1){ echo "href='?action=news&page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
-			   
-			<?php 
-			if ($total_no_of_pages <= 10){  	 
-				for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
-					if ($counter == $page_no) {
-						echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
-					}else{
-						echo "<b><a href='?action=news&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
-					}
-				}
-			}elseif($total_no_of_pages > 10){
-				if($page_no <= 4) {			
-					for ($counter = 1; $counter < 8; $counter++){		 
-						if ($counter == $page_no) {
-							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
-						}else{
-							echo "<b><a href='?action=news&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
-						}
-					}
-					echo "<b><a>...</a></b>";
-					echo "<b><a href='?action=news&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
-					echo "<b><a href='?action=news&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
-				}elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
-					echo "<b><a href='?action=news&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
-					echo "<b><a href='?action=news&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
-					echo "<b><a>...</a></b>";
-					for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {			
-						if ($counter == $page_no) {
-							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
-						}else{
-							echo "<b><a href='?action=news&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
-						}                  
-				   }
-				   echo "<b><a>...</a></b>";
-				   echo "<b><a href='?action=news&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
-				   echo "<b><a href='?action=news&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
-				}else {
-					echo "<b><a href='?action=news&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
-					echo "<b><a href='?action=news&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
-					echo "<b><a>...</a></b>";
-
-					for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
-						if ($counter == $page_no) {
-							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
-						}else{
-							echo "<b><a href='?action=news&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
-						}                   
-					}
-				}
-			}
-			?>
-    
-			<b><a <?php if($page_no < $total_no_of_pages) { echo "href='?action=news&page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
-			<?php
-			if($page_no < $total_no_of_pages){
-				echo "<b><a href='?action=news&page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
-			}
-			?>
-		</div>
-	</div>
 				<?php
+				$select2 = mysqli_query($newscon,"SELECT * FROM `news` ORDER BY date DESC");
+				if (mysqli_num_rows($select2) > 25) {
+				?>
+				<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
+					<div id="wm-error-page">
+						<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
+						<?php // if($page_no > 1){ echo "<li><a href='?action=news&page_no=1'>First Page</a></li>"; } ?>
+						
+						<b><a <?php if($page_no > 1){ echo "href='?action=news&page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
+						   
+						<?php 
+						if ($total_no_of_pages <= 10){  	 
+							for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+								if ($counter == $page_no) {
+									echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+								}else{
+									echo "<b><a href='?action=news&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+								}
+							}
+						}elseif($total_no_of_pages > 10){
+							if($page_no <= 4) {			
+								for ($counter = 1; $counter < 8; $counter++){		 
+									if ($counter == $page_no) {
+										echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+									}else{
+										echo "<b><a href='?action=news&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+									}
+								}
+								echo "<b><a>...</a></b>";
+								echo "<b><a href='?action=news&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+								echo "<b><a href='?action=news&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
+							}elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
+								echo "<b><a href='?action=news&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+								echo "<b><a href='?action=news&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+								echo "<b><a>...</a></b>";
+								for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {			
+									if ($counter == $page_no) {
+										echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+									}else{
+										echo "<b><a href='?action=news&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+									}                  
+							   }
+							   echo "<b><a>...</a></b>";
+							   echo "<b><a href='?action=news&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+							   echo "<b><a href='?action=news&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
+							}else {
+								echo "<b><a href='?action=news&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+								echo "<b><a href='?action=news&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+								echo "<b><a>...</a></b>";
+
+								for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+									if ($counter == $page_no) {
+										echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+									}else{
+										echo "<b><a href='?action=news&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+									}                   
+								}
+							}
+						}
+						?>
+				
+						<b><a <?php if($page_no < $total_no_of_pages) { echo "href='?action=news&page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
+						<?php
+						if($page_no < $total_no_of_pages){
+							echo "<b><a href='?action=news&page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
+						}
+						?>
+					</div>
+				</div>
+				<?php
+				}
+				mysqli_close($newscon);
 			}elseif($action == "changelogs"){
 				?>
 				<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
@@ -398,13 +404,13 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				$next_page = $page_no + 1;
 				$adjacents = "2"; 
 
-				$result_count = mysqli_query($cmsconn,"SELECT COUNT(*) As total_records FROM `changelogs`");
+				$result_count = mysqli_query($newscon,"SELECT COUNT(*) As total_records FROM `changelogs`");
 				$total_records = mysqli_fetch_array($result_count);
 				$total_records = $total_records['total_records'];
 				$total_no_of_pages = ceil($total_records / $total_records_per_page);
 				$second_last = $total_no_of_pages - 1; // total page minus 1
 
-				$result = mysqli_query($cmsconn,"SELECT * FROM `changelogs` ORDER BY date DESC LIMIT $offset, $total_records_per_page");
+				$result = mysqli_query($newscon,"SELECT * FROM `changelogs` ORDER BY date DESC LIMIT $offset, $total_records_per_page");
 				if($result->num_rows>0){
 					while($row = mysqli_fetch_array($result)){
 						$checkacp=mysqli_connect($db_host, $db_username, $db_password, $auth_db_name, $db_port);
@@ -425,76 +431,81 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 					</tr>
 					<?php
 				}
-				mysqli_close($cmsconn);
 				?>
 				</table>
+				<?php
+				$select2 = mysqli_query($newscon,"SELECT * FROM `changelogs` ORDER BY date DESC");
+				if (mysqli_num_rows($select2) > 25) {
+				?>
 				<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
-		<div id="wm-error-page">
-			<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
-			<?php // if($page_no > 1){ echo "<li><a href='?action=changelogs&page_no=1'>First Page</a></li>"; } ?>
-			
-			<b><a <?php if($page_no > 1){ echo "href='?action=changelogs&page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
-			   
-			<?php 
-			if ($total_no_of_pages <= 10){  	 
-				for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
-					if ($counter == $page_no) {
-						echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
-					}else{
-						echo "<b><a href='?action=changelogs&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
-					}
-				}
-			}elseif($total_no_of_pages > 10){
-				if($page_no <= 4) {			
-					for ($counter = 1; $counter < 8; $counter++){		 
-						if ($counter == $page_no) {
-							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
-						}else{
-							echo "<b><a href='?action=changelogs&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
-						}
-					}
-					echo "<b><a>...</a></b>";
-					echo "<b><a href='?action=changelogs&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
-					echo "<b><a href='?action=changelogs&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
-				}elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
-					echo "<b><a href='?action=changelogs&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
-					echo "<b><a href='?action=changelogs&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
-					echo "<b><a>...</a></b>";
-					for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {			
-						if ($counter == $page_no) {
-							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
-						}else{
-							echo "<b><a href='?action=changelogs&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
-						}                  
-				   }
-				   echo "<b><a>...</a></b>";
-				   echo "<b><a href='?action=changelogs&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
-				   echo "<b><a href='?action=changelogs&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
-				}else {
-					echo "<b><a href='?action=changelogs&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
-					echo "<b><a href='?action=changelogs&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
-					echo "<b><a>...</a></b>";
+					<div id="wm-error-page">
+						<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
+						<?php // if($page_no > 1){ echo "<li><a href='?action=changelogs&page_no=1'>First Page</a></li>"; } ?>
+						
+						<b><a <?php if($page_no > 1){ echo "href='?action=changelogs&page_no=$previous_page'"; } ?>>Previous&nbsp;&nbsp;</a></b>
+						   
+						<?php 
+						if ($total_no_of_pages <= 10){  	 
+							for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+								if ($counter == $page_no) {
+									echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+								}else{
+									echo "<b><a href='?action=changelogs&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+								}
+							}
+						}elseif($total_no_of_pages > 10){
+							if($page_no <= 4) {			
+								for ($counter = 1; $counter < 8; $counter++){		 
+									if ($counter == $page_no) {
+										echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+									}else{
+										echo "<b><a href='?action=changelogs&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+									}
+								}
+								echo "<b><a>...</a></b>";
+								echo "<b><a href='?action=changelogs&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+								echo "<b><a href='?action=changelogs&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";
+							}elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
+								echo "<b><a href='?action=changelogs&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+								echo "<b><a href='?action=changelogs&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+								echo "<b><a>...</a></b>";
+								for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {			
+									if ($counter == $page_no) {
+										echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+									}else{
+										echo "<b><a href='?action=changelogs&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+									}                  
+							   }
+							   echo "<b><a>...</a></b>";
+							   echo "<b><a href='?action=changelogs&page_no=$second_last'>&nbsp;&nbsp;$second_last&nbsp;&nbsp;</a></b>";
+							   echo "<b><a href='?action=changelogs&page_no=$total_no_of_pages'>&nbsp;&nbsp;$total_no_of_pages&nbsp;&nbsp;</a></b>";      
+							}else {
+								echo "<b><a href='?action=changelogs&page_no=1'>&nbsp;&nbsp;1&nbsp;&nbsp;</a></b>";
+								echo "<b><a href='?action=changelogs&page_no=2'>&nbsp;&nbsp;2&nbsp;&nbsp;</a></b>";
+								echo "<b><a>...</a></b>";
 
-					for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
-						if ($counter == $page_no) {
-							echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
-						}else{
-							echo "<b><a href='?action=changelogs&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
-						}                   
-					}
+								for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+									if ($counter == $page_no) {
+										echo "<b><u><a>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></u></b>";	
+									}else{
+										echo "<b><a href='?action=changelogs&page_no=$counter'>&nbsp;&nbsp;$counter&nbsp;&nbsp;</a></b>";
+									}                   
+								}
+							}
+						}
+						?>
+				
+						<b><a <?php if($page_no < $total_no_of_pages) { echo "href='?action=changelogs&page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
+						<?php
+						if($page_no < $total_no_of_pages){
+							echo "<b><a href='?action=changelogs&page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
+						}
+						?>
+					</div>
+				</div>
+				<?php
 				}
-			}
-			?>
-    
-			<b><a <?php if($page_no < $total_no_of_pages) { echo "href='?action=changelogs&page_no=$next_page'"; } ?>>&nbsp;&nbsp;Next</a></b>
-			<?php
-			if($page_no < $total_no_of_pages){
-				echo "<b><a href='?action=changelogs&page_no=$total_no_of_pages'>&nbsp;&nbsp;Last</a></b>";
-			}
-			?>
-		</div>
-	</div>
-	<?php
+				mysqli_close($newscon);
 			}else{
 					?>
 					<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
