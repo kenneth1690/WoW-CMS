@@ -109,7 +109,7 @@ while($row = mysqli_fetch_array($qr3)){
 			  echo "Failed to connect to MySQL: " . mysqli_connect_error();
 			  }
 
-			  $sql="SELECT id, content, date FROM changelogs ORDER BY id DESC";
+			  $sql="SELECT id, content, date FROM changelogs ORDER BY id DESC LIMIT 1";
 			  $result=mysqli_query($newscon,$sql);
   
 			  if(mysqli_num_rows($result)==0){

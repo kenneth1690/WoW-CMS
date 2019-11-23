@@ -160,7 +160,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 				$page_no = 1;
 			}
 
-			$total_records_per_page = 50;
+			$total_records_per_page = 30;
 			$offset = ($page_no-1) * $total_records_per_page;
 			$previous_page = $page_no - 1;
 			$next_page = $page_no + 1;
@@ -209,6 +209,9 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 			mysqli_close($con);
 			?>
 		</table>
+	<?php
+	if (mysqli_num_rows($result) > 30) {
+	?>
 	<div id="content-inner" class="wm-ui-content-fontstyle wm-ui-generic-frame">
 		<div id="wm-error-page">
 			<strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong><br>
@@ -276,6 +279,7 @@ if(!isset($_SESSION["loggedin"]) || empty($_SESSION["loggedin"])){
 		</div>
 	</div>
             <?php
+		}
         }
                     
         if($action == "newbug"){

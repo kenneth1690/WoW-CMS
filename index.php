@@ -163,7 +163,7 @@ function getplayercount() {
 			  echo "Failed to connect to MySQL: " . mysqli_connect_error();
 			  }
 
-			$sql="SELECT * FROM news ORDER BY id DESC";
+			$sql="SELECT * FROM news ORDER BY id DESC LIMIT 15";
 			$result=mysqli_query($newscon,$sql);
 
 			if(mysqli_num_rows($result)==0){
